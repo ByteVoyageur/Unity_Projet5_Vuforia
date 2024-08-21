@@ -1,21 +1,16 @@
 using UnityEngine;
 using Lean.Touch;
+using Vuforia;
 
 public class ObjectPlacer : MonoBehaviour
 {
     private GameObject selectedObject;
-    private Vector3 initialScale;
-
-    public Color unplacedColor = Color.green; 
+    private bool isPlaced;
+    private int frameCount = 0; 
 
     void Start()
     {
-        LeanTouch.OnFingerTap += HandleFingerTap;
-    }
-
-    void OnDestroy()
-    {
-        LeanTouch.OnFingerTap -= HandleFingerTap;
+        isPlaced = false;
     }
 
     public void SetSelectedObject(GameObject obj)
@@ -25,48 +20,62 @@ public class ObjectPlacer : MonoBehaviour
             Destroy(selectedObject);
         }
 
-        selectedObject = obj;
-        initialScale = selectedObject.transform.localScale;
-        SetObjectColor(selectedObject, unplacedColor);
-        selectedObject.SetActive(true);
+        selectedObject = Instantiate(obj);
+        selectedObject.SetActive(true); 
+        isPlaced = false;
+        Debug.Log("SetSelectedObject called, object instantiated and activated.");
     }
 
-    private void HandleFingerTap(LeanFinger finger)
+    public bool HasSelectedObject()
     {
-        if (selectedObject != null && selectedObject.GetComponent<Renderer>().enabled)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(finger.ScreenPosition);
-            RaycastHit hit;
+        return selectedObject != null;
+    }
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                selectedObject.transform.position = hit.point;
-                SetObjectColor(selectedObject, Color.white); 
-                selectedObject = null; 
-            }
+    public bool IsObjectPlaced()
+    {
+        return isPlaced;
+    }
+
+    public void PlaceObject(HitTestResult result)
+    {
+        if (selectedObject != null && !isPlaced)
+        {
+            selectedObject.SetActive(true); 
+            selectedObject.transform.position = result.Position;
+            isPlaced = true;
+            Debug.Log($"Object placed at: {result.Position}, object is now active.");
+        }
+        else
+        {
+            Debug.LogWarning("No object selected to place or object is already placed.");
         }
     }
 
-    private void Update()
+    void Update()
     {
-        if (selectedObject != null)
+        if (selectedObject != null && !isPlaced)
         {
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
-            {
-                selectedObject.transform.position = hitInfo.point;
-                selectedObject.transform.localScale = initialScale; 
-            }
-        }
-    }
+            Camera arCamera = Camera.main;
 
-    private void SetObjectColor(GameObject obj, Color color)
-    {
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in renderers)
-        {
-            Material mat = renderer.material;
-            mat.color = color;
+            if (arCamera != null)
+            {
+                Ray ray = new Ray(arCamera.transform.position, arCamera.transform.forward);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                {
+                    selectedObject.transform.position = hitInfo.point;
+
+                    frameCount++;
+                    if (frameCount >= 120)
+                    {
+                        frameCount = 0; 
+                        Debug.Log("Object position updated to: " + hitInfo.point);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Raycast did not hit any surface.");
+                }
+            }
         }
     }
 }

@@ -26,28 +26,8 @@ public class ObjectManager : MonoBehaviour
 
     private void SelectObject(GameObject prefab)
     {
-        GameObject newObject = Instantiate(prefab, Camera.main.transform.position + Camera.main.transform.forward * 2, Quaternion.identity);
-        SetObjectTransparency(newObject, 0.5f);
-        objectPlacer.SetSelectedObject(newObject); 
-    }
-
-    private void SetObjectTransparency(GameObject obj, float alpha)
-    {
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in renderers)
-        {
-            Material mat = renderer.material;
-            Color color = mat.color;
-            color.a = alpha;
-            mat.color = color;
-            mat.SetFloat("_Mode", 3); 
-            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            mat.SetInt("_ZWrite", 0);
-            mat.DisableKeyword("_ALPHATEST_ON");
-            mat.EnableKeyword("_ALPHABLEND_ON");
-            mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            mat.renderQueue = 3000;
-        }
+        GameObject newObject = Instantiate(prefab);
+        objectPlacer.SetSelectedObject(newObject);
+        Debug.Log("Lamp按钮已点击，对象处于未放置状态。");
     }
 }

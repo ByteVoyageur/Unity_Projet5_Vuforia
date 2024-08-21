@@ -182,7 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4880a1b13f4164a4fa686a40828d2eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparency: 0.328
 --- !u!1 &426804945
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +878,6 @@ GameObject:
   - component: {fileID: 1317043828}
   - component: {fileID: 1317043827}
   - component: {fileID: 1317043826}
-  - component: {fileID: 1317043829}
   m_Layer: 0
   m_Name: Ground Plane Stage
   m_TagString: Untagged
@@ -951,7 +949,7 @@ MonoBehaviour:
   mSelectedStageType: 0
   mPlaneReference: {fileID: 0}
   mMidAirReference: {fileID: 0}
-  mPreview: {fileID: 1317043829}
+  mPreview: {fileID: 0}
 --- !u!4 &1317043828
 Transform:
   m_ObjectHideFlags: 0
@@ -967,23 +965,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -0.813, y: -0.326, z: 0.005}
---- !u!114 &1317043829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1317043824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1308684972, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mObserverBehaviour: {fileID: 1317043827}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: 
-  mDatasetName: 
-  mCastedBehaviour: {fileID: 1317043827}
 --- !u!1 &1462602779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,6 +1245,7 @@ GameObject:
   - component: {fileID: 2015796349}
   - component: {fileID: 2015796348}
   - component: {fileID: 2015796347}
+  - component: {fileID: 2015796351}
   m_Layer: 0
   m_Name: Plane Finder
   m_TagString: Untagged
@@ -1306,13 +1288,13 @@ MonoBehaviour:
   OnInteractiveHitTest:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2015796347}
-        m_TargetAssemblyTypeName: Vuforia.ContentPositioningBehaviour, Vuforia.Unity.Engine
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 2015796351}
+        m_TargetAssemblyTypeName: PlaneHitHandler, Assembly-CSharp
+        m_MethodName: OnInteractiveHitTest
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1366,6 +1348,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2015796351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015796346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95eaa262500febc45a7a1f38b8792fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPlacer: {fileID: 0}
 --- !u!1001 &2514240216954532375
 PrefabInstance:
   m_ObjectHideFlags: 0
