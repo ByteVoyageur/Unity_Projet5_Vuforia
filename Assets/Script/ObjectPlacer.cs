@@ -1,16 +1,25 @@
 using UnityEngine;
 using Lean.Touch;
-using Vuforia;
 
 public class ObjectPlacer : MonoBehaviour
 {
     private GameObject selectedObject;
     private bool isPlaced;
-    private int frameCount = 0; 
+    private int frameCount = 0;
 
     void Start()
     {
         isPlaced = false;
+    }
+
+    private void OnEnable()
+    {
+        LeanTouch.OnFingerDown += HandleFingerDown;
+    }
+
+    private void OnDisable()
+    {
+        LeanTouch.OnFingerDown -= HandleFingerDown;
     }
 
     public void SetSelectedObject(GameObject obj)
@@ -21,7 +30,7 @@ public class ObjectPlacer : MonoBehaviour
         }
 
         selectedObject = Instantiate(obj);
-        selectedObject.SetActive(true); 
+        selectedObject.SetActive(true);
         isPlaced = false;
         Debug.Log("SetSelectedObject called, object instantiated and activated.");
     }
@@ -36,18 +45,35 @@ public class ObjectPlacer : MonoBehaviour
         return isPlaced;
     }
 
-    public void PlaceObject(HitTestResult result)
+    public void PlaceObject(SimpleHitTestResult result)
     {
         if (selectedObject != null && !isPlaced)
         {
-            selectedObject.SetActive(true); 
-            selectedObject.transform.position = result.Position;
-            isPlaced = true;
+            selectedObject.SetActive(true);
+            selectedObject.transform.position = result.Position; // 设置物体位置为检测结果的位置
+            isPlaced = true; // 标记物体已被放置
             Debug.Log($"Object placed at: {result.Position}, object is now active.");
         }
         else
         {
             Debug.LogWarning("No object selected to place or object is already placed.");
+        }
+    }
+
+    private void HandleFingerDown(LeanFinger finger)
+    {
+        if (!isPlaced && selectedObject != null)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(finger.ScreenPosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                // 如果点击了某个物体，将其位置设置为射线击中的位置
+                SimpleHitTestResult hitTestResult = new SimpleHitTestResult
+                {
+                    Position = hitInfo.point
+                };
+                PlaceObject(hitTestResult);
+            }
         }
     }
 
@@ -65,9 +91,9 @@ public class ObjectPlacer : MonoBehaviour
                     selectedObject.transform.position = hitInfo.point;
 
                     frameCount++;
-                    if (frameCount >= 120)
+                    if (frameCount >= 600)
                     {
-                        frameCount = 0; 
+                        frameCount = 0;
                         Debug.Log("Object position updated to: " + hitInfo.point);
                     }
                 }
