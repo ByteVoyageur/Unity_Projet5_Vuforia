@@ -15,7 +15,7 @@ public class ObjectManager : MonoBehaviour
         lampButton.onClick.AddListener(() => SelectObject(lampPrefab));
         cupboardButton.onClick.AddListener(() => SelectObject(cupboardPrefab));
 
-        DisableObjectsInitially();
+        DisableObjectsInitially(); 
     }
 
     private void DisableObjectsInitially()
@@ -28,6 +28,6 @@ public class ObjectManager : MonoBehaviour
     {
         GameObject newObject = Instantiate(prefab);
         objectPlacer.SetSelectedObject(newObject);
-        Debug.Log("Lamp按钮已点击，对象处于未放置状态。");
+        Debug.Log("Object selected and instantiated.");
     }
 }
