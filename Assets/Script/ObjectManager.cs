@@ -5,15 +5,18 @@ public class ObjectManager : MonoBehaviour
 {
     public GameObject lampPrefab;
     public GameObject cupboardPrefab;
+    public GameObject tablePrefab;
     public ObjectPlacer objectPlacer;
 
     void Start()
     {
         Button lampButton = GameObject.Find("LampButton").GetComponent<Button>();
         Button cupboardButton = GameObject.Find("CupboardButton").GetComponent<Button>();
+        Button tableButton = GameObject.Find("TableButton").GetComponent<Button>();
 
         lampButton.onClick.AddListener(() => SelectObject(lampPrefab));
         cupboardButton.onClick.AddListener(() => SelectObject(cupboardPrefab));
+        tableButton.onClick.AddListener(() => SelectObject(tablePrefab));
 
         DisableObjectsInitially(); 
     }
@@ -22,6 +25,7 @@ public class ObjectManager : MonoBehaviour
     {
         lampPrefab.SetActive(false);
         cupboardPrefab.SetActive(false);
+        tablePrefab.SetActive(false);
     }
 
     private void SelectObject(GameObject prefab)
