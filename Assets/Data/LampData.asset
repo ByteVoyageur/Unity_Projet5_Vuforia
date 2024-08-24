@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Lamp Classic
   description: A sleek modern lamp providing soft lighting.
-  furniturePrefab: {fileID: 0}
+  furniturePrefab: {fileID: 5683489791567269010, guid: d5f1664571cae604480ba4576360a366, type: 3}
   price: 79.9
   size: {x: 0, y: 0, z: 0}

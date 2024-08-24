@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 'Cupboard '
   description: Cupboard without drawer
-  furniturePrefab: {fileID: 0}
+  furniturePrefab: {fileID: 7958694291446302842, guid: d36d8fa77c32f7246a9d0c719084c5d9, type: 3}
   price: 59.9
   size: {x: 0, y: 0, z: 0}
