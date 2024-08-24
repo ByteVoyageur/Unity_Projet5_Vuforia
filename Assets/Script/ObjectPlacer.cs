@@ -35,9 +35,10 @@ public class ObjectPlacer : MonoBehaviour
         selectedObject = Instantiate(obj);
         selectedObject.SetActive(true);
         isPlaced = false;
-        Debug.Log("SetSelectedObject called, object instantiated and activated.");
 
-        selectedObject.AddComponent<ClickableObject>().infoPanelHandler = selectedObject.GetComponent<InfoPanelHandler> ();
+        ClickableObject clickable = selectedObject.AddComponent<ClickableObject>();
+        clickable.infoPanelHandler = selectedObject.GetComponentInChildren<InfoPanelHandler>();
+
         Debug.Log("SetSelectedObject called, object instantiated and activated.");
     }
 

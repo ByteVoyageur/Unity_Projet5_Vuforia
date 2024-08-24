@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9b33026fa33b9b418110db0bae76e12, type: 3}
-  m_Name: CupboardData
+  m_Name: BedData
   m_EditorClassIdentifier: 
-  itemName: 'Cupboard '
-  description: Cupboard without drawer
-  furniturePrefab: {fileID: 7958694291446302842, guid: d36d8fa77c32f7246a9d0c719084c5d9, type: 3}
-  price: 59.9
+  itemName: Bed
+  description: Bed without drawer
+  furniturePrefab: {fileID: 9179947272060372951, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+  price: 599.09
   size: {x: 0, y: 0, z: 0}

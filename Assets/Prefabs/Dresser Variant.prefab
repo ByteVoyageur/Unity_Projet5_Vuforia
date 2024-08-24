@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 771430866307167518, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: furnitureData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b63d91f74a63184fa84c89cfc5b870a, type: 2}
     - target: {fileID: 2496267725741456767, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 749.917
