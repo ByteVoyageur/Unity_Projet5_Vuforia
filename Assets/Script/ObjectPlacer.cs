@@ -36,8 +36,12 @@ public class ObjectPlacer : MonoBehaviour
         selectedObject.SetActive(true);
         isPlaced = false;
 
+        // 添加点击功能
         ClickableObject clickable = selectedObject.AddComponent<ClickableObject>();
         clickable.infoPanelHandler = selectedObject.GetComponentInChildren<InfoPanelHandler>();
+
+        // 关闭对象的Collider以避免放置前的闪烁问题
+        DisableColliders(selectedObject);
 
         Debug.Log("SetSelectedObject called, object instantiated and activated.");
     }
@@ -59,6 +63,9 @@ public class ObjectPlacer : MonoBehaviour
             selectedObject.SetActive(true);
             selectedObject.transform.position = result.Position;
             isPlaced = true;
+
+            // 启用对象的Collider
+            EnableColliders(selectedObject);
 
             placedObjects.Add(selectedObject);
             selectedObject = null;
@@ -111,6 +118,24 @@ public class ObjectPlacer : MonoBehaviour
                     Debug.LogWarning("Raycast did not hit any surface.");
                 }
             }
+        }
+    }
+
+    private void EnableColliders(GameObject obj)
+    {
+        Collider[] colliders = obj.GetComponentsInChildren<Collider>();
+        foreach (var collider in colliders)
+        {
+            collider.enabled = true;
+        }
+    }
+
+    private void DisableColliders(GameObject obj)
+    {
+        Collider[] colliders = obj.GetComponentsInChildren<Collider>();
+        foreach (var collider in colliders)
+        {
+            collider.enabled = false;
         }
     }
 }
