@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 129135620}
   - component: {fileID: 129135619}
   - component: {fileID: 129135621}
+  - component: {fileID: 129135622}
   m_Layer: 0
   m_Name: ObjectManager
   m_TagString: Untagged
@@ -183,6 +184,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4880a1b13f4164a4fa686a40828d2eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &129135622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129135618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cf148ff84ec5741ad17003859f739c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &426804945
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -407, y: -653}
+  m_AnchoredPosition: {x: -346, y: -653}
   m_SizeDelta: {x: 360, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &426804947
@@ -918,7 +931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -35, y: -653}
+  m_AnchoredPosition: {x: 57, y: -653}
   m_SizeDelta: {x: 320, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1189229071
@@ -1015,6 +1028,7 @@ GameObject:
   - component: {fileID: 1317043827}
   - component: {fileID: 1317043826}
   - component: {fileID: 1317043829}
+  - component: {fileID: 1317043830}
   m_Layer: 0
   m_Name: Ground Plane Stage
   m_TagString: Untagged
@@ -1119,6 +1133,27 @@ MonoBehaviour:
   mTargetName: 
   mDatasetName: 
   mCastedBehaviour: {fileID: 1317043827}
+--- !u!65 &1317043830
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317043824}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1462602779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 322, y: -653}
+  m_AnchoredPosition: {x: 424, y: -653}
   m_SizeDelta: {x: 320, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1880846674

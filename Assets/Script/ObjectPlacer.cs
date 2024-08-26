@@ -12,6 +12,9 @@ public class ObjectPlacer : MonoBehaviour
     void Start()
     {
         isPlaced = false;
+
+        // 确保Ground Plane Stage的Box Collider启用
+        EnableGroundPlaneCollider();
     }
 
     private void OnEnable()
@@ -36,11 +39,9 @@ public class ObjectPlacer : MonoBehaviour
         selectedObject.SetActive(true);
         isPlaced = false;
 
-        // 添加点击功能
         ClickableObject clickable = selectedObject.AddComponent<ClickableObject>();
         clickable.infoPanelHandler = selectedObject.GetComponentInChildren<InfoPanelHandler>();
 
-        // 关闭对象的Collider以避免放置前的闪烁问题
         DisableColliders(selectedObject);
 
         Debug.Log("SetSelectedObject called, object instantiated and activated.");
@@ -64,7 +65,6 @@ public class ObjectPlacer : MonoBehaviour
             selectedObject.transform.position = result.Position;
             isPlaced = true;
 
-            // 启用对象的Collider
             EnableColliders(selectedObject);
 
             placedObjects.Add(selectedObject);
@@ -96,6 +96,9 @@ public class ObjectPlacer : MonoBehaviour
 
     void Update()
     {
+        // 确保Ground Plane Stage的Box Collider启用
+        EnableGroundPlaneCollider();
+
         if (selectedObject != null && !isPlaced)
         {
             Camera arCamera = Camera.main;
@@ -118,6 +121,15 @@ public class ObjectPlacer : MonoBehaviour
                     Debug.LogWarning("Raycast did not hit any surface.");
                 }
             }
+        }
+    }
+
+    private void EnableGroundPlaneCollider()
+    {
+        BoxCollider boxCollider = GameObject.Find("Ground Plane Stage").GetComponent<BoxCollider>();
+        if (boxCollider != null && !boxCollider.enabled)
+        {
+            boxCollider.enabled = true;
         }
     }
 

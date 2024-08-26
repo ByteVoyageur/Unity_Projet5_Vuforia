@@ -14,9 +14,23 @@ public class ObjectManager : MonoBehaviour
         Button cupboardButton = GameObject.Find("CupboardButton").GetComponent<Button>();
         Button tableButton = GameObject.Find("TableButton").GetComponent<Button>();
 
-        lampButton.onClick.AddListener(() => SelectObject(lampPrefab));
-        cupboardButton.onClick.AddListener(() => SelectObject(cupboardPrefab));
-        tableButton.onClick.AddListener(() => SelectObject(tablePrefab));
+        lampButton.onClick.AddListener(() => 
+        {
+            Debug.Log("Lamp button clicked"); 
+            SelectObject(lampPrefab); 
+        });
+
+        cupboardButton.onClick.AddListener(() => 
+        {
+            Debug.Log("Cupboard button clicked"); 
+            SelectObject(cupboardPrefab); 
+        });
+
+        tableButton.onClick.AddListener(() => 
+        {
+            Debug.Log("Table button clicked"); 
+            SelectObject(tablePrefab); 
+        });
 
         DisableObjectsInitially(); 
     }
