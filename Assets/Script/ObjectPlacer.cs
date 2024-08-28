@@ -13,7 +13,6 @@ public class ObjectPlacer : MonoBehaviour
     {
         isPlaced = false;
 
-        // 确保Ground Plane Stage的Box Collider启用
         EnableGroundPlaneCollider();
     }
 
@@ -96,7 +95,6 @@ public class ObjectPlacer : MonoBehaviour
 
     void Update()
     {
-        // 确保Ground Plane Stage的Box Collider启用
         EnableGroundPlaneCollider();
 
         if (selectedObject != null && !isPlaced)
@@ -148,6 +146,15 @@ public class ObjectPlacer : MonoBehaviour
         foreach (var collider in colliders)
         {
             collider.enabled = false;
+        }
+    }
+
+        public void RemovePlacedObject(GameObject obj)
+    {
+        if (placedObjects.Contains(obj))
+        {
+            placedObjects.Remove(obj);
+            Debug.Log("Object removed from placed objects list.");
         }
     }
 }
