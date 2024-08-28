@@ -4,15 +4,19 @@ using Lean.Touch;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    private GameObject selectedObject;
+    public GameObject SelectedObject { get; private set; }
+    public bool IsPlaced { get; private set; } 
     private bool isPlaced;
     private int frameCount = 0;
     private List<GameObject> placedObjects = new List<GameObject>();
+    
+    public bool IsObjectPlaced() { return isPlaced; }
+    public bool HasSelectedObject() { return SelectedObject != null; }
+    public void SetObjectPlaced(bool value) { isPlaced = value; IsPlaced = value; } 
 
     void Start()
     {
         isPlaced = false;
-
         EnableGroundPlaneCollider();
     }
 
@@ -28,46 +32,47 @@ public class ObjectPlacer : MonoBehaviour
 
     public void SetSelectedObject(GameObject obj)
     {
-        if (selectedObject != null)
+        if (SelectedObject != null)
         {
-            placedObjects.Add(selectedObject);
-            selectedObject = null;
+            if (!placedObjects.Contains(SelectedObject))
+            {
+                placedObjects.Add(SelectedObject);
+            }
+            SelectedObject = null;
         }
 
-        selectedObject = Instantiate(obj);
-        selectedObject.SetActive(true);
-        isPlaced = false;
+        SelectedObject = obj;
+        DisableColliders(SelectedObject);
 
-        ClickableObject clickable = selectedObject.AddComponent<ClickableObject>();
-        clickable.infoPanelHandler = selectedObject.GetComponentInChildren<InfoPanelHandler>();
+        if (!SelectedObject.activeSelf)
+        {
+            SelectedObject.SetActive(true);
+        }
 
-        DisableColliders(selectedObject);
+        SetObjectPlaced(false);
+
+        DoubleTapHandler doubleTapHandler = SelectedObject.GetComponent<DoubleTapHandler>();
+        if (doubleTapHandler == null)
+        {
+            doubleTapHandler = SelectedObject.AddComponent<DoubleTapHandler>();
+        }
+        doubleTapHandler.infoPanelHandler = SelectedObject.GetComponentInChildren<InfoPanelHandler>();
 
         Debug.Log("SetSelectedObject called, object instantiated and activated.");
     }
 
-    public bool HasSelectedObject()
-    {
-        return selectedObject != null;
-    }
-
-    public bool IsObjectPlaced()
-    {
-        return isPlaced;
-    }
-
     public void PlaceObject(SimpleHitTestResult result)
     {
-        if (selectedObject != null && !isPlaced)
+        if (SelectedObject != null && !IsObjectPlaced())
         {
-            selectedObject.SetActive(true);
-            selectedObject.transform.position = result.Position;
-            isPlaced = true;
+            SelectedObject.SetActive(true);
+            SelectedObject.transform.position = result.Position;
+            SetObjectPlaced(true);
 
-            EnableColliders(selectedObject);
+            EnableColliders(SelectedObject);
 
-            placedObjects.Add(selectedObject);
-            selectedObject = null;
+            placedObjects.Add(SelectedObject);
+            SelectedObject = null;
 
             Debug.Log($"Object placed at: {result.Position}, object is now active.");
         }
@@ -79,7 +84,7 @@ public class ObjectPlacer : MonoBehaviour
 
     private void HandleFingerDown(LeanFinger finger)
     {
-        if (!isPlaced && selectedObject != null)
+        if (!IsObjectPlaced() && SelectedObject != null)
         {
             Ray ray = Camera.main.ScreenPointToRay(finger.ScreenPosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo))
@@ -97,7 +102,7 @@ public class ObjectPlacer : MonoBehaviour
     {
         EnableGroundPlaneCollider();
 
-        if (selectedObject != null && !isPlaced)
+        if (SelectedObject != null && !IsObjectPlaced())
         {
             Camera arCamera = Camera.main;
             if (arCamera != null)
@@ -105,7 +110,7 @@ public class ObjectPlacer : MonoBehaviour
                 Ray ray = new Ray(arCamera.transform.position, arCamera.transform.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo))
                 {
-                    selectedObject.transform.position = hitInfo.point;
+                    SelectedObject.transform.position = hitInfo.point;
 
                     frameCount++;
                     if (frameCount >= 600)
@@ -149,7 +154,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
-        public void RemovePlacedObject(GameObject obj)
+    public void RemovePlacedObject(GameObject obj)
     {
         if (placedObjects.Contains(obj))
         {

@@ -44,6 +44,11 @@ public class ObjectManager : MonoBehaviour
 
     private void SelectObject(GameObject prefab)
     {
+        if (objectPlacer.SelectedObject != null)
+        {
+            Destroy(objectPlacer.SelectedObject);
+        }
+
         GameObject newObject = Instantiate(prefab);
         objectPlacer.SetSelectedObject(newObject);
         Debug.Log("Object selected and instantiated.");
