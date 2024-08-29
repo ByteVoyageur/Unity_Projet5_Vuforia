@@ -22,19 +22,18 @@ public class DebugDisplay : MonoBehaviour
 
     void OnGUI()
     {
-        // 设置字体样式
         GUIStyle logStyle = new GUIStyle();
-        logStyle.fontSize = 24;   // 设置字体大小
-        logStyle.normal.textColor = Color.white;  // 设置字体颜色
-        logStyle.wordWrap = true; // 自动换行
+        logStyle.fontSize = 24;   
+        logStyle.normal.textColor = Color.white;  
+        logStyle.wordWrap = true; 
 
-        // 设置显示区域大小和位置
-        float logWidth = Screen.width * 0.8f;
+        float logWidth = Screen.width * 0.4f;
         float logHeight = Screen.height * 0.5f;
-        float topMargin = Screen.height * 0.1f; // 顶部10%位置
+        float topMargin = Screen.height * 0.1f; 
+        float leftMargin = Screen.width * 0.05f;
 
-        GUILayout.BeginArea(new Rect((Screen.width - logWidth) / 2, topMargin, logWidth, logHeight));
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true, GUILayout.Width(logWidth), GUILayout.Height(logHeight));
+        GUILayout.BeginArea(new Rect(leftMargin, topMargin, logWidth, logHeight));
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(logWidth), GUILayout.Height(logHeight));
         GUILayout.Label(logContent, logStyle);
         GUILayout.EndScrollView();
         GUILayout.EndArea();

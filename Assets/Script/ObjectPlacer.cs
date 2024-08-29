@@ -5,14 +5,15 @@ using Lean.Touch;
 public class ObjectPlacer : MonoBehaviour
 {
     public GameObject SelectedObject { get; private set; }
-    public bool IsPlaced { get; private set; } 
+    public bool IsPlaced { get; private set; }
     private bool isPlaced;
     private int frameCount = 0;
+    private int hitErrorFrameCount = 0;
     private List<GameObject> placedObjects = new List<GameObject>();
-    
+
     public bool IsObjectPlaced() { return isPlaced; }
     public bool HasSelectedObject() { return SelectedObject != null; }
-    public void SetObjectPlaced(bool value) { isPlaced = value; IsPlaced = value; } 
+    public void SetObjectPlaced(bool value) { isPlaced = value; IsPlaced = value; }
 
     void Start()
     {
@@ -112,7 +113,7 @@ public class ObjectPlacer : MonoBehaviour
                     SelectedObject.transform.position = hitInfo.point;
 
                     frameCount++;
-                    if (frameCount >= 600)
+                    if (frameCount >= 300)
                     {
                         frameCount = 0;
                         Debug.Log("Object position updated to: " + hitInfo.point);
@@ -120,7 +121,11 @@ public class ObjectPlacer : MonoBehaviour
                 }
                 else
                 {
+                    hitErrorFrameCount++;
+                    if (frameCount >= 300)
+                    {
                     Debug.LogWarning("Raycast did not hit any surface.");
+                    }
                 }
             }
         }
@@ -128,10 +133,24 @@ public class ObjectPlacer : MonoBehaviour
 
     private void EnableGroundPlaneCollider()
     {
-        BoxCollider boxCollider = GameObject.Find("Ground Plane Stage").GetComponent<BoxCollider>();
-        if (boxCollider != null && !boxCollider.enabled)
+        GameObject groundPlaneStage = GameObject.Find("Ground Plane Stage");
+        if (groundPlaneStage == null)
+        {
+            Debug.LogError("Ground Plane Stage not found.");
+            return;
+        }
+        
+        BoxCollider boxCollider = groundPlaneStage.GetComponent<BoxCollider>();
+        if (boxCollider == null)
+        {
+            Debug.LogError("Ground Plane Stage does not have a BoxCollider.");
+            return;
+        }
+
+        if (!boxCollider.enabled)
         {
             boxCollider.enabled = true;
+            Debug.Log("Enabled BoxCollider on Ground Plane Stage.");
         }
     }
 
