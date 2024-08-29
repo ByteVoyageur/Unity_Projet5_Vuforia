@@ -38,7 +38,6 @@ public class ObjectPlacer : MonoBehaviour
             {
                 placedObjects.Add(SelectedObject);
             }
-            SelectedObject = null;
         }
 
         SelectedObject = obj;

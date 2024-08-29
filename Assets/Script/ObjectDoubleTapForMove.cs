@@ -25,7 +25,15 @@ public class DoubleTapHandler : MonoBehaviour
     {
         if (objectPlacer != null)
         {
-            CancelPlacement();
+            // Check if the double-tap happened on this specific object
+            Ray ray = Camera.main.ScreenPointToRay(finger.ScreenPosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                if (hitInfo.collider.gameObject == gameObject)
+                {
+                    CancelPlacement();
+                }
+            }
         }
     }
 
@@ -33,6 +41,7 @@ public class DoubleTapHandler : MonoBehaviour
     {
         objectPlacer.SetSelectedObject(transform.gameObject);
         objectPlacer.RemovePlacedObject(gameObject);
-        objectPlacer.SetObjectPlaced(false); 
+        objectPlacer.SetObjectPlaced(false);
+        Debug.Log("Placement cancelled for object: " + gameObject.name);
     }
 }
