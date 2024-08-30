@@ -3,46 +3,54 @@
     height: 100%;
     background-color: rgb(247, 241, 227);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    align-self: flex-start;
-    flex-grow: 1;
+    padding: 20px;
 }
 
 .img-item {
-    height: 500px;
-    align-items: center;
-    position: relative;
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    top: 5%;
+    width: 90%;
+    max-height: 500px;
     background-image: url("project://database/Assets/Models/Cupboard_screenshot.png?fileID=2800000&guid=ffcdd7047d99865468027fa2fab94409&type=3#Cupboard_screenshot");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    margin-bottom: 20px;
+    height: 100%;
+    margin-top: 100px;
 }
 
 .description-item {
     width: 90%;
-    height: auto;
-    position: relative;
-    margin-top: 30px;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 100px;
+    margin-right: 100px;
+    margin-bottom: 100px;
+    margin-left: 100px;
 }
 
 .category-title {
+    font-size: 40px;
+    margin-bottom: 10px;
 }
 
 .name-item {
-    font-size: 60px;
+    font-size: 65px;
     color: rgb(120, 44, 44);
-    padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 .price-container {
+    display: flex;
     flex-direction: row;
-    padding-top: 15px;
-    padding-bottom: 25px;
-    margin-top: 35px;
+    align-items: flex-start;
+    margin-top: 60px;
 }
 
 .price-euros {
@@ -53,41 +61,118 @@
 .price-centimes {
     font-size: 45px;
     color: rgb(120, 44, 44);
+    margin-left: 5px;
 }
 
 .description {
-    margin-top: 35px;
+    margin-top: 60px;
+    font-size: 30px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    -unity-text-align: upper-left;
+    white-space: normal;
+    margin-bottom: 60px;
 }
 
 .color-container {
-    width: 85%;
-    height: 6%;
-    border-left-color: rgb(188, 188, 188);
-    border-right-color: rgb(188, 188, 188);
-    border-top-color: rgb(188, 188, 188);
-    border-bottom-color: rgb(188, 188, 188);
-    border-top-width: 8px;
-    border-right-width: 8px;
-    border-bottom-width: 8px;
-    border-left-width: 8px;
+    width: 90%;
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 100px;
+    border-left-color: rgb(165, 170, 164);
+    border-right-color: rgb(165, 170, 164);
+    border-top-color: rgb(165, 170, 164);
+    border-bottom-color: rgb(165, 170, 164);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    height: 100px;
+}
+
+.size-container {
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 50px;
+    border-left-color: rgb(165, 170, 164);
+    border-right-color: rgb(165, 170, 164);
+    border-top-color: rgb(165, 170, 164);
+    border-bottom-color: rgb(165, 170, 164);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    height: 100px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
 }
 
-.size-container {
-}
-
 .quantity-add-wish {
+    width: 90%;
+    display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 100px;
 }
 
 .quantity-item {
     width: 15%;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 8px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left-color: rgb(165, 170, 164);
+    border-right-color: rgb(165, 170, 164);
+    border-top-color: rgb(165, 170, 164);
+    border-bottom-color: rgb(165, 170, 164);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 29px;
+    border-top-right-radius: 29px;
+    border-bottom-right-radius: 29px;
+    border-bottom-left-radius: 29px;
 }
 
 .add-to-basket {
-    width: 40%;
-    height: 6%;
+    width: 66%;
+    height: 100px;
+    background-color: rgb(192, 57, 43);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    -unity-font-style: bold;
+}
+
+.heart-for-wish-list {
+    background-image: url("project://database/Assets/UI/Icons/299063_heart_icon.png?fileID=2800000&guid=056bf0eb3e351f64e8dc5e250c4d0f55&type=3#299063_heart_icon");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
 }
