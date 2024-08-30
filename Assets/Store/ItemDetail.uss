@@ -19,7 +19,7 @@
     position: relative;
     margin-bottom: 20px;
     height: 100%;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .description-item {
@@ -29,19 +29,23 @@
     align-items: flex-start;
     padding: 20px;
     box-sizing: border-box;
-    margin-top: 100px;
-    margin-right: 100px;
-    margin-bottom: 100px;
-    margin-left: 100px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }
 
 .category-title {
-    font-size: 40px;
+    font-size: 30px;
     margin-bottom: 10px;
 }
 
 .name-item {
-    font-size: 65px;
+    font-size: 50px;
     color: rgb(120, 44, 44);
     margin-bottom: 10px;
 }
@@ -50,30 +54,30 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 .price-euros {
-    font-size: 65px;
+    font-size: 45px;
     color: rgb(120, 44, 44);
     -unity-font-style: bold;
 }
 
 .price-centimes {
-    font-size: 45px;
+    font-size: 35px;
     color: rgb(120, 44, 44);
     margin-left: 5px;
     -unity-font-style: bold;
 }
 
 .description {
-    margin-top: 60px;
-    font-size: 30px;
+    margin-top: 30px;
+    font-size: 22px;
     line-height: 1.5;
     word-wrap: break-word;
     -unity-text-align: upper-left;
     white-space: normal;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 .view-in-AR-button {
@@ -96,11 +100,11 @@
 }
 
 .color-container {
-    width: 90%;
+    width: 100%;
     border: 1px solid rgb(188, 188, 188);
     border-radius: 8px;
     padding: 10px;
-    margin-top: 100px;
+    margin-top: 30px;
     border-left-color: rgb(165, 170, 164);
     border-right-color: rgb(165, 170, 164);
     border-top-color: rgb(165, 170, 164);
@@ -113,11 +117,11 @@
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
-    height: 100px;
+    height: 110px;
 }
 
 .size-container {
-    width: 90%;
+    width: 100%;
     background-color: rgba(255, 255, 255, 0);
     border: 1px solid rgb(188, 188, 188);
     border-radius: 8px;
@@ -131,7 +135,7 @@
     border-right-width: 6px;
     border-bottom-width: 6px;
     border-left-width: 6px;
-    height: 100px;
+    height: 110px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -144,7 +148,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: 100px;
+    margin-top: 30px;
 }
 
 .quantity-item {
