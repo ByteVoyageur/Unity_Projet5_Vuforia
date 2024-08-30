@@ -10,12 +10,22 @@
                 <ui:Label tabindex="-1" text=",99€" name="PriceCentimes" class="price-centimes" />
             </ui:VisualElement>
             <ui:Label tabindex="-1" text="Maecenas ultrices justo nec urna fermentum, a sollicitudin libero iaculis. Curabitur eget augue id arcu laoreet rhoncus vel a odio. Donec mollis felis sed elit pharetra, ac fermentum nisi consequat.Maecenas ultrices justo nec urna fermentum, a sollicitudin libero iaculis. Curabitur eget augue id arcu laoreet rhoncus vel a odio. Donec mollis felis sed elit pharetra, ac fermentum nisi consequat." name="Description" class="description" />
-            <ui:Button text="View in AR" name="ViewInARButton" class="view-in-AR-button" />
-            <ui:VisualElement name="ColorContainer" class="color-change-container color-container" />
-            <ui:VisualElement name="SizeContainer" class="color-change-container size-container" />
+            <ui:Button text="View in AR" name="ViewInARButton" class="view-in-AR-button" style="background-color: rgb(179, 57, 57);" />
+            <ui:VisualElement name="ColorContainer" class="color-change-container color-container">
+                <ui:VisualElement name="ColorBox" class="color-box" style="background-color: rgb(128, 75, 33);" />
+                <ui:Label tabindex="-1" text="Maroon" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ColorName" class="color-name" />
+                <ui:VisualElement name="ArrowToChangeColor" class="arrow-to-change-color" />
+            </ui:VisualElement>
+            <ui:VisualElement name="SizeContainer" class="size-container">
+    <ui:Label tabindex="-1" text="ONE SIZE" name="SizeType" class="size-type" />
+    <ui:VisualElement name="IndicatorContainer" class="indicator-container">
+        <ui:VisualElement name="IndicatorStock" class="indicator-stock" />
+        <ui:Label tabindex="-1" text="In stock" name="StockOrNot" class="stock-or-not" />
+    </ui:VisualElement>
+</ui:VisualElement>
             <ui:VisualElement name="QuantityAddWish" class="quantity-add-wish">
                 <ui:VisualElement name="QuantityItem" class="quantity-item" />
-                <ui:Button text="Add to basket" name="AddToBasket" class="add-to-basket" />
+                <ui:Button text="Add to basket" name="AddToBasket" class="add-to-basket" style="background-color: rgb(179, 57, 57);" />
                 <ui:VisualElement name="HeartForWishList" class="heart-for-wish-list" />
             </ui:VisualElement>
         </ui:VisualElement>

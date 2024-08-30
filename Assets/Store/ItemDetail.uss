@@ -7,6 +7,10 @@
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }
 
 .img-item {
@@ -81,7 +85,7 @@
 }
 
 .view-in-AR-button {
-    width: 66%;
+    width: 100%;
     height: 100px;
     background-color: rgb(192, 57, 43);
     color: white;
@@ -91,7 +95,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: 35px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -118,28 +122,86 @@
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
     height: 110px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.color-box {
+    background-color: rgb(234, 107, 11);
+    width: 73px;
+    height: 67px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-left: 25px;
+    position: relative;
+}
+
+.color-name {
+    font-size: 30px;
+    margin-left: 21px;
+}
+
+.arrow-to-change-color {
+    background-image: url("project://database/Assets/UI/Icons/arrow-down.png?fileID=2800000&guid=b50508757cf381c43a9b816ff03d5169&type=3#arrow-down");
+    width: 40px;
+    height: 40px;
+    margin-right: 25px;
+    -unity-background-image-tint-color: rgb(119, 116, 116);
+    background-color: rgba(125, 125, 125, 0);
 }
 
 .size-container {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: rgba(245, 242, 234, 0);
     border: 1px solid rgb(188, 188, 188);
     border-radius: 8px;
     padding: 10px;
     margin-top: 50px;
-    border-left-color: rgb(165, 170, 164);
-    border-right-color: rgb(165, 170, 164);
-    border-top-color: rgb(165, 170, 164);
-    border-bottom-color: rgb(165, 170, 164);
+    border-color: rgb(165, 170, 164);
+    height: 110px;
+    align-items: center;
+    justify-content: space-between;
+    align-self: center;
+    flex-direction: row;
     border-top-width: 6px;
     border-right-width: 6px;
     border-bottom-width: 6px;
     border-left-width: 6px;
-    height: 110px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
+}
+
+.size-type {
+    font-size: 35px;
+    color: rgb(128, 126, 126);
+    margin-left: 15px;
+}
+
+.indicator-container {
+    display: flex;
+    align-items: center;
+    height: auto;
+    width: auto;
+    font-size: 20px;
+    color: rgb(128, 126, 126);
+    flex-direction: row;
+}
+
+.indicator-stock {
+    background-image: url("project://database/Assets/UI/Icons/indicator-point-green.png?fileID=2800000&guid=1418826fc6dcb2d489e6286d2a85ab50&type=3#indicator-point-green");
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.stock-or-not {
+    font-size: 35px;
+    color: rgb(128, 126, 126);
 }
 
 .quantity-add-wish {
@@ -185,7 +247,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: 35px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
