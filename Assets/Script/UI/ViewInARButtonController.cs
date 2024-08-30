@@ -1,13 +1,15 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class ViewInARButtonController : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private string arSceneName = "SampleScene"; 
+    [SerializeField] private string arSceneName = "SampleScene";
 
-    private void OnEnable()
+    private Button viewInARButton;
+
+    void OnEnable()
     {
         if (uiDocument == null)
         {
@@ -16,33 +18,26 @@ public class ViewInARButtonController : MonoBehaviour
         }
 
         var root = uiDocument.rootVisualElement;
-        var viewInARButton = root.Q<Button>("ViewInARButton");
+        viewInARButton = root.Q<Button>("ViewInARButton");
+
         if (viewInARButton == null)
         {
             Debug.LogError("ViewInARButton is not found in the UXML.");
             return;
         }
 
-        viewInARButton.clicked += OnViewInARButtonClicked;
+        viewInARButton.clicked += OnButtonClick;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        if (uiDocument == null)
-        {
-            return;
-        }
-
-        var root = uiDocument.rootVisualElement;
-        var viewInARButton = root.Q<Button>("ViewInARButton");
-
         if (viewInARButton != null)
         {
-            viewInARButton.clicked -= OnViewInARButtonClicked;
+            viewInARButton.clicked -= OnButtonClick;
         }
     }
 
-    private void OnViewInARButtonClicked()
+    void OnButtonClick()
     {
         SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
     }

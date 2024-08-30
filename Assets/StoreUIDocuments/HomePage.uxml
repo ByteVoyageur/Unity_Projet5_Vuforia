@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/StoreUIDocuments/HomePageStyle.uss?fileID=7433441132597879392&amp;guid=6d5119c7361652f41a50cab7b9e58392&amp;type=3#HomePageStyle" />
+    <ui:VisualElement name="Backround" class="background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Imgs/home-fond.png?fileID=2800000&amp;guid=19dad82fa29dd074ba1caa33e5b7af1f&amp;type=3#home-fond&quot;);">
+        <ui:Label tabindex="-1" text="DécoMaison" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LogoTitle" class="logo-title" />
+        <ui:Label tabindex="-1" text="Maecenas at bibendum est. Cras at sodales diam.  Nullam id dolor nec eros aliquam venenatis.  Morbi suscipit,at sodales diam." parse-escape-sequences="true" display-tooltip-when-elided="true" name="Inscription" class="inscription" />
+        <ui:Button text="Sign in" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SignInButton" class="sign-in-button" />
+        <ui:Button text="Later" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LaterButton" class="later-button sign-in-button" />
+    </ui:VisualElement>
+</ui:UXML>
