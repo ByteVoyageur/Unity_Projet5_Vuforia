@@ -10,7 +10,7 @@
                 <ui:Label tabindex="-1" text=",99€" name="PriceCentimes" class="price-centimes" />
             </ui:VisualElement>
             <ui:Label tabindex="-1" text="Maecenas ultrices justo nec urna fermentum, a sollicitudin libero iaculis. Curabitur eget augue id arcu laoreet rhoncus vel a odio. Donec mollis felis sed elit pharetra, ac fermentum nisi consequat.Maecenas ultrices justo nec urna fermentum, a sollicitudin libero iaculis. Curabitur eget augue id arcu laoreet rhoncus vel a odio. Donec mollis felis sed elit pharetra, ac fermentum nisi consequat." name="Description" class="description" />
-            <ui:Button text="View in AR" name="ViewAR" class="add-to-basket" />
+            <ui:Button text="View in AR" name="ViewInARButton" class="view-in-AR-button" />
             <ui:VisualElement name="ColorContainer" class="color-change-container color-container" />
             <ui:VisualElement name="SizeContainer" class="color-change-container size-container" />
             <ui:VisualElement name="QuantityAddWish" class="quantity-add-wish">

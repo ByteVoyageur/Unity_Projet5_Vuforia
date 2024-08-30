@@ -56,12 +56,14 @@
 .price-euros {
     font-size: 65px;
     color: rgb(120, 44, 44);
+    -unity-font-style: bold;
 }
 
 .price-centimes {
     font-size: 45px;
     color: rgb(120, 44, 44);
     margin-left: 5px;
+    -unity-font-style: bold;
 }
 
 .description {
@@ -72,6 +74,25 @@
     -unity-text-align: upper-left;
     white-space: normal;
     margin-bottom: 60px;
+}
+
+.view-in-AR-button {
+    width: 66%;
+    height: 100px;
+    background-color: rgb(192, 57, 43);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    -unity-font-style: bold;
 }
 
 .color-container {
