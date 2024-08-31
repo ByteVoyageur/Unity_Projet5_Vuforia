@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/StoreUIDocuments/WelcomePageStyle.uss?fileID=7433441132597879392&amp;guid=a694464e36e564a49b029d48bb26bbcc&amp;type=3#WelcomePageStyle" />
+    <ui:VisualElement name="BackGround" class="back-ground">
+        <ui:VisualElement name="TopBar" class="top-bar">
+            <ui:VisualElement name="SearchContainer" style="flex-grow: 1; width: auto; height: 90%; flex-direction: row; align-items: flex-end;">
+                <ui:VisualElement name="SeachBar" class="search-bar" />
+                <ui:VisualElement name="FindIcon" class="find-icon" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ShoppingCartTopBar" class="shopping-cart-top-bar"  />
+        </ui:VisualElement>
+        <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">
+            <ui:VisualElement name="HomeFooter" class="home-footer" />
+            <ui:VisualElement name="SettingFooter" class="setting-footer" />
+            <ui:VisualElement name="ARModeFooter" class="AR-mode AR-mode-footer" />
+            <ui:VisualElement name="WishListFooter" class="wish-list-footer" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
