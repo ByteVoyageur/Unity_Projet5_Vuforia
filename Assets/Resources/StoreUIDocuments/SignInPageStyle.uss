@@ -1,0 +1,104 @@
+.background {
+}
+
+.arrow-to-right {
+    width: 210px;
+    height: 195px;
+    background-image: url("project://database/Assets/UI/Icons/arraw-to-right.png?fileID=2800000&guid=5986abd5756a1a34d9ada6f04a13a94d&type=3#arraw-to-right");
+    position: absolute;
+    left: 69%;
+    top: 11%;
+}
+
+.exsting-customer {
+    color: rgb(179, 57, 57);
+    font-size: 57px;
+    position: absolute;
+    left: 27%;
+    top: 28%;
+}
+
+.email-or-user-name {
+    font-size: 36px;
+    position: absolute;
+    width: 90%;
+    height: 6%;
+    left: 5%;
+    top: 33%;
+}
+
+.EmailOrUserName > #unity-text-input {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.pass-word {
+    position: absolute;
+    left: 5%;
+    top: 42%;
+    width: 90%;
+}
+
+.login-button {
+    width: 90%;
+    height: 5%;
+    left: 5%;
+    top: 52%;
+    background-color: rgb(179, 57, 57);
+    color: rgb(255, 255, 255);
+    font-size: 57px;
+    -unity-font-style: bold;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.forgotten-password {
+    position: absolute;
+    font-size: 40px;
+    left: 32%;
+    top: 58%;
+}
+
+.or-continue-with {
+    font-size: 53px;
+    position: absolute;
+    left: 30%;
+    top: 65%;
+}
+
+.icon-google {
+    background-image: url("project://database/Assets/UI/Icons/icon-google.png?fileID=2800000&guid=79059f137b4dbf743a3052dcd3d4a0f1&type=3#icon-google");
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    left: 30%;
+    top: 70%;
+}
+
+.Icon-facebook {
+    background-image: url("project://database/Assets/UI/Icons/icon-facebook.png?fileID=2800000&guid=020a7432cef08554bb6c3d17dbbfd122&type=3#icon-facebook");
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    left: 52%;
+    top: 70%;
+}
+
+.create-my-account {
+    position: absolute;
+    left: 5%;
+    top: 85%;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgb(179, 57, 57);
+    border-right-color: rgb(179, 57, 57);
+    border-top-color: rgb(179, 57, 57);
+    border-bottom-color: rgb(179, 57, 57);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    color: rgb(11, 11, 11);
+    font-size: 41px;
+    -unity-font-style: normal;
+}
