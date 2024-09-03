@@ -1,4 +1,9 @@
+.TemplateContainer  {
+    min-height: 100%;
+}
+
 .background {
+    min-height: 100%;
 }
 
 .logo-title {

@@ -2,117 +2,166 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PageManager : MonoBehaviour
+public class PagesManager : MonoBehaviour
 {
-    // Static instance to hold the single instance of PageManager
-    private static PageManager _instance;
-
-    // Public static property to provide global access to the instance
-    public static PageManager Instance
-    {
-        get
-        {
-            // If the instance is not found, find or create one
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<PageManager>();
-                if (_instance == null)
-                {
-                    GameObject singleton = new GameObject(typeof(PageManager).ToString());
-                    _instance = singleton.AddComponent<PageManager>();
-                    DontDestroyOnLoad(singleton);
-                }
-            }
-            return _instance;
-        }
-    }
-
-    // Reference to the UI Document
     public UIDocument uiDocument;
+    private Dictionary<string, VisualTreeAsset> pageAssets = new Dictionary<string, VisualTreeAsset>();
+    private Dictionary<string, Page> pagePool = new Dictionary<string, Page>();
 
-    // Dictionary to store visual tree assets by their page name
-    private Dictionary<string, VisualTreeAsset> pages = new Dictionary<string, VisualTreeAsset>();
-
-    // Awake is called when the script instance is being loaded
-    void Awake()
-    {
-        // Ensure that only one instance exists
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject); // Don't destroy this object when loading new scenes
-            Initialize();
-        }
-        else if (_instance != this)
-        {
-            Destroy(gameObject); // Destroy duplicate instances
-        }
-    }
-
-    // Initialize method to load pages and show the initial page
-    private void Initialize()
+    private void Awake()
     {
         uiDocument = GetComponent<UIDocument>();
-        LoadPages();
+
+        // Load VisualTreeAssets
+        LoadPageAsset("HomePage");
+        LoadPageAsset("SignInPage");
+        LoadPageAsset("WelcomePage");
+        LoadPageAsset("ItemDetailPage");
+
+        // Show initial page
         ShowPage("HomePage");
     }
 
-    // LoadPages method to load all visual tree assets from the specified resources folder
-    private void LoadPages()
+    private void LoadPageAsset(string pageName)
     {
-        // Load all VisualTreeAsset resources from StoreUIDocuments folder
-        VisualTreeAsset[] loadedPages = Resources.LoadAll<VisualTreeAsset>("StoreUIDocuments");
-
-        // Add each loaded page to the pages dictionary
-        foreach (var page in loadedPages)
+        VisualTreeAsset vta = Resources.Load<VisualTreeAsset>($"StoreUIDocuments/{pageName}");
+        if (vta != null)
         {
-            Debug.Log($"Loaded page: {page.name}");
-            pages[page.name] = page;
-        }
-    }
-
-    // ShowPage method to display the specified page
-    public void ShowPage(string pageName)
-    {
-        Debug.Log($"Attempting to show page: {pageName}");
-        
-        // Try to get the page asset from the dictionary
-        if (pages.TryGetValue(pageName, out var pageAsset))
-        {
-            // Clone and display the visual tree asset
-            var newPage = pageAsset.CloneTree();
-            uiDocument.rootVisualElement.Clear(); // Clear existing UI elements
-            uiDocument.rootVisualElement.Add(newPage); // Add new page UI elements
-            SetupButtons(newPage); // Setup button actions
-            Debug.Log($"Successfully showed page: {pageName}");
+            pageAssets[pageName] = vta;
+            Debug.Log($"Loaded VisualTreeAsset for {pageName}");
         }
         else
         {
-            Debug.LogWarning($"Page not found: {pageName}"); // Log a warning if the page is not found
+            Debug.LogError($"Failed to load VisualTreeAsset for {pageName}");
         }
     }
 
-    // SetupButtons method to initialize button click actions on the page
-    private void SetupButtons(VisualElement root)
+private void ShowPage(string pageName)
+{
+    // Deactivate all pages in the pool
+    foreach (var existingPage in pagePool.Values)
     {
-        // Setup button actions by calling SetupButton method
-        SetupButton(root, "LaterButton", () => ShowPage("WelcomePage"));
-        SetupButton(root, "SignInButton", () => ShowPage("SignPage"));
+        existingPage.Root.style.display = DisplayStyle.None;
     }
 
-    // SetupButton method to attach click actions to buttons
-    private void SetupButton(VisualElement root, string buttonName, System.Action clickAction)
+    // Try to get the page from the pool
+    if (!pagePool.TryGetValue(pageName, out var page))
     {
-        var button = root.Q<Button>(buttonName); // Query the button by its name
-        if (button != null)
+        // If page not in pool, create a new instance and add to pool
+        if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
         {
-            // Ensure the click event is not registered multiple times
-            button.clicked -= clickAction; 
-            button.clicked += clickAction;
+            page = CreatePageInstance(pageName, visualTreeAsset);
+            pagePool[pageName] = page;
         }
         else
         {
-            Debug.LogWarning($"Button not found: {buttonName}"); // Log a warning if the button is not found
+            Debug.LogError($"No VisualTreeAsset found for {pageName}");
+            return;
         }
+    }
+
+    // Remove all existing children
+    uiDocument.rootVisualElement.Clear();
+
+    // Add the page to the root element and activate it
+    uiDocument.rootVisualElement.Add(page.Root);
+    page.Root.style.display = DisplayStyle.Flex;
+    Debug.Log($"Displayed page: {pageName}");
+}
+    private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset)
+    {
+        Page page = null;
+
+        switch (pageName)
+        {
+            case "HomePage":
+                page = new HomePage(visualTreeAsset);
+                AddButtonActions(page.Root, new Dictionary<string, System.Action>
+                {
+                    { "SignInButton", () => ShowPage("SignInPage") },
+                    { "LaterButton", () => ShowPage("WelcomePage") }
+                });
+                break;
+
+            case "SignInPage":
+                page = new SignInPage(visualTreeAsset);
+                break;
+
+            case "WelcomePage":
+                page = new WelcomePage(visualTreeAsset);
+                AddButtonActions(page.Root, new Dictionary<string, System.Action>
+                {
+                    { "ItemButton", () => ShowPage("ItemDetailPage") }
+                });
+                break;
+
+            case "ItemDetailPage":
+                page = new ItemDetailPage(visualTreeAsset);
+                AddButtonActions(page.Root, new Dictionary<string, System.Action>
+                {
+                    { "ViewInARButton", ShowInAR }
+                });
+                break;
+
+            default:
+                Debug.LogError($"Unknown page name: {pageName}");
+                break;
+        }
+
+        Debug.Log($"Created page instance for {pageName}");
+        return page;
+    }
+
+private void AddButtonActions(VisualElement root, Dictionary<string, System.Action> buttonActions)
+{
+    Debug.Log("Adding button actions");
+
+    bool actionsAdded = false;
+    
+    root.RegisterCallback<GeometryChangedEvent>(evt =>
+    {
+        if (actionsAdded) return;
+
+        foreach (var kvp in buttonActions)
+        {
+            var buttonName = kvp.Key;
+            var button = root.Q<Button>(buttonName);
+
+            if (button != null)
+            {
+                Debug.Log($"Button {buttonName} found in {root.name}, position: {button.worldBound}");
+
+                // 打印基本状态
+                Debug.Log($"Button {buttonName} style display: {button.resolvedStyle.display}, enabled: {button.enabledSelf}");
+
+                // 确保事件被正确注册
+                button.clicked -= kvp.Value;
+                button.clicked += kvp.Value;
+
+                // 传递点击事件
+                button.RegisterCallback<PointerUpEvent>(evt => {
+                    Debug.Log($"Button {buttonName} PointerUpEvent captured");
+                    kvp.Value.Invoke();
+                });
+
+                // 测试事件传递
+                button.RegisterCallback<ClickEvent>(evt => {
+                    Debug.Log($"ClickEvent registered on {buttonName}");
+                });
+            }
+            else
+            {
+                Debug.LogWarning($"Button {buttonName} not found in {root.name}");
+            }
+        }
+
+        actionsAdded = true;
+    });
+}
+
+    private void ShowInAR()
+    {
+        Debug.Log("View in AR button clicked.");
+        // Add AR display logic here
     }
 }
