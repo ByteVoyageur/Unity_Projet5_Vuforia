@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,8 @@ public class WelcomePage : Page
 
     public void Initialize(PagesManager pagesManager)
     {
+        GenerateCategories(pagesManager);
+        
         // Find HomeFooter element and add click event to navigate back to HomePage
         var homeFooter = Root.Q<VisualElement>("HomeFooter");
         if (homeFooter != null)
@@ -27,19 +30,32 @@ public class WelcomePage : Page
         {
             Debug.LogError("HomeFooter element not found on WelcomePage.");
         }
-
-        // Find ARModeFooter element and add click event to navigate to CategoryPage
-        var arModeFooter = Root.Q<VisualElement>("ARModeFooter");
-        if (arModeFooter != null)
-        {
-            arModeFooter.RegisterCallback<ClickEvent>(evt =>
-            {
-                pagesManager.ShowPage("CategoryPage");
-            });
-        }
-        else
-        {
-            Debug.LogError("ARModeFooter element not found on WelcomePage.");
-        }
     }
+
+    private void GenerateCategories(PagesManager pagesManager)
+{
+    // Get the container where the category buttons will be placed
+    var buttonContainer = Root.Q<VisualElement>("ButtonContainer");
+
+    // Ensure the container is not null
+    if (buttonContainer == null)
+    {
+        Debug.LogError("ButtonContainer not found in WelcomePage.");
+        return;
+    }
+
+    // Create categories (in a real scenario, these would likely be loaded dynamically or from data)
+    var categories = new List<string> { "Bureau", "Kitchen", "Room" };
+    
+    foreach (var category in categories)
+    {
+        var button = new Button { text = category };
+        button.clickable.clicked += () =>
+        {
+            Debug.Log($"Button {category} clicked."); // Debug log for button click event
+            pagesManager.ShowCategoryPage(category);
+        };
+        buttonContainer.Add(button);
+    }
+}
 }

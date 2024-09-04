@@ -9,24 +9,15 @@ public class CategoryPage : Page
 
     public static CategoryPage CreateInstance(VisualTreeAsset visualTreeAsset)
     {
-        return new CategoryPage(visualTreeAsset);
+        var instance = new CategoryPage(visualTreeAsset);
+        instance.Initialize();
+        return instance;
     }
 
-    public void Initialize(PagesManager pagesManager)
+    private void Initialize()
     {
-        // Find CategoryItem element and add click event to navigate to ItemDetailPage
-        var categoryItem = Root.Q<VisualElement>("CategoryItem");
-
-        if (categoryItem != null)
-        {
-            categoryItem.RegisterCallback<ClickEvent>(evt =>
-            {
-                pagesManager.ShowPage("ItemDetailPage");
-            });
-        }
-        else
-        {
-            Debug.LogError("CategoryItem element not found on CategoryPage.");
-        }
+        Root.Q<Label>("CategoryTitle").text = "Category Page";
+        // Temporarily skip item population logic
+        Debug.Log("Initialized basic CategoryPage.");
     }
 }

@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/StoreUIDocuments/WelcomePageStyle.uss?fileID=7433441132597879392&amp;guid=a694464e36e564a49b029d48bb26bbcc&amp;type=3#WelcomePageStyle" />
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/WelcomePageStyle.uss?fileID=7433441132597879392&amp;guid=a694464e36e564a49b029d48bb26bbcc&amp;type=3#WelcomePageStyle" />
     <ui:VisualElement name="BackGround" class="back-ground">
         <ui:VisualElement name="TopBar" class="top-bar">
             <ui:VisualElement name="SearchContainer" style="flex-grow: 1; width: auto; height: 90%; flex-direction: row; align-items: flex-end;">
@@ -8,19 +8,12 @@
             </ui:VisualElement>
             <ui:VisualElement name="ShoppingCartTopBar" class="shopping-cart-top-bar" />
         </ui:VisualElement>
+        <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; flex-direction: column; position: absolute; top: 28%; left: 47%; width: 200px; height: 100px; margin-top: 20px; margin-right: 20px; margin-bottom: 20px; margin-left: 20px;" />
         <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">
             <ui:VisualElement name="HomeFooter" class="home-footer" />
             <ui:VisualElement name="SettingFooter" class="setting-footer" />
             <ui:VisualElement name="ARModeFooter" class="AR-mode AR-mode-footer" />
             <ui:VisualElement name="WishListFooter" class="wish-list-footer" />
-        </ui:VisualElement>
-        <ui:VisualElement name="SalesContainer" class="sales-container" style="flex-grow: 1;">
-            <ui:Label tabindex="-1" text="Promotion Lorem ipsum dolor" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PromotionTitle" class="promotion-title" />
-            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="PromotionsContainer" class="promotions-container" style="height: 80%;">
-                <ui:VisualElement name="PromotionOne" class="promotion-one" style="flex-grow: 1;" />
-                <ui:VisualElement name="PromotionTwo" class="promotion-two" style="flex-grow: 1;" />
-                <ui:VisualElement name="PromotionThree" class="promotion-three" style="flex-grow: 1;" />
-            </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

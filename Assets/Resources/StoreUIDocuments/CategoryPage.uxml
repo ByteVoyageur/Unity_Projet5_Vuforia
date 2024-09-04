@@ -13,7 +13,7 @@
         <ui:VisualElement name="CategoryContainer" class="category-container" style="flex-grow: 1; flex-direction: column; top: 203px; left: 3px;">
             <ui:Label tabindex="-1" text="Category-Bureau-items" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryTitle" class="category-title" />
             <ui:VisualElement name="CategoryItemsContainer" class="category-items-container">
-                <ui:Instance template="ItemTemplate" name="ItemTemplate" />
+                <!-- Items will be populated here -->
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">

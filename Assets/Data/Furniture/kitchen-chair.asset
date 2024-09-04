@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9b33026fa33b9b418110db0bae76e12, type: 3}
-  m_Name: kichen-chair
+  m_Name: kitchen-chair
   m_EditorClassIdentifier: 
   itemName: kitchen-chair
   description: chair simple
