@@ -1,5 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ItemTemplate" src="project://database/Assets/Resources/StoreUIDocuments/ItemTemplate.uxml?fileID=9197481963319205126&amp;guid=62a9be0c920fdd14998c61851ea46545&amp;type=3#ItemTemplate" />
     <Style src="project://database/Assets/Resources/StoreUIDocuments/WelcomePageStyle.uss?fileID=7433441132597879392&amp;guid=a694464e36e564a49b029d48bb26bbcc&amp;type=3#WelcomePageStyle" />
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/CategoryPageStyle.uss?fileID=7433441132597879392&amp;guid=81df3be05db1426478c9420a76097433&amp;type=3#CategoryPageStyle" />
     <ui:VisualElement name="BackGround" class="back-ground" style="flex-direction: column;">
         <ui:VisualElement name="TopBar" class="top-bar">
             <ui:VisualElement name="SearchContainer" style="flex-grow: 1; width: auto; height: 90%; flex-direction: row; align-items: flex-end;">
@@ -11,13 +13,7 @@
         <ui:VisualElement name="CategoryContainer" class="category-container" style="flex-grow: 1; flex-direction: column; top: 203px; left: 3px;">
             <ui:Label tabindex="-1" text="Category-Bureau-items" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryTitle" class="category-title" />
             <ui:VisualElement name="CategoryItemsContainer" class="category-items-container">
-                <ui:VisualElement name="CategoryItem" class="category-item">
-                    <ui:VisualElement name="CategoryItemImg" class="category-item-img" />
-                    <ui:VisualElement name="CategoryItemTextContainer" class="category-item-text-container" style="flex-grow: 1;">
-                        <ui:Label tabindex="-1" text="Lamp de bureau classic " parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryItemDescription" class="category-item-description" />
-                        <ui:Label tabindex="-1" text="89.50€" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryItemPrice" class="category-item-price" style="font-size: 27px;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+                <ui:Instance template="ItemTemplate" name="ItemTemplate" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">

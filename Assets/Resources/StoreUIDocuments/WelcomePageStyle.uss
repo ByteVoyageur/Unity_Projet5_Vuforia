@@ -189,3 +189,7 @@
 
 .category-item-price {
 }
+
+#PagesManager-container TemplateContainer {
+    min-height: 100%;
+}

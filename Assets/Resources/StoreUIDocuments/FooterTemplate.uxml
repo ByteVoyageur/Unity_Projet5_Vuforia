@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/FooterTemplateStyle.uss?fileID=7433441132597879392&amp;guid=9f4f676d32d2d6347be644bd4d89671d&amp;type=3#FooterTemplateStyle" />
+    <ui:VisualElement name="Footer" class="footer">
+        <ui:VisualElement name="HomeFooter" class="home-footer" />
+        <ui:VisualElement name="SettingFooter" class="setting-footer" />
+        <ui:VisualElement name="ARModeFooter" class="AR-mode-footer" />
+        <ui:VisualElement name="WishListFooter" class="wish-list-footer" />
+    </ui:VisualElement>
+</ui:UXML>

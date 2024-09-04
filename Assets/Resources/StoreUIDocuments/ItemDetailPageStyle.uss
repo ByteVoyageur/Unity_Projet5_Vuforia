@@ -259,3 +259,6 @@
     height: 80px;
     cursor: pointer;
 }
+
+#ColorDropdown VisualElement {
+}
