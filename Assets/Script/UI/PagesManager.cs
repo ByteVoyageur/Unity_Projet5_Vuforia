@@ -8,7 +8,7 @@ public class PagesManager : MonoBehaviour
     public VisualTreeAsset itemTemplate;
     public CategorySO kitchenData; 
 
-    private Dictionary<string, VisualTreeAsset> pageAssets = new Dictionary<string, VisualTreeAsset>();
+    public Dictionary<string, VisualTreeAsset> pageAssets = new Dictionary<string, VisualTreeAsset>();
     private Dictionary<string, Page> pagePool = new Dictionary<string, Page>();
 
     private void Awake()
@@ -21,6 +21,7 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("WelcomePage");
         LoadPageAsset("ItemDetailPage");
         LoadPageAsset("CategoryPage");
+        LoadPageAsset("CategoryCartTemplate");
 
         // Show initial page
         ShowPage("HomePage");

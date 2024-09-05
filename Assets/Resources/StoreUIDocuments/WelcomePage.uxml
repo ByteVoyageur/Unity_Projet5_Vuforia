@@ -9,7 +9,7 @@
             <ui:VisualElement name="ShoppingCartTopBar" class="shopping-cart-top-bar" />
         </ui:VisualElement>
         <ui:VisualElement name="CategoryContainer" class="category-container">
-            <ui:Label tabindex="-1" text="Welcome infomation" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WelcomeInfo" class="Welcome-info" />
+            <ui:Label tabindex="-1" text="Welcome infomation WelcomePage.uxml" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WelcomeInfo" class="Welcome-info" />
             <ui:VisualElement name="CategorysList" class="categorys-list" />
         </ui:VisualElement>
         <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">
