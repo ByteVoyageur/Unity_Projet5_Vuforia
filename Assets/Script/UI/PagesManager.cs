@@ -47,22 +47,14 @@ public void ShowPage(string pageName)
     {
         existingPage.Root.style.display = DisplayStyle.None;
     }
-
+    
     // Try to get the page from the pool
     if (!pagePool.TryGetValue(pageName, out var page))
     {
         // If page not in pool, create a new instance and add to pool
         if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
         {
-            if (pageName == "CategoryPage")
-            {
-                Debug.Log("Creating new instance of CategoryPage with kitchenData");
-                page = CategoryPage.CreateInstance(visualTreeAsset);
-            }
-            else
-            {
-                page = CreatePageInstance(pageName, visualTreeAsset);
-            }
+            page = CreatePageInstance(pageName, visualTreeAsset);
             pagePool[pageName] = page;
         }
         else
@@ -71,67 +63,62 @@ public void ShowPage(string pageName)
             return;
         }
     }
-
+    
     // Remove all existing children
     uiDocument.rootVisualElement.Clear();
-
+    
     // Add the page to the root element and activate it
     uiDocument.rootVisualElement.Add(page.Root);
     page.Root.style.display = DisplayStyle.Flex;
     Debug.Log($"Displayed page: {pageName}");
 }
 
-    private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset)
+private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset)
+{
+    Page page = null;
+
+    switch (pageName)
     {
-        Page page = null;
-
-        switch (pageName)
-        {
-            case "HomePage":
-                page = new HomePage(visualTreeAsset);
-                AddButtonActions(page.Root, new Dictionary<string, System.Action>
-                {
-                    {"SignInButton", () => ShowPage("SignInPage")},
-                    {"LaterButton", () => ShowPage("WelcomePage")}
-                });
-                break;
-
-            case "SignInPage":
-                page = new SignInPage(visualTreeAsset);
-                ((SignInPage)page).Initialize(this); // Initialize SignInPage with PagesManager reference
-                break;
-
-            case "WelcomePage":
-                page = new WelcomePage(visualTreeAsset);
-                ((WelcomePage)page).Initialize(this); // Initialize WelcomePage with PagesManager reference
-                AddButtonActions(page.Root, new Dictionary<string, System.Action>
-                {
-                    {"ARModeFooter", () => ShowPage("CategoryPage")} // Add action for ARModeFooter
-                });
-                break;
-
-            case "ItemDetailPage":
-                page = new ItemDetailPage(visualTreeAsset);
-                ((ItemDetailPage)page).Initialize(); // Initialize ItemDetailPage
-                AddButtonActions(page.Root, new Dictionary<string, System.Action>
-                {
-                    {"ViewInARButton", ShowInAR}
-                });
-                break;
-
-            case "CategoryPage": // Add support for CategoryPage
-                page = CategoryPage.CreateInstance(visualTreeAsset);
-                // No need to call Initialize here, it's done in CreateInstance
-                break;
-
-            default:
-                Debug.LogError($"Unknown page name: {pageName}");
-                break;
-        }
-
-        Debug.Log($"Created page instance for {pageName}");
-        return page;
+        case "HomePage":
+            page = new HomePage(visualTreeAsset);
+            AddButtonActions(page.Root, new Dictionary<string, System.Action>
+            {
+                { "SignInButton", () => ShowPage("SignInPage") },
+                { "LaterButton", () => ShowPage("WelcomePage") }
+            });
+            break;
+        case "SignInPage":
+            page = new SignInPage(visualTreeAsset);
+            ((SignInPage)page).Initialize(this);
+            break;
+        case "WelcomePage":
+            page = new WelcomePage(visualTreeAsset);
+            ((WelcomePage)page).Initialize(this); // Initialize WelcomePage with PagesManager reference
+            AddButtonActions(page.Root, new Dictionary<string, System.Action>
+            {
+                { "ARModeFooter", () => ShowPage("CategoryPage") } // Add action for ARModeFooter
+            });
+            break;
+        case "ItemDetailPage":
+            page = new ItemDetailPage(visualTreeAsset);
+            AddButtonActions(page.Root, new Dictionary<string, System.Action>
+            {
+                { "ViewInARButton", ShowInAR }
+            });
+            break;
+        case "CategoryPage":
+            // Add support for CategoryPage
+            page = CategoryPage.CreateInstance(visualTreeAsset);
+            ((CategoryPage)page).Initialize(this); 
+            break;
+        default:
+            Debug.LogError($"Unknown page name: {pageName}");
+            break;
     }
+
+    Debug.Log($"Created page instance for {pageName}");
+    return page;
+}
 
     private void AddButtonActions(VisualElement root, Dictionary<string, System.Action> buttonActions)
     {
@@ -181,39 +168,33 @@ public void ShowPage(string pageName)
 
 public void ShowCategoryPage(string categoryName)
 {
-    // Log for debugging
     Debug.Log($"ShowCategoryPage called for {categoryName}");
 
     // Attempt to get the VisualTreeAsset for the CategoryPage
     if (pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
     {
-        // Create a new CategoryPage instance
-        var categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
-        
-        // Log to ensure instance is correctly created
-        Debug.Log("Created CategoryPage instance.");
-
-        // Update the page pool with this new CategoryPage instance
-        pagePool["CategoryPage"] = categoryPage;
-
-        ShowPage("CategoryPage");
-
-        // Ensure the page is added to the root element
-        if (uiDocument.rootVisualElement.Contains(categoryPage.Root))
+        if (!pagePool.TryGetValue("CategoryPage", out var existingPage))
         {
-            Debug.Log("CategoryPage is now in UI root element.");
+            // Create a new CategoryPage instance
+            var categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
+            categoryPage.Initialize(this);
+            pagePool["CategoryPage"] = categoryPage;
+
+            Debug.Log("Created and initialized CategoryPage instance.");
         }
         else
         {
-            Debug.LogError("Failed to add CategoryPage to root element.");
+            existingPage.Root.Q<Label>("CategoryTitle").text = categoryName;
+            Debug.Log("Reused existing CategoryPage instance.");
         }
+
+        ShowPage("CategoryPage");
     }
     else
     {
         Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
     }
 }
-
     private void ShowInAR()
     {
         Debug.Log("View in AR button clicked.");

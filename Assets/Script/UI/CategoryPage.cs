@@ -10,14 +10,15 @@ public class CategoryPage : Page
     public static CategoryPage CreateInstance(VisualTreeAsset visualTreeAsset)
     {
         var instance = new CategoryPage(visualTreeAsset);
-        instance.Initialize();
         return instance;
     }
 
-    private void Initialize()
+    public void Initialize(PagesManager pagesManager)
     {
         Root.Q<Label>("CategoryTitle").text = "Category Page";
-        // Temporarily skip item population logic
+
+        FooterController.InitializeFooter(Root, pagesManager); 
+
         Debug.Log("Initialized basic CategoryPage.");
     }
 }
