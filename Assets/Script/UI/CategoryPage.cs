@@ -58,6 +58,13 @@ public class CategoryPage : Page
                 itemPrice.text = $"${item.price}";
             }
 
+            // Register click event for each item card
+            itemElement.RegisterCallback<ClickEvent>(evt =>
+            {
+                // Just navigating to ItemDetailPage without passing data for now
+                pagesManager.ShowPage("ItemDetailPage");
+            });
+
             itemsContainer.Add(itemElement);
         }
     }
