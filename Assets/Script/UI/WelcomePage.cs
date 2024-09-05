@@ -32,27 +32,51 @@ public class WelcomePage : Page
             return;
         }
 
-        // Create categories (in a real scenario, these would likely be loaded dynamically or from data)
-        var categories = new List<(string title, string imageName)>
-        {
-            ("Bureau", "bureau-img.png"),
-            ("Kitchen", "kitchen-img.png"),
-            ("Room", "room-img.png")
-        };
+        // Load all CategorySO assets from the Resources/Data/Category directory
+        var categoryAssets = Resources.LoadAll<CategorySO>("Data/Category");
 
-        foreach (var category in categories)
+        if (categoryAssets == null || categoryAssets.Length == 0)
         {
+            Debug.LogError("No CategorySO assets found in Data/Category directory.");
+            return;
+        }
+
+        foreach (var categorySO in categoryAssets)
+        {
+            var categoryName = categorySO.name; // Assuming the name of scriptable object is the name of the category
+            var categoryImage = categorySO.categoryImage; // Get the image directly from the CategorySO
+
+            // Ensure categoryName and categoryImage are valid
+            if (string.IsNullOrEmpty(categoryName))
+            {
+                Debug.LogError("CategorySO name is missing.");
+                continue;
+            }
+
+            if (categoryImage == null)
+            {
+                Debug.LogWarning($"Category {categoryName} does not have a valid image.");
+            }
+
             // Create a new VisualElement for the category card
-            var categoryCard = new VisualElement();
+            var categoryCard = new VisualElement
+            {
+                style = { flexDirection = FlexDirection.Column }
+            };
 
             // Create and configure the image VisualElement
-            var categoryImg = new VisualElement();
-            categoryImg.style.flexGrow = 1;
-            categoryImg.style.backgroundImage = new StyleBackground(Resources.Load<Texture2D>("UI/Imgs/" + category.imageName));
+            var categoryImg = new VisualElement
+            {
+                style = { flexGrow = 1 }
+            };
+            if (categoryImage != null)
+            {
+                categoryImg.style.backgroundImage = new StyleBackground(categoryImage);
+            }
             categoryCard.Add(categoryImg);
 
             // Create and configure the title Label
-            var categoryTitle = new Label(category.title)
+            var categoryTitle = new Label(categoryName)
             {
                 style = {
                     unityTextAlign = TextAnchor.MiddleCenter,
@@ -67,8 +91,8 @@ public class WelcomePage : Page
             // Register click event for the category card
             categoryCard.RegisterCallback<ClickEvent>(evt =>
             {
-                Debug.Log($"Category {category.title} clicked."); // Debug log for category click event
-                pagesManager.ShowCategoryPage(category.title);
+                Debug.Log($"Category {categoryName} clicked."); // Debug log for category click event
+                pagesManager.ShowCategoryPage(categoryName);
             });
 
             // Add the card to the container

@@ -6,4 +6,5 @@ using UnityEngine;
 public class CategorySO : ScriptableObject
 {
     public FurnitureSO[] category;
+    public Texture2D categoryImage; 
 }
