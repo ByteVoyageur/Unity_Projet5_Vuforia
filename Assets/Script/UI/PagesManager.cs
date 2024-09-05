@@ -22,6 +22,7 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("ItemDetailPage");
         LoadPageAsset("CategoryPage");
         LoadPageAsset("CategoryCartTemplate");
+        LoadPageAsset("ItemTemplate");
 
         // Show initial page
         ShowPage("HomePage");
@@ -74,7 +75,7 @@ public void ShowPage(string pageName)
     Debug.Log($"Displayed page: {pageName}");
 }
 
-private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset)
+private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, CategorySO categoryData = null)
 {
     Page page = null;
 
@@ -108,9 +109,16 @@ private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset
             });
             break;
         case "CategoryPage":
-            // Add support for CategoryPage
-            page = CategoryPage.CreateInstance(visualTreeAsset);
-            ((CategoryPage)page).Initialize(this); 
+            // Initialize CategoryPage with specific category data
+            if (categoryData != null)
+            {
+                page = CategoryPage.CreateInstance(visualTreeAsset);
+                ((CategoryPage)page).Initialize(this, categoryData);
+            }
+            else
+            {
+                Debug.LogError("Category data is null for CategoryPage initialization.");
+            }
             break;
         default:
             Debug.LogError($"Unknown page name: {pageName}");
@@ -166,36 +174,47 @@ private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset
             actionsAdded = true;
         });
     }
-
 public void ShowCategoryPage(string categoryName)
 {
     Debug.Log($"ShowCategoryPage called for {categoryName}");
 
-    // Attempt to get the VisualTreeAsset for the CategoryPage
-    if (pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
+    // Load the category data
+    var categoryData = Resources.Load<CategorySO>($"Data/Category/{categoryName}");
+    if (categoryData == null)
     {
-        if (!pagePool.TryGetValue("CategoryPage", out var existingPage))
-        {
-            // Create a new CategoryPage instance
-            var categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
-            categoryPage.Initialize(this);
-            pagePool["CategoryPage"] = categoryPage;
+        Debug.LogError($"Category data for {categoryName} not found.");
+        return;
+    }
 
-            Debug.Log("Created and initialized CategoryPage instance.");
-        }
-        else
-        {
-            existingPage.Root.Q<Label>("CategoryTitle").text = categoryName;
-            Debug.Log("Reused existing CategoryPage instance.");
-        }
+    // Load the VisualTreeAsset for CategoryPage
+    if (!pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
+    {
+        Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
+        return;
+    }
 
-        ShowPage("CategoryPage");
+    CategoryPage categoryPage;
+
+    if (!pagePool.TryGetValue(categoryName, out var existingPage))
+    {
+        // Create a new CategoryPage instance
+        categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
+        categoryPage.Initialize(this, categoryData);
+        pagePool[categoryName] = categoryPage;
+        Debug.Log("Created and initialized a new CategoryPage instance.");
     }
     else
     {
-        Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
+        categoryPage = (CategoryPage) existingPage;
+        categoryPage.Initialize(this, categoryData); // Re-initialize with current data
+        Debug.Log("Reused existing CategoryPage instance.");
     }
+
+    // Ensure the correct page is shown
+    uiDocument.rootVisualElement.Clear();
+    uiDocument.rootVisualElement.Add(categoryPage.Root);
 }
+// to continu
     private void ShowInAR()
     {
         Debug.Log("View in AR button clicked.");

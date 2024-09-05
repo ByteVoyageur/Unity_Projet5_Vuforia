@@ -17,3 +17,4 @@ MonoBehaviour:
   furniturePrefab: {fileID: 9179947272060372951, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
   price: 255.99
   size: {x: 0, y: 0, z: 0}
+  categoryImage: {fileID: 2800000, guid: f535e3ca3a00cda498c408b251b49439, type: 3}

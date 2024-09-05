@@ -9,16 +9,56 @@ public class CategoryPage : Page
 
     public static CategoryPage CreateInstance(VisualTreeAsset visualTreeAsset)
     {
-        var instance = new CategoryPage(visualTreeAsset);
-        return instance;
+        return new CategoryPage(visualTreeAsset);
     }
 
-    public void Initialize(PagesManager pagesManager)
+    public void Initialize(PagesManager pagesManager, CategorySO categoryData)
     {
-        Root.Q<Label>("CategoryTitle").text = "Category Page";
+        GenerateItems(pagesManager, categoryData);
+        FooterController.InitializeFooter(Root, pagesManager);
+    }
 
-        FooterController.InitializeFooter(Root, pagesManager); 
+    private void GenerateItems(PagesManager pagesManager, CategorySO categoryData)
+    {
+        var itemsContainer = Root.Q<VisualElement>("CategoryItemsContainer");
 
-        Debug.Log("Initialized basic CategoryPage.");
+        if (itemsContainer == null)
+        {
+            Debug.LogError("CategoryItemsContainer not found in CategoryPage.");
+            return;
+        }
+
+        if (!pagesManager.pageAssets.TryGetValue("ItemTemplate", out var itemTemplate))
+        {
+            Debug.LogError("ItemTemplate not found in pageAssets.");
+            return;
+        }
+
+        itemsContainer.Clear();
+
+        foreach (var item in categoryData.category)
+        {
+            var itemElement = itemTemplate.CloneTree();
+
+            var itemImg = itemElement.Q<VisualElement>("CategoryItemImg");
+            if (itemImg != null && item.categoryImage != null)
+            {
+                itemImg.style.backgroundImage = new StyleBackground(item.categoryImage);
+            }
+
+            var itemTitle = itemElement.Q<Label>("CategoryItemDescription");
+            if (itemTitle != null)
+            {
+                itemTitle.text = item.itemName;
+            }
+
+            var itemPrice = itemElement.Q<Label>("CategoryItemPrice");
+            if (itemPrice != null)
+            {
+                itemPrice.text = $"${item.price}";
+            }
+
+            itemsContainer.Add(itemElement);
+        }
     }
 }
