@@ -23,12 +23,12 @@ public class WelcomePage : Page
     private void GenerateCategories(PagesManager pagesManager)
 {
     // Get the container where the category buttons will be placed
-    var categoryList = Root.Q<VisualElement>("CategorysList");
+    var categoryList = Root.Q<ScrollView>("CategorysScrollList");
 
     // Ensure the container is not null
     if (categoryList == null)
     {
-        Debug.LogError("CategorysList container not found in WelcomePage.");
+        Debug.LogError("CategorysScrollList container not found in WelcomePage.");
         return;
     }
 
