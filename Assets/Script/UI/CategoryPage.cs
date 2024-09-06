@@ -19,52 +19,78 @@ public class CategoryPage : Page
     }
 
     private void GenerateItems(PagesManager pagesManager, CategorySO categoryData)
+{
+    var itemsContainer = Root.Q<ScrollView>("CategoryItemsScrollContainer");
+
+    if (itemsContainer == null)
     {
-        var itemsContainer = Root.Q<VisualElement>("CategoryItemsContainer");
-
-        if (itemsContainer == null)
-        {
-            Debug.LogError("CategoryItemsContainer not found in CategoryPage.");
-            return;
-        }
-
-        if (!pagesManager.pageAssets.TryGetValue("ItemCartTemplate", out var itemTemplate))
-        {
-            Debug.LogError("ItemTemplate not found in pageAssets.");
-            return;
-        }
-
-        itemsContainer.Clear();
-
-        foreach (var item in categoryData.category)
-        {
-            var itemElement = itemTemplate.CloneTree();
-
-            var itemImg = itemElement.Q<VisualElement>("CategoryItemImg");
-            if (itemImg != null && item.categoryImage != null)
-            {
-                itemImg.style.backgroundImage = new StyleBackground(item.categoryImage);
-            }
-
-            var itemTitle = itemElement.Q<Label>("CategoryItemDescription");
-            if (itemTitle != null)
-            {
-                itemTitle.text = item.itemName;
-            }
-
-            var itemPrice = itemElement.Q<Label>("CategoryItemPrice");
-            if (itemPrice != null)
-            {
-                itemPrice.text = $"${item.price}";
-            }
-
-            // Register click event for each item card
-            itemElement.RegisterCallback<ClickEvent>(evt =>
-            {
-                pagesManager.ShowPage("ItemDetailPage");
-            });
-
-            itemsContainer.Add(itemElement);
-        }
+        Debug.LogError("CategoryItemsScrollContainer not found in CategoryPage.");
+        return;
     }
+
+    if (!pagesManager.pageAssets.TryGetValue("ItemCartTemplate", out var itemTemplate))
+    {
+        Debug.LogError("ItemTemplate not found in pageAssets.");
+        return;
+    }
+
+    itemsContainer.Clear();
+
+    foreach (var item in categoryData.category)
+    {
+        var itemElement = itemTemplate.CloneTree();
+
+        var itemImg = itemElement.Q<VisualElement>("Image");
+        if (itemImg != null && item.categoryImage != null)
+        {
+            itemImg.style.backgroundImage = new StyleBackground(item.categoryImage);
+            Debug.Log($"Set item image for {item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"Item image or categoryImage is null for item {item.itemName}");
+        }
+
+        var itemTitle = itemElement.Q<Label>("TitleCart");
+        if (itemTitle != null)
+        {
+            itemTitle.text = item.itemName;
+            Debug.Log($"Set item title for {item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"Item title Label not found for item {item.itemName}");
+        }
+
+        var itemDescription = itemElement.Q<Label>("DescritptionCart");
+        if (itemDescription != null)
+        {
+            itemDescription.text = item.description;
+            Debug.Log($"Set item description for {item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"Item description Label not found for item {item.itemName}");
+        }
+
+        var itemPrice = itemElement.Q<Label>("Price");
+        if (itemPrice != null)
+        {
+            itemPrice.text = $"${item.price}";
+            Debug.Log($"Set item price for {item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"Item price Label not found for item {item.itemName}");
+        }
+
+        // Register click event for each item card
+        itemElement.RegisterCallback<ClickEvent>(evt =>
+        {
+            pagesManager.ShowPage("ItemDetailPage");
+        });
+
+        itemsContainer.Add(itemElement);
+    }
+}
 }

@@ -2,6 +2,7 @@
     background-color: rgb(247, 241, 227);
     width: 100%;
     height: 100%;
+    align-items: center;
 }
 
 .top-bar {
@@ -42,6 +43,25 @@
     margin-right: 23px;
 }
 
+.category-title {
+    font-size: 42px;
+}
+
+.category-body {
+    width: 100%;
+    align-items: center;
+}
+
+.category-items-scroll-container {
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.64);
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-grow: 0;
+}
+
 .footer {
     flex-direction: row;
     align-items: center;
@@ -76,8 +96,4 @@
     width: 120px;
     height: 120px;
     background-image: url("project://database/Assets/UI/Icons/heart-icon.png?fileID=2800000&guid=50a3024a7f65f584d801292a3605b855&type=3#heart-icon");
-}
-
-.category-title {
-    font-size: 42px;
 }

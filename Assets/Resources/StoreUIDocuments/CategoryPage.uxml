@@ -2,18 +2,18 @@
     <Style src="project://database/Assets/Resources/StoreUIDocuments/WelcomePageStyle.uss?fileID=7433441132597879392&amp;guid=a694464e36e564a49b029d48bb26bbcc&amp;type=3#WelcomePageStyle" />
     <Style src="project://database/Assets/Resources/StoreUIDocuments/CategoryPageStyle.uss?fileID=7433441132597879392&amp;guid=81df3be05db1426478c9420a76097433&amp;type=3#CategoryPageStyle" />
     <ui:VisualElement name="BackGround" class="back-ground" style="flex-direction: column;">
-        <ui:VisualElement name="TopBar" class="top-bar">
+        <ui:VisualElement name="TopBar" class="top-bar" style="position: relative;">
             <ui:VisualElement name="SearchContainer" style="flex-grow: 1; width: auto; height: 90%; flex-direction: row; align-items: flex-end;">
                 <ui:VisualElement name="SeachBar" class="search-bar" />
                 <ui:VisualElement name="FindIcon" class="find-icon" />
             </ui:VisualElement>
             <ui:VisualElement name="ShoppingCartTopBar" class="shopping-cart-top-bar" />
         </ui:VisualElement>
-        <ui:VisualElement name="CategoryContainer" class="category-container" style="flex-grow: 1; flex-direction: column; top: 203px; left: 3px;">
-            <ui:Label tabindex="-1" text="Category-Bureau-items CategoryPage.uxml" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryTitle" class="category-title" />
-            <ui:VisualElement name="CategoryItemsContainer" class="category-items-container" style="flex-direction: row;" />
+        <ui:Label tabindex="-1" text="Category-Bureau-items CategoryPage.uxml" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryTitle" class="category-title" />
+        <ui:VisualElement name="CategoryBody" class="category-body">
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="CategoryItemsScrollContainer" class="category-items-scroll-container" />
         </ui:VisualElement>
-        <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">
+        <ui:VisualElement name="Footer" class="footer">
             <ui:VisualElement name="HomeFooter" class="home-footer" />
             <ui:VisualElement name="SettingFooter" class="setting-footer" />
             <ui:VisualElement name="ARModeFooter" class="AR-mode AR-mode-footer" />
