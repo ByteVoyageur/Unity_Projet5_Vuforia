@@ -22,7 +22,7 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("ItemDetailPage");
         LoadPageAsset("CategoryPage");
         LoadPageAsset("CategoryCartTemplate");
-        LoadPageAsset("ItemTemplate");
+        LoadPageAsset("ItemCartTemplate");
 
         // Show initial page
         ShowPage("HomePage");

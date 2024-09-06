@@ -28,7 +28,7 @@ public class CategoryPage : Page
             return;
         }
 
-        if (!pagesManager.pageAssets.TryGetValue("ItemTemplate", out var itemTemplate))
+        if (!pagesManager.pageAssets.TryGetValue("ItemCartTemplate", out var itemTemplate))
         {
             Debug.LogError("ItemTemplate not found in pageAssets.");
             return;
