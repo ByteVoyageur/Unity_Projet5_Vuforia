@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/wishListCartTemplateStyle.uss?fileID=7433441132597879392&amp;guid=44616afbccccce74399063bc68f2bbf1&amp;type=3#wishListCartTemplateStyle" />
+    <ui:VisualElement name="WishListCartContainer" class="wish-list-cart-container">
+        <ui:VisualElement name="ImgCart" class="img-cart" />
+        <ui:VisualElement name="TextContainer" class="text-container" style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Name product" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CartTitle" class="cart-title" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Description" class="description" />
+        </ui:VisualElement>
+        <ui:VisualElement name="PriceContainer" class="price-container" style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Price" class="price" />
+            <ui:VisualElement name="AddButton" class="add-button" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

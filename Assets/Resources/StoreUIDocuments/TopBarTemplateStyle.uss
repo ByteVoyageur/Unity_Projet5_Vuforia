@@ -1,0 +1,46 @@
+.top-bar {
+    width: 100%;
+    height: auto;
+    background-color: rgb(34, 47, 79);
+    flex-direction: row;
+    align-items: flex-end;
+    position: absolute;
+    top: 0;
+    min-height: 200px;
+}
+
+.search-container {
+    flex-grow: 1;
+    width: auto;
+    height: 90%;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.search-bar {
+    background-color: rgb(255, 255, 255);
+    width: 40%;
+    height: 50%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.find-icon {
+    background-image: url("project://database/Assets/UI/Icons/finded-2.png?fileID=2800000&guid=e7b29dbab780c2c439bb79926e7be181&type=3#finded-2");
+    width: 90px;
+    height: 90px;
+    margin-bottom: 17px;
+    margin-left: 12px;
+}
+
+.shopping-cart-top-bar {
+    background-image: url("project://database/Assets/UI/Icons/shopping-cart.png?fileID=2800000&guid=82549e32f5ee290478f47ee1bdd7f50e&type=3#shopping-cart");
+    width: 125px;
+    height: 100px;
+    margin-bottom: 10px;
+    margin-right: 23px;
+}

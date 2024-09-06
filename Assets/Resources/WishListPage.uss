@@ -1,0 +1,16 @@
+.background {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(247, 241, 227);
+    min-width: 100%;
+}
+
+.wish-list-container {
+    align-items: center;
+    align-self: auto;
+    width: 100%;
+    min-width: 100%;
+    top: 17%;
+    position: absolute;
+    flex-direction: column;
+}

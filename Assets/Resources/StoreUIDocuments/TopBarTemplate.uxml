@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/TopBarTemplateStyle.uss?fileID=7433441132597879392&amp;guid=e83cef993697f7643b9111af2ce7e0b6&amp;type=3#TopBarTemplateStyle" />
+    <ui:VisualElement name="TopBar" class="top-bar">
+        <ui:VisualElement name="SearchContainer" class="search-container">
+            <ui:VisualElement name="SeachBar" class="search-bar" />
+            <ui:VisualElement name="FindIcon" class="find-icon" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ShoppingCartTopBar" class="shopping-cart-top-bar" />
+    </ui:VisualElement>
+</ui:UXML>

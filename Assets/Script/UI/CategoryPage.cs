@@ -61,7 +61,6 @@ public class CategoryPage : Page
             // Register click event for each item card
             itemElement.RegisterCallback<ClickEvent>(evt =>
             {
-                // Just navigating to ItemDetailPage without passing data for now
                 pagesManager.ShowPage("ItemDetailPage");
             });
 
