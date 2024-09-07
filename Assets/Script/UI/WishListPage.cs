@@ -44,9 +44,9 @@ public class WishListPage : Page
             var itemElement = wishListCartTemplate.CloneTree();
 
             var imgCart = itemElement.Q<VisualElement>("ImgCart");
-            if (imgCart != null && item.categoryImage != null)
+            if (imgCart != null && item.icon != null)
             {
-                imgCart.style.backgroundImage = new StyleBackground(item.categoryImage);
+                imgCart.style.backgroundImage = new StyleBackground(item.icon);
             }
 
             var cartTitle = itemElement.Q<Label>("CartTitle");
@@ -76,13 +76,11 @@ public static class WishListManagerExtensions
 {
     public static List<FurnitureSO> GetWishListItems(this WishListManager wishListManager)
     {
-        // 返回 wishList 中的所有物品
         return wishListManager.GetWishList();
     }
 
     public static List<FurnitureSO> GetWishList(this WishListManager wishListManager)
     {
-        // 返回 wishList 中的所有物品
         return wishListManager.GetWishListItems();
     }
 }

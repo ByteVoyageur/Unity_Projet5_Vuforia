@@ -6,6 +6,6 @@ public class FurnitureSO : ScriptableObject
     public string itemName;
     public string description;
     public float price;
-    public Texture2D categoryImage; 
+    public Texture2D icon;  
     public GameObject prefab;
 }

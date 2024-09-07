@@ -19,9 +19,9 @@ public class ItemDetailPage : Page
     {
         // Update UI elements with itemData values
         var imgItem = Root.Q<VisualElement>("ImgItem");
-        if (imgItem != null && itemData.categoryImage != null)
+        if (imgItem != null && itemData.icon != null)
         {
-            imgItem.style.backgroundImage = new StyleBackground(itemData.categoryImage);
+            imgItem.style.backgroundImage = new StyleBackground(itemData.icon);
         }
 
         var nameItem = Root.Q<Label>("NameItem");

@@ -10,37 +10,37 @@ public class SimpleSceneLoader : MonoBehaviour
         LoadWishListItems();
     }
 
-private void LoadWishListItems()
-{
-    var wishListItems = WishListManager.Instance.GetWishListItems();
-
-    if (wishListItems == null || wishListItems.Count == 0)
+    private void LoadWishListItems()
     {
-        Debug.LogError("No items in wishlist to load into SimpleScene.");
-        return;
-    }
+        var wishListItems = WishListManager.Instance.GetWishListItems();
 
-    var objectManager = FindObjectOfType<ObjectManager>();
-
-    if (objectManager == null)
-    {
-        Debug.LogError("ObjectManager not found in SimpleScene.");
-        return;
-    }
-
-    foreach (var item in wishListItems)
-    {
-        Debug.Log($"Attempting to load prefab for item {item.itemName}");
-
-        if (item.prefab != null)
+        if (wishListItems == null || wishListItems.Count == 0)
         {
-            Debug.Log($"Prefab found for item {item.itemName}, adding to ObjectManager");
-            objectManager.AddObject(item.prefab, item.categoryImage);
+            Debug.LogError("No items in wishlist to load into SimpleScene.");
+            return;
         }
-        else
+
+        var objectManager = FindObjectOfType<ObjectManager>();
+
+        if (objectManager == null)
         {
-            Debug.LogError($"Prefab not assigned for item {item.itemName}");
+            Debug.LogError("ObjectManager not found in SimpleScene.");
+            return;
+        }
+
+        foreach (var item in wishListItems)
+        {
+            Debug.Log($"Attempting to load prefab for item {item.itemName}");
+
+            if (item.prefab != null)
+            {
+                Debug.Log($"Prefab found for item {item.itemName}, adding to ObjectManager");
+                objectManager.AddObject(item.prefab, item.icon);  // 只传递两个参数
+            }
+            else
+            {
+                Debug.LogError($"Prefab not assigned for item {item.itemName}");
+            }
         }
     }
-}
 }

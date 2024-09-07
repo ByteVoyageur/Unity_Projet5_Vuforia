@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Bed
   description: Bed without drawer
   price: 599.09
-  categoryImage: {fileID: 2800000, guid: 0aef1c31d6c12674db29bc4d76edf04e, type: 3}
+  icon: {fileID: 2800000, guid: 0aef1c31d6c12674db29bc4d76edf04e, type: 3}
   prefab: {fileID: 9179947272060372951, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}

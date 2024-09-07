@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -13,37 +13,80 @@ public class ObjectManager : MonoBehaviour
 
     void Start()
     {
-        foreach (var prefab in objectPrefabs)
+        // 确保buttonContainer被正确定义，然后刷新按钮
+        if (buttonContainer == null)
         {
-            prefab.SetActive(false);
+            // 尝试获取ContainerList
+            buttonContainer = GameObject.Find("Canvas_list_items/ContainerList")?.transform;
+
+            if (buttonContainer == null)
+            {
+                Debug.LogError("Button container not assigned and couldn't be found in the scene.");
+                return;
+            }
+        }
+        RefreshButtons();
+    }
+
+    public void RefreshButtons()
+    {
+        if (buttonTemplate == null)
+        {
+            Debug.LogError("Button template is not assigned.");
+            return;
+        }
+
+        // 清除旧按钮
+        foreach (var button in buttons)
+        {
+            Destroy(button.gameObject);
+        }
+        buttons.Clear();
+
+        foreach (var item in WishListManager.Instance.GetWishListItems())
+        {
+            AddObject(item.prefab, item.icon);
         }
     }
 
     public void AddObject(GameObject prefab, Texture2D icon)
-{
-    if (prefab == null)
     {
-        Debug.LogError("AddObject received a null prefab");
-        return;
+        if (prefab == null)
+        {
+            Debug.LogError("AddObject received a null prefab");
+            return;
+        }
+
+        if (buttonTemplate == null)
+        {
+            Debug.LogError("Button template is not assigned.");
+            return;
+        }
+
+        if (buttonContainer == null)
+        {
+            Debug.LogError("Button container is not assigned.");
+            return;
+        }
+
+        Debug.Log($"AddObject called with prefab: {prefab.name}");
+
+        objectPrefabs.Add(prefab);
+
+        var button = Instantiate(buttonTemplate, buttonContainer);
+        if (button == null)
+        {
+            Debug.LogError("Failed to create button from template");
+            return;
+        }
+
+        button.GetComponent<Image>().sprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), new Vector2(0.5f, 0.5f));
+        button.onClick.AddListener(() => SelectObject(prefab));
+        buttons.Add(button);
+
+        Debug.Log($"Successfully added object {prefab.name} to ObjectManager");
     }
 
-    Debug.Log($"AddObject called with prefab: {prefab.name}");
-    
-    objectPrefabs.Add(prefab);
-
-    var button = Instantiate(buttonTemplate, buttonContainer);
-    if (button == null)
-    {
-        Debug.LogError("Failed to create button from template");
-        return;
-    }
-
-    button.GetComponent<Image>().sprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), new Vector2(0.5f, 0.5f));
-    button.onClick.AddListener(() => SelectObject(prefab));
-    buttons.Add(button);
-
-    Debug.Log($"Successfully added object {prefab.name} to ObjectManager");
-}
     private void SelectObject(GameObject prefab)
     {
         if (prefab == null)

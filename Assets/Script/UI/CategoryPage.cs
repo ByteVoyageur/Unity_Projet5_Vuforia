@@ -41,9 +41,9 @@ public class CategoryPage : Page
         var itemElement = itemTemplate.CloneTree();
 
         var itemImg = itemElement.Q<VisualElement>("Image");
-        if (itemImg != null && item.categoryImage != null)
+        if (itemImg != null && item.icon != null)
         {
-            itemImg.style.backgroundImage = new StyleBackground(item.categoryImage);
+            itemImg.style.backgroundImage = new StyleBackground(item.icon);
             Debug.Log($"Set item image for {item.itemName}");
         }
         else
