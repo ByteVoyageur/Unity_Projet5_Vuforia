@@ -42,7 +42,7 @@ public class PagesManager : MonoBehaviour
         }
     }
 
-    public void ShowPage(string pageName)
+    public void ShowPage(string pageName, object data = null)
     {
         foreach (var existingPage in pagePool.Values)
         {
@@ -53,7 +53,7 @@ public class PagesManager : MonoBehaviour
         {
             if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
             {
-                page = CreatePageInstance(pageName, visualTreeAsset);
+                page = CreatePageInstance(pageName, visualTreeAsset, data);
                 pagePool[pageName] = page;
             }
             else
@@ -69,7 +69,7 @@ public class PagesManager : MonoBehaviour
         Debug.Log($"Displayed page: {pageName}");
     }
 
-    private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, CategorySO categoryData = null)
+    private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, object data = null)
     {
         Page page = null;
 
@@ -97,14 +97,17 @@ public class PagesManager : MonoBehaviour
                 break;
             case "ItemDetailPage":
                 page = new ItemDetailPage(visualTreeAsset);
-                ((ItemDetailPage)page).Initialize(); // Method without arguments for now
+                if (data is FurnitureSO furnitureData)
+                {
+                    ((ItemDetailPage)page).Initialize(furnitureData);
+                }
                 AddButtonActions(page.Root, new Dictionary<string, System.Action>
                 {
                     { "ViewInARButton", ShowInAR }
                 });
                 break;
             case "CategoryPage":
-                if (categoryData != null)
+                if (data is CategorySO categoryData)
                 {
                     page = CategoryPage.CreateInstance(visualTreeAsset);
                     ((CategoryPage)page).Initialize(this, categoryData);
@@ -203,11 +206,9 @@ public class PagesManager : MonoBehaviour
         uiDocument.rootVisualElement.Add(categoryPage.Root);
     }
 
-    // This will be the placeholder for the ShowItemDetailPage method for now.
-    // We'll add the logic to pass FurnitureSO and set it up later.
-    public void ShowItemDetailPage()
+    public void ShowItemDetailPage(FurnitureSO itemData)
     {
-        ShowPage("ItemDetailPage");
+        ShowPage("ItemDetailPage", itemData);
     }
 
     private void ShowInAR()

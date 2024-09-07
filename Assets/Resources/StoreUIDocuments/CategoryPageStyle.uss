@@ -57,9 +57,11 @@
     background-color: rgba(0, 0, 0, 0.64);
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-grow: 0;
+}
+
+#CategoryItemsScrollContainer Scroller {
+    display: flex;
+    visibility: hidden;
 }
 
 .footer {

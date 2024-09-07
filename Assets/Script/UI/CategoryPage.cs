@@ -87,7 +87,7 @@ public class CategoryPage : Page
         // Register click event for each item card
         itemElement.RegisterCallback<ClickEvent>(evt =>
         {
-            pagesManager.ShowPage("ItemDetailPage");
+            pagesManager.ShowItemDetailPage(item);
         });
 
         itemsContainer.Add(itemElement);
