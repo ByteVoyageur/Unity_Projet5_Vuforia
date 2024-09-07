@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ public class WishListManager : MonoBehaviour
 
     private List<FurnitureSO> wishList = new List<FurnitureSO>();
 
+    public event Action OnWishListUpdated;
+
     public void AddToWishList(FurnitureSO item)
     {
         if (!wishList.Contains(item))
@@ -26,6 +29,7 @@ public class WishListManager : MonoBehaviour
             wishList.Add(item);
             Debug.Log($"{item.itemName} added to Wish List.");
             PrintWishList();
+            OnWishListUpdated?.Invoke(); // Trigger the event
         }
     }
 
@@ -40,18 +44,25 @@ public class WishListManager : MonoBehaviour
                 DeleteWishList();
             }
             PrintWishList();
+            OnWishListUpdated?.Invoke(); // Trigger the event
         }
     }
 
     private void DeleteWishList()
     {
-        wishList = new List<FurnitureSO>();
+        wishList.Clear();
         Debug.Log("Wish List deleted.");
+        OnWishListUpdated?.Invoke(); // Trigger the event
     }
 
     public bool IsInWishList(FurnitureSO item)
     {
         return wishList.Contains(item);
+    }
+
+    public List<FurnitureSO> GetWishListItems()
+    {
+        return wishList;
     }
 
     public void PrintWishList()
@@ -67,10 +78,5 @@ public class WishListManager : MonoBehaviour
         {
             Debug.Log(" - " + item.itemName);
         }
-    }
-
-    public List<FurnitureSO> GetWishListItems()
-    {
-        return wishList;
     }
 }

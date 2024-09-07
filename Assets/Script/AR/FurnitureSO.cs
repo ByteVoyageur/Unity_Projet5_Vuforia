@@ -5,8 +5,7 @@ public class FurnitureSO : ScriptableObject
 {
     public string itemName;
     public string description;
-    public GameObject furniturePrefab;
     public float price;
-    public Vector3 size;
     public Texture2D categoryImage; 
+    public GameObject prefab;
 }

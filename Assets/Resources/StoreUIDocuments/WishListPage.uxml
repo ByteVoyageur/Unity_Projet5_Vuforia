@@ -2,12 +2,12 @@
     <ui:Template name="TopBarTemplate" src="project://database/Assets/Resources/StoreUIDocuments/TopBarTemplate.uxml?fileID=9197481963319205126&amp;guid=a696b4114afe1f34180d60cb4ebcb98f&amp;type=3#TopBarTemplate" />
     <ui:Template name="WishListCartTemplate" src="project://database/Assets/Resources/StoreUIDocuments/WishListCartTemplate.uxml?fileID=9197481963319205126&amp;guid=b4eba7f19755a07498569643963deeb3&amp;type=3#WishListCartTemplate" />
     <ui:Template name="FooterTemplate" src="project://database/Assets/Resources/StoreUIDocuments/FooterTemplate.uxml?fileID=9197481963319205126&amp;guid=e26094568ba97144c8d5a8f6072e0410&amp;type=3#FooterTemplate" />
-    <Style src="project://database/Assets/Resources/WishListPage.uss?fileID=7433441132597879392&amp;guid=c9835053593a3474992f058b73397219&amp;type=3#WishListPage" />
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/WishListPage.uss?fileID=7433441132597879392&amp;guid=c9835053593a3474992f058b73397219&amp;type=3#WishListPage" />
     <ui:VisualElement name="Background" class="background">
         <ui:Instance template="TopBarTemplate" name="TopBarTemplate" style="top: 0;" />
         <ui:VisualElement name="WishListContainer" class="wish-list-container">
             <ui:Instance template="WishListCartTemplate" name="WishListCartTemplate" />
         </ui:VisualElement>
-        <ui:Instance template="FooterTemplate" name="FooterTemplate" style="position: absolute; bottom: 0; width: 100%; height: 100%;" />
+        <ui:Instance template="FooterTemplate" name="FooterTemplate" style="position: absolute; bottom: 0; width: 100%; height: 160px;" />
     </ui:VisualElement>
 </ui:UXML>

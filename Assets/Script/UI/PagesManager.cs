@@ -21,8 +21,8 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("WelcomePage");
         LoadPageAsset("ItemDetailPage");
         LoadPageAsset("CategoryPage");
-        LoadPageAsset("WishListPage");       // 加载 WishListPage
-        LoadPageAsset("WishListCartTemplate"); // 加载 WishListCartTemplate
+        LoadPageAsset("WishListPage");       
+        LoadPageAsset("WishListCartTemplate"); 
         LoadPageAsset("CategoryCartTemplate");
         LoadPageAsset("ItemCartTemplate");
 

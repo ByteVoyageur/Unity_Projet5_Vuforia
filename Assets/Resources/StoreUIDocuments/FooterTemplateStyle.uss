@@ -4,7 +4,7 @@
     justify-content: space-around;
     align-self: center;
     width: 100%;
-    height: auto;
+    height: 150px;
     position: absolute;
     background-color: rgb(34, 47, 79);
     bottom: 0;
@@ -33,4 +33,17 @@
     background-image: url("project://database/Assets/UI/Icons/heart-icon.png?fileID=2800000&guid=50a3024a7f65f584d801292a3605b855&type=3#heart-icon");
     width: 120px;
     height: 120px;
+}
+
+.wish-list-counter {
+    position: absolute;
+    left: 42%;
+    color: rgb(179, 57, 57);
+    -unity-font-style: bold;
+    visibility: visible;
+    font-size: 44px;
+    width: 60px;
+    height: 60px;
+    min-width: 40px;
+    min-height: 40px;
 }

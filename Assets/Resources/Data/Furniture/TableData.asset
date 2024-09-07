@@ -18,3 +18,4 @@ MonoBehaviour:
   price: 255.99
   size: {x: 0, y: 0, z: 0}
   categoryImage: {fileID: 2800000, guid: f535e3ca3a00cda498c408b251b49439, type: 3}
+  prefab: {fileID: 6125247981041122524, guid: d097166658d789d4aa404da70e470cc5, type: 3}

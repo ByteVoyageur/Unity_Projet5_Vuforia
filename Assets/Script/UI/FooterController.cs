@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public static class FooterController
 {
-    // Initialize all buttons fo Footer
+    private static Label wishListCounter;
+
+    // Initialize all buttons for Footer
     public static void InitializeFooter(VisualElement root, PagesManager pagesManager)
     {
         var homeFooter = root.Q<VisualElement>("HomeFooter");
@@ -57,10 +58,34 @@ public static class FooterController
             {
                 pagesManager.ShowPage("WishListPage");
             });
+
+            // Initialize WishListCounter and subscribe to updates
+            wishListCounter = wishListFooter.Q<Label>("WishListCounter");
+            if (wishListCounter != null)
+            {
+                WishListManager.Instance.OnWishListUpdated -= UpdateWishListCounter;
+                WishListManager.Instance.OnWishListUpdated += UpdateWishListCounter;
+                UpdateWishListCounter();
+            }
+            else
+            {
+                Debug.LogError("WishListCounter element not found.");
+            }
         }
         else
         {
             Debug.LogError("WishListFooter element not found.");
+        }
+    }
+
+    private static void UpdateWishListCounter()
+    {
+        if (wishListCounter != null)
+        {
+            int count = WishListManager.Instance.GetWishListItems().Count;
+            wishListCounter.text = count.ToString();
+            wishListCounter.style.display = count > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+            Debug.Log($"Wish list updated. New count: {count}");
         }
     }
 }

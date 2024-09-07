@@ -12,11 +12,5 @@
             <ui:Label tabindex="-1" text="Welcome infomation WelcomePage.uxml" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WelcomeInfo" class="Welcome-info" />
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="CategorysScrollList" class="categorys-scroll-list" />
         </ui:VisualElement>
-        <ui:VisualElement name="Footer" class="footer" style="flex-grow: 1;">
-            <ui:VisualElement name="HomeFooter" class="home-footer" />
-            <ui:VisualElement name="SettingFooter" class="setting-footer" />
-            <ui:VisualElement name="ARModeFooter" class="AR-mode AR-mode-footer" />
-            <ui:VisualElement name="WishListFooter" class="wish-list-footer" />
-        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
