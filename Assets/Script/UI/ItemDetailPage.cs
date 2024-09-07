@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class ItemDetailPage : Page
 {
-    private string arSceneName = "SampleScene"; 
+    private string arSceneName = "SampleScene";
 
     public ItemDetailPage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
     {
@@ -59,10 +59,50 @@ public class ItemDetailPage : Page
         {
             Debug.LogError("ViewInARButton element not found on ItemDetailPage.");
         }
+
+        // Handle HeartForWishList button click
+        var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
+        if (heartForWishList != null)
+        {
+            heartForWishList.RegisterCallback<ClickEvent>(evt => {
+                HandleWishListClick(itemData, heartForWishList);
+            });
+        }
+        else
+        {
+            Debug.LogError("HeartForWishList element not found on ItemDetailPage.");
+        }
     }
 
     private void OnViewInARButtonClick()
     {
         SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
+    }
+
+    private void HandleWishListClick(FurnitureSO itemData, VisualElement heartForWishList)
+    {
+        if (WishListManager.Instance.IsInWishList(itemData))
+        {
+            WishListManager.Instance.RemoveFromWishList(itemData);
+            UpdateHeartVisualState(heartForWishList, false);
+        }
+        else
+        {
+            WishListManager.Instance.AddToWishList(itemData);
+            UpdateHeartVisualState(heartForWishList, true);
+        }
+    }
+    private void UpdateHeartVisualState(VisualElement heartForWishList, bool isInWishList)
+    {
+        if (isInWishList)
+        {
+            heartForWishList.AddToClassList("in-wish-list");
+            Debug.Log("Added to wish list.");
+        }
+        else
+        {
+            heartForWishList.RemoveFromClassList("in-wish-list");
+            Debug.Log("Removed from wish list.");
+        }
     }
 }

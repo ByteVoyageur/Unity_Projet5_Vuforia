@@ -21,6 +21,8 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("WelcomePage");
         LoadPageAsset("ItemDetailPage");
         LoadPageAsset("CategoryPage");
+        LoadPageAsset("WishListPage");       // 加载 WishListPage
+        LoadPageAsset("WishListCartTemplate"); // 加载 WishListCartTemplate
         LoadPageAsset("CategoryCartTemplate");
         LoadPageAsset("ItemCartTemplate");
 
@@ -116,6 +118,10 @@ public class PagesManager : MonoBehaviour
                 {
                     Debug.LogError("Category data is null for CategoryPage initialization.");
                 }
+                break;
+            case "WishListPage":
+                page = new WishListPage(visualTreeAsset);
+                ((WishListPage)page).Initialize(this);
                 break;
             default:
                 Debug.LogError($"Unknown page name: {pageName}");
