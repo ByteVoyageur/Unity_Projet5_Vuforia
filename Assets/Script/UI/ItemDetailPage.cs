@@ -6,6 +6,7 @@ public class ItemDetailPage : Page
 {
     private string arSceneName = "SampleScene";
     private PagesManager pagesManager;
+    private FurnitureSO currentItemData;
 
     public ItemDetailPage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
     {
@@ -18,6 +19,7 @@ public class ItemDetailPage : Page
 
     public void Initialize(FurnitureSO itemData, PagesManager manager)
     {
+        currentItemData = itemData;
         pagesManager = manager;
 
         // Update UI elements with itemData values
@@ -70,11 +72,27 @@ public class ItemDetailPage : Page
             heartForWishList.RegisterCallback<ClickEvent>(evt => {
                 HandleWishListClick(itemData, heartForWishList);
             });
+            UpdateHeartVisualState(heartForWishList, WishListManager.Instance.IsInWishList(itemData));
         }
         else
         {
             Debug.LogError("HeartForWishList element not found on ItemDetailPage.");
         }
+
+        // Listen for wishlist changes
+        WishListManager.Instance.OnItemAddedToWishList += (item) => {
+            if (item == currentItemData)
+            {
+                UpdateHeartVisualState(heartForWishList, true);
+            }
+        };
+
+        WishListManager.Instance.OnItemRemovedFromWishList += (item) => {
+            if (item == currentItemData)
+            {
+                UpdateHeartVisualState(heartForWishList, false);
+            }
+        };
 
         // Handle IconBack button click
         var iconBack = Root.Q<VisualElement>("IconBack");
@@ -97,7 +115,7 @@ public class ItemDetailPage : Page
 
     private void OnIconBackClick()
     {
-        var categoryData=pagesManager.GetCurrentCategory();
+        var categoryData = pagesManager.GetCurrentCategory();
         if (pagesManager != null)
         {
             pagesManager.ShowPage("CategoryPage", categoryData);
@@ -113,12 +131,10 @@ public class ItemDetailPage : Page
         if (WishListManager.Instance.IsInWishList(itemData))
         {
             WishListManager.Instance.RemoveFromWishList(itemData);
-            UpdateHeartVisualState(heartForWishList, false);
         }
         else
         {
             WishListManager.Instance.AddToWishList(itemData);
-            UpdateHeartVisualState(heartForWishList, true);
         }
     }
 

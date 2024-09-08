@@ -63,8 +63,11 @@ public static class FooterController
             wishListCounter = wishListFooter.Q<Label>("WishListCounter");
             if (wishListCounter != null)
             {
-                WishListManager.Instance.OnWishListUpdated -= UpdateWishListCounter;
-                WishListManager.Instance.OnWishListUpdated += UpdateWishListCounter;
+                WishListManager.Instance.OnItemAddedToWishList -= UpdateWishListCounter;
+                WishListManager.Instance.OnItemRemovedFromWishList -= UpdateWishListCounter;
+                WishListManager.Instance.OnItemAddedToWishList += UpdateWishListCounter;
+                WishListManager.Instance.OnItemRemovedFromWishList += UpdateWishListCounter;
+                // Call the no-argument version to initialize
                 UpdateWishListCounter();
             }
             else
@@ -78,6 +81,13 @@ public static class FooterController
         }
     }
 
+    // Method to update WishList counter with parameter
+    private static void UpdateWishListCounter(FurnitureSO itemData)
+    {
+        UpdateWishListCounter();
+    }
+
+    // Method to update WishList counter without parameter
     private static void UpdateWishListCounter()
     {
         if (wishListCounter != null)

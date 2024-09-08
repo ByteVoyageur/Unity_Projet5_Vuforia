@@ -20,7 +20,8 @@ public class WishListManager : MonoBehaviour
 
     private List<FurnitureSO> wishList = new List<FurnitureSO>();
 
-    public event Action OnWishListUpdated;
+    public event Action<FurnitureSO> OnItemAddedToWishList;
+    public event Action<FurnitureSO> OnItemRemovedFromWishList;
 
     public void AddToWishList(FurnitureSO item)
     {
@@ -29,7 +30,7 @@ public class WishListManager : MonoBehaviour
             wishList.Add(item);
             Debug.Log($"{item.itemName} added to Wish List.");
             PrintWishList();
-            OnWishListUpdated?.Invoke(); // Trigger the event
+            OnItemAddedToWishList?.Invoke(item);  // Trigger the event
         }
     }
 
@@ -39,20 +40,9 @@ public class WishListManager : MonoBehaviour
         {
             wishList.Remove(item);
             Debug.Log($"{item.itemName} removed from Wish List.");
-            if (wishList.Count == 0)
-            {
-                DeleteWishList();
-            }
             PrintWishList();
-            OnWishListUpdated?.Invoke(); // Trigger the event
+            OnItemRemovedFromWishList?.Invoke(item);  // Trigger the event
         }
-    }
-
-    private void DeleteWishList()
-    {
-        wishList.Clear();
-        Debug.Log("Wish List deleted.");
-        OnWishListUpdated?.Invoke(); // Trigger the event
     }
 
     public bool IsInWishList(FurnitureSO item)
