@@ -28,6 +28,7 @@ public class SimpleSceneLoader : MonoBehaviour
             return;
         }
 
+        int count = 0;
         foreach (var item in wishListItems)
         {
             Debug.Log($"Attempting to load prefab for item {item.itemName}");
@@ -35,7 +36,8 @@ public class SimpleSceneLoader : MonoBehaviour
             if (item.prefab != null)
             {
                 Debug.Log($"Prefab found for item {item.itemName}, adding to ObjectManager");
-                objectManager.AddObject(item.prefab, item.icon);  // 只传递两个参数
+                objectManager.AddObject(item.prefab, item.icon, count);
+                count++;  
             }
             else
             {

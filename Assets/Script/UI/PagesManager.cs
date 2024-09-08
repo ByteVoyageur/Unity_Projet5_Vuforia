@@ -6,10 +6,9 @@ public class PagesManager : MonoBehaviour
 {
     public UIDocument uiDocument;
     public VisualTreeAsset itemTemplate;
-    public CategorySO kitchenData;
-
     public Dictionary<string, VisualTreeAsset> pageAssets = new Dictionary<string, VisualTreeAsset>();
     private Dictionary<string, Page> pagePool = new Dictionary<string, Page>();
+    private CategorySO currentCategory;
 
     private void Awake()
     {
@@ -21,8 +20,8 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("WelcomePage");
         LoadPageAsset("ItemDetailPage");
         LoadPageAsset("CategoryPage");
-        LoadPageAsset("WishListPage");       
-        LoadPageAsset("WishListCartTemplate"); 
+        LoadPageAsset("WishListPage");
+        LoadPageAsset("WishListCartTemplate");
         LoadPageAsset("CategoryCartTemplate");
         LoadPageAsset("ItemCartTemplate");
 
@@ -101,7 +100,7 @@ public class PagesManager : MonoBehaviour
                 page = new ItemDetailPage(visualTreeAsset);
                 if (data is FurnitureSO furnitureData)
                 {
-                    ((ItemDetailPage)page).Initialize(furnitureData);
+                    ((ItemDetailPage)page).Initialize(furnitureData, this);
                 }
                 AddButtonActions(page.Root, new Dictionary<string, System.Action>
                 {
@@ -113,6 +112,8 @@ public class PagesManager : MonoBehaviour
                 {
                     page = CategoryPage.CreateInstance(visualTreeAsset);
                     ((CategoryPage)page).Initialize(this, categoryData);
+                    // Save category data to use when back to the page
+                    currentCategory = categoryData;
                 }
                 else
                 {
@@ -149,8 +150,6 @@ public class PagesManager : MonoBehaviour
 
                 if (button != null)
                 {
-                    Debug.Log($"Button {buttonName} found in {root.name}, position: {button.worldBound}");
-
                     button.clicked -= kvp.Value;
                     button.clicked += kvp.Value;
 
@@ -203,10 +202,12 @@ public class PagesManager : MonoBehaviour
         }
         else
         {
-            categoryPage = (CategoryPage) existingPage;
-            categoryPage.Initialize(this, categoryData); 
+            categoryPage = (CategoryPage)existingPage;
+            categoryPage.Initialize(this, categoryData);
             Debug.Log("Reused existing CategoryPage instance.");
         }
+
+        currentCategory = categoryData;
 
         uiDocument.rootVisualElement.Clear();
         uiDocument.rootVisualElement.Add(categoryPage.Root);
@@ -217,8 +218,13 @@ public class PagesManager : MonoBehaviour
         ShowPage("ItemDetailPage", itemData);
     }
 
+    public CategorySO GetCurrentCategory()
+    {
+        return currentCategory;
+    }
+
     private void ShowInAR()
     {
-        Debug.Log("View in AR button clicked.");
+        Debug.Log("Footer AR button clicked.");
     }
 }

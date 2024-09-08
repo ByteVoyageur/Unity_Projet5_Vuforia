@@ -2,25 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class ObjectManager : MonoBehaviour
-{
+public class ObjectManager : MonoBehaviour {
     public ObjectPlacer objectPlacer;
     public Button buttonTemplate;
     public Transform buttonContainer;
-
     private List<GameObject> objectPrefabs = new List<GameObject>();
     private List<Button> buttons = new List<Button>();
 
-    void Start()
-    {
-        // 确保buttonContainer被正确定义，然后刷新按钮
-        if (buttonContainer == null)
-        {
-            // 尝试获取ContainerList
+    void Start() {
+        if (buttonContainer == null) {
             buttonContainer = GameObject.Find("Canvas_list_items/ContainerList")?.transform;
-
-            if (buttonContainer == null)
-            {
+            if (buttonContainer == null) {
                 Debug.LogError("Button container not assigned and couldn't be found in the scene.");
                 return;
             }
@@ -28,54 +20,43 @@ public class ObjectManager : MonoBehaviour
         RefreshButtons();
     }
 
-    public void RefreshButtons()
-    {
-        if (buttonTemplate == null)
-        {
+    public void RefreshButtons() {
+        if (buttonTemplate == null) {
             Debug.LogError("Button template is not assigned.");
             return;
         }
 
-        // 清除旧按钮
-        foreach (var button in buttons)
-        {
+        foreach (var button in buttons) {
             Destroy(button.gameObject);
         }
         buttons.Clear();
+        objectPrefabs.Clear();
 
-        foreach (var item in WishListManager.Instance.GetWishListItems())
-        {
-            AddObject(item.prefab, item.icon);
+        int count = 0;
+        foreach (var item in WishListManager.Instance.GetWishListItems()) {
+            AddObject(item.prefab, item.icon, count);
+            count++;
         }
     }
 
-    public void AddObject(GameObject prefab, Texture2D icon)
-    {
-        if (prefab == null)
-        {
+    public void AddObject(GameObject prefab, Texture2D icon, int count) {
+        if (prefab == null) {
             Debug.LogError("AddObject received a null prefab");
             return;
         }
-
-        if (buttonTemplate == null)
-        {
+        if (buttonTemplate == null) {
             Debug.LogError("Button template is not assigned.");
             return;
         }
-
-        if (buttonContainer == null)
-        {
+        if (buttonContainer == null) {
             Debug.LogError("Button container is not assigned.");
             return;
         }
 
         Debug.Log($"AddObject called with prefab: {prefab.name}");
-
         objectPrefabs.Add(prefab);
-
         var button = Instantiate(buttonTemplate, buttonContainer);
-        if (button == null)
-        {
+        if (button == null) {
             Debug.LogError("Failed to create button from template");
             return;
         }
@@ -84,25 +65,26 @@ public class ObjectManager : MonoBehaviour
         button.onClick.AddListener(() => SelectObject(prefab));
         buttons.Add(button);
 
+        // Set position for the button
+        RectTransform rectTransform = button.GetComponent<RectTransform>();
+        float buttonSpacing = 100f; // Adjust this value based on the desired spacing
+        float xPos = rectTransform.sizeDelta.x * count + buttonSpacing * count;
+        rectTransform.anchoredPosition = new Vector2(xPos, 0);
+
         Debug.Log($"Successfully added object {prefab.name} to ObjectManager");
     }
 
-    private void SelectObject(GameObject prefab)
-    {
-        if (prefab == null)
-        {
+    private void SelectObject(GameObject prefab) {
+        if (prefab == null) {
             Debug.LogError("SelectObject received a null prefab");
             return;
         }
-
-        if (objectPlacer.SelectedObject != null)
-        {
+        if (objectPlacer.SelectedObject != null) {
             Destroy(objectPlacer.SelectedObject);
         }
 
         GameObject newObject = Instantiate(prefab);
-        if (newObject == null)
-        {
+        if (newObject == null) {
             Debug.LogError("Failed to instantiate newObject from prefab");
             return;
         }
@@ -111,10 +93,8 @@ public class ObjectManager : MonoBehaviour
         Debug.Log($"Object {newObject.name} selected and instantiated.");
     }
 
-    private void DisableAllObjects()
-    {
-        foreach (var obj in objectPrefabs)
-        {
+    private void DisableAllObjects() {
+        foreach (var obj in objectPrefabs) {
             obj.SetActive(false);
         }
     }

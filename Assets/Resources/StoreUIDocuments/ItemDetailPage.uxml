@@ -1,7 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/StoreUIDocuments/ItemDetailPageStyle.uss?fileID=7433441132597879392&amp;guid=54b5e91641079464fa60793c5ce81920&amp;type=3#ItemDetailPageStyle" />
     <ui:VisualElement name="BackGround" class="back-ground">
-        <ui:VisualElement name="ImgItem" class="img-item" />
+        <ui:VisualElement name="ImgItem" class="img-item">
+            <ui:VisualElement name="IconBack" class="icon-back" style="flex-grow: 1;" />
+        </ui:VisualElement>
         <ui:VisualElement name="DescriptionItem" class="description-item">
             <ui:Label tabindex="-1" text="Nam suscipit arcu" name="CategoryTitle" class="category-title" />
             <ui:Label tabindex="-1" text="Vivamus malesuada orci" name="NameItem" class="name-item" />

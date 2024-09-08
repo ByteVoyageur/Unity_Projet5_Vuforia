@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class ItemDetailPage : Page
 {
     private string arSceneName = "SampleScene";
+    private PagesManager pagesManager;
 
     public ItemDetailPage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
     {
@@ -15,8 +16,10 @@ public class ItemDetailPage : Page
         return new ItemDetailPage(visualTreeAsset);
     }
 
-    public void Initialize(FurnitureSO itemData)
+    public void Initialize(FurnitureSO itemData, PagesManager manager)
     {
+        pagesManager = manager;
+
         // Update UI elements with itemData values
         var imgItem = Root.Q<VisualElement>("ImgItem");
         if (imgItem != null && itemData.icon != null)
@@ -72,11 +75,37 @@ public class ItemDetailPage : Page
         {
             Debug.LogError("HeartForWishList element not found on ItemDetailPage.");
         }
+
+        // Handle IconBack button click
+        var iconBack = Root.Q<VisualElement>("IconBack");
+        if (iconBack != null)
+        {
+            iconBack.RegisterCallback<ClickEvent>(evt => {
+                OnIconBackClick();
+            });
+        }
+        else
+        {
+            Debug.LogError("IconBack element not found on ItemDetailPage.");
+        }
     }
 
     private void OnViewInARButtonClick()
     {
         SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
+    }
+
+    private void OnIconBackClick()
+    {
+        var categoryData=pagesManager.GetCurrentCategory();
+        if (pagesManager != null)
+        {
+            pagesManager.ShowPage("CategoryPage", categoryData);
+        }
+        else
+        {
+            Debug.LogError("PagesManager instance is null.");
+        }
     }
 
     private void HandleWishListClick(FurnitureSO itemData, VisualElement heartForWishList)
@@ -92,6 +121,7 @@ public class ItemDetailPage : Page
             UpdateHeartVisualState(heartForWishList, true);
         }
     }
+
     private void UpdateHeartVisualState(VisualElement heartForWishList, bool isInWishList)
     {
         if (isInWishList)

@@ -25,13 +25,6 @@ public class WelcomePage : Page
     // Get the container where the category buttons will be placed
     var categoryList = Root.Q<ScrollView>("CategorysScrollList");
 
-    // Ensure the container is not null
-    if (categoryList == null)
-    {
-        Debug.LogError("CategorysScrollList container not found in WelcomePage.");
-        return;
-    }
-
     // Load the category card template
     if (!pagesManager.pageAssets.TryGetValue("CategoryCartTemplate", out var categoryCartTemplate))
     {

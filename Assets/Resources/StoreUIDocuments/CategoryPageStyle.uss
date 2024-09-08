@@ -54,7 +54,7 @@
 
 .category-items-scroll-container {
     width: 90%;
-    background-color: rgba(0, 0, 0, 0.64);
+    background-color: rgba(0, 0, 0, 0);
     flex-direction: row;
     flex-wrap: wrap;
 }
