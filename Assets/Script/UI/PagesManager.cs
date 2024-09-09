@@ -218,7 +218,7 @@ public class PagesManager : MonoBehaviour
         else
         {
             var categoryPage = (CategoryPage)existingPage;
-            categoryPage.Initialize(this, categoryData);  // Re-initialize with the new data
+            categoryPage.Reinitialize(this, categoryData);  // Re-initialize with the new data
             Debug.Log("Reused existing CategoryPage instance.");
         }
 
