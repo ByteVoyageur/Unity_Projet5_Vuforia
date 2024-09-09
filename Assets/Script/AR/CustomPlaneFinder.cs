@@ -51,7 +51,6 @@ public class CustomPlaneFinder : MonoBehaviour
         }
     }
 
-    // Reset the placement process - optional
     public void ResetPlacement()
     {
         foreach (Transform child in planeFinder.transform)

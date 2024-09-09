@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour {
     public ObjectPlacer objectPlacer;
-    public Button buttonTemplate;
+    public GameObject buttonTemplate;  // Use GameObject for Prefab
     public Transform buttonContainer;
     private List<GameObject> objectPrefabs = new List<GameObject>();
     private List<Button> buttons = new List<Button>();
@@ -55,13 +55,18 @@ public class ObjectManager : MonoBehaviour {
 
         Debug.Log($"AddObject called with prefab: {prefab.name}");
         objectPrefabs.Add(prefab);
-        var button = Instantiate(buttonTemplate, buttonContainer);
-        if (button == null) {
-            Debug.LogError("Failed to create button from template");
-            return;
+
+        // Instantiate the button from the prefab (template)
+        var buttonObject = Instantiate(buttonTemplate, buttonContainer);
+        buttonObject.SetActive(true); // Make sure the new button is active
+
+        var button = buttonObject.GetComponent<Button>();
+        var image = buttonObject.GetComponent<Image>();
+
+        if (image != null) {
+            image.sprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), new Vector2(0.5f, 0.5f));
         }
 
-        button.GetComponent<Image>().sprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), new Vector2(0.5f, 0.5f));
         button.onClick.AddListener(() => SelectObject(prefab));
         buttons.Add(button);
 
