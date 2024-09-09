@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public static class FooterController
 {
+    private static string arSceneName = "SampleScene";
     private static Label wishListCounter;
 
     // Initialize all buttons for Footer
@@ -43,6 +45,7 @@ public static class FooterController
             arModeFooter.RegisterCallback<ClickEvent>(evt =>
             { 
                 // Implement AR mode page navigation
+                SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
                 Debug.Log("AR Mode footer clicked."); 
             });
         }
