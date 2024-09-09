@@ -24,87 +24,66 @@ public class ItemDetailPage : Page
 
         // Update UI elements with itemData values
         var imgItem = Root.Q<VisualElement>("ImgItem");
-        if (imgItem != null && itemData.icon != null)
-        {
-            imgItem.style.backgroundImage = new StyleBackground(itemData.icon);
-        }
+        imgItem.style.backgroundImage = new StyleBackground(itemData.icon);
 
         var nameItem = Root.Q<Label>("NameItem");
-        if (nameItem != null)
-        {
-            nameItem.text = itemData.itemName;
-        }
+        nameItem.text = itemData.itemName;
 
         var descriptionItem = Root.Q<Label>("Description");
-        if (descriptionItem != null)
-        {
-            descriptionItem.text = itemData.description;
-        }
+        descriptionItem.text = itemData.description;
 
         var priceEuros = Root.Q<Label>("PriceEuros");
-        if (priceEuros != null)
-        {
-            int wholePrice = Mathf.FloorToInt(itemData.price);
-            priceEuros.text = wholePrice.ToString();
-        }
+        int wholePrice = Mathf.FloorToInt(itemData.price);
+        priceEuros.text = wholePrice.ToString();
 
         var priceCentimes = Root.Q<Label>("PriceCentimes");
-        if (priceCentimes != null)
-        {
-            int centimes = Mathf.FloorToInt((itemData.price - Mathf.Floor(itemData.price)) * 100);
-            priceCentimes.text = "," + centimes.ToString("D2") + "€";
-        }
+        int centimes = Mathf.FloorToInt((itemData.price - Mathf.Floor(itemData.price)) * 100);
+        priceCentimes.text = "," + centimes.ToString("D2") + "€";
 
         var viewInARButton = Root.Q<Button>("ViewInARButton");
-        if (viewInARButton != null)
-        {
-            viewInARButton.clicked += OnViewInARButtonClick;
-        }
-        else
-        {
-            Debug.LogError("ViewInARButton element not found on ItemDetailPage.");
-        }
+        viewInARButton.clicked += OnViewInARButtonClick;
 
         // Handle HeartForWishList button click
         var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
-        if (heartForWishList != null)
-        {
-            heartForWishList.RegisterCallback<ClickEvent>(evt => {
-                HandleWishListClick(itemData, heartForWishList);
-            });
-            UpdateHeartVisualState(heartForWishList, WishListManager.Instance.IsInWishList(itemData));
-        }
-        else
-        {
-            Debug.LogError("HeartForWishList element not found on ItemDetailPage.");
-        }
+        var redHeart = Root.Q<VisualElement>("RedHeart");
 
-        // Listen for wishlist changes
-        WishListManager.Instance.OnItemAddedToWishList += (item) => {
-            if (item == currentItemData)
-            {
-                UpdateHeartVisualState(heartForWishList, true);
-            }
-        };
+        heartForWishList.RegisterCallback<ClickEvent>(evt => {
+            HandleWishListClick(itemData, heartForWishList, redHeart);
+        });
 
-        WishListManager.Instance.OnItemRemovedFromWishList += (item) => {
-            if (item == currentItemData)
-            {
-                UpdateHeartVisualState(heartForWishList, false);
-            }
-        };
+        UpdateHeartVisualState(heartForWishList, redHeart, WishListManager.Instance.IsInWishList(itemData));
+
+        // Listen for wishlist changes (ensure previous subscriptions are cleared)
+        WishListManager.Instance.OnItemAddedToWishList -= OnItemAddedToWishList;
+        WishListManager.Instance.OnItemRemovedFromWishList -= OnItemRemovedFromWishList;
+
+        WishListManager.Instance.OnItemAddedToWishList += OnItemAddedToWishList;
+        WishListManager.Instance.OnItemRemovedFromWishList += OnItemRemovedFromWishList;
 
         // Handle IconBack button click
         var iconBack = Root.Q<VisualElement>("IconBack");
-        if (iconBack != null)
+        iconBack.RegisterCallback<ClickEvent>(evt => {
+            OnIconBackClick();
+        });
+    }
+
+    private void OnItemAddedToWishList(FurnitureSO item)
+    {
+        if (item == currentItemData)
         {
-            iconBack.RegisterCallback<ClickEvent>(evt => {
-                OnIconBackClick();
-            });
+            var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
+            var redHeart = Root.Q<VisualElement>("RedHeart");
+            UpdateHeartVisualState(heartForWishList, redHeart, true);
         }
-        else
+    }
+
+    private void OnItemRemovedFromWishList(FurnitureSO item)
+    {
+        if (item == currentItemData)
         {
-            Debug.LogError("IconBack element not found on ItemDetailPage.");
+            var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
+            var redHeart = Root.Q<VisualElement>("RedHeart");
+            UpdateHeartVisualState(heartForWishList, redHeart, false);
         }
     }
 
@@ -116,17 +95,10 @@ public class ItemDetailPage : Page
     private void OnIconBackClick()
     {
         var categoryData = pagesManager.GetCurrentCategory();
-        if (pagesManager != null)
-        {
-            pagesManager.ShowPage("CategoryPage", categoryData);
-        }
-        else
-        {
-            Debug.LogError("PagesManager instance is null.");
-        }
+        pagesManager.ShowPage("CategoryPage", categoryData);
     }
 
-    private void HandleWishListClick(FurnitureSO itemData, VisualElement heartForWishList)
+    private void HandleWishListClick(FurnitureSO itemData, VisualElement heartForWishList, VisualElement redHeart)
     {
         if (WishListManager.Instance.IsInWishList(itemData))
         {
@@ -138,16 +110,18 @@ public class ItemDetailPage : Page
         }
     }
 
-    private void UpdateHeartVisualState(VisualElement heartForWishList, bool isInWishList)
+    private void UpdateHeartVisualState(VisualElement heartForWishList, VisualElement redHeart, bool isInWishList)
     {
         if (isInWishList)
         {
-            heartForWishList.AddToClassList("in-wish-list");
+            heartForWishList.style.visibility = Visibility.Hidden;
+            redHeart.style.visibility = Visibility.Visible;
             Debug.Log("Added to wish list.");
         }
         else
         {
-            heartForWishList.RemoveFromClassList("in-wish-list");
+            heartForWishList.style.visibility = Visibility.Visible;
+            redHeart.style.visibility = Visibility.Hidden;
             Debug.Log("Removed from wish list.");
         }
     }

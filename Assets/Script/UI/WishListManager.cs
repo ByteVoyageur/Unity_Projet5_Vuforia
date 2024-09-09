@@ -36,13 +36,7 @@ public class WishListManager : MonoBehaviour
 
     public void RemoveFromWishList(FurnitureSO item)
     {
-        if (wishList.Contains(item))
-        {
-            wishList.Remove(item);
-            Debug.Log($"{item.itemName} removed from Wish List.");
-            PrintWishList();
-            OnItemRemovedFromWishList?.Invoke(item);  // Trigger the event
-        }
+        // Placeholder method to maintain compatibility
     }
 
     public bool IsInWishList(FurnitureSO item)

@@ -31,6 +31,7 @@
                 <ui:VisualElement name="QuantityItem" class="quantity-item" />
                 <ui:Button text="Add to basket" name="AddToBasket" class="add-to-basket" style="background-color: rgb(179, 57, 57);" />
                 <ui:VisualElement name="HeartForWishList" class="heart-for-wish-list" />
+                <ui:VisualElement name="RedHeart" class="heart-for-wish-list red-hard" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -260,12 +260,22 @@
 }
 
 .heart-for-wish-list {
-    background-image: url("project://database/Assets/UI/Icons/299063_heart_icon.png?fileID=2800000&guid=056bf0eb3e351f64e8dc5e250c4d0f55&type=3#299063_heart_icon");
+    background-image: url("project://database/Assets/UI/Icons/heart-icon.png?fileID=2800000&guid=50a3024a7f65f584d801292a3605b855&type=3#heart-icon");
     background-size: contain;
     background-repeat: no-repeat;
     width: 80px;
     height: 80px;
     cursor: pointer;
+    display: flex;
+    visibility: visible;
+    overflow: visible;
+}
+
+.red-hard {
+    background-image: url("project://database/Assets/UI/Icons/299063_heart_icon.png?fileID=2800000&guid=056bf0eb3e351f64e8dc5e250c4d0f55&type=3#299063_heart_icon");
+    position: absolute;
+    right: 0;
+    visibility: hidden;
 }
 
 #ColorDropdown VisualElement {
