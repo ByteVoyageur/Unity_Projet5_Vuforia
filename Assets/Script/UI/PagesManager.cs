@@ -44,39 +44,20 @@ public class PagesManager : MonoBehaviour
     }
 
     public void ShowPage(string pageName, object data = null)
-{
-    // 隐藏当前所有页面
-    foreach (var existingPage in pagePool.Values)
     {
-        existingPage.Root.style.display = DisplayStyle.None;
-    }
-
-    Page page = null;
-
-    // 对于 ItemDetailPage 特殊处理
-    if (pageName == "ItemDetailPage" && data is FurnitureSO furnitureData)
-    {
-        // 总是重新创建 ItemDetailPage 的实例
-        if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
+        foreach (var existingPage in pagePool.Values)
         {
-            page = new ItemDetailPage(visualTreeAsset);
-            ((ItemDetailPage)page).Initialize(furnitureData, this);
+            existingPage.Root.style.display = DisplayStyle.None;
         }
-        else
-        {
-            Debug.LogError($"No VisualTreeAsset found for {pageName}");
-            return;
-        }
-    }
-    // 对其他页面进行正常处理
-    else
-    {
-        if (!pagePool.TryGetValue(pageName, out page))
+
+        Page page = null;
+
+        if (pageName == "ItemDetailPage" && data is FurnitureSO furnitureData)
         {
             if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
             {
-                page = CreatePageInstance(pageName, visualTreeAsset, data);
-                pagePool[pageName] = page;
+                page = new ItemDetailPage(visualTreeAsset);
+                ((ItemDetailPage)page).Initialize(furnitureData, this);
             }
             else
             {
@@ -84,14 +65,29 @@ public class PagesManager : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            if (!pagePool.TryGetValue(pageName, out page))
+            {
+                if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
+                {
+                    page = CreatePageInstance(pageName, visualTreeAsset, data);
+                    pagePool[pageName] = page;
+                }
+                else
+                {
+                    Debug.LogError($"No VisualTreeAsset found for {pageName}");
+                    return;
+                }
+            }
+        }
+
+        uiDocument.rootVisualElement.Clear();
+        uiDocument.rootVisualElement.Add(page.Root);
+        page.Root.style.display = DisplayStyle.Flex;
+        Debug.Log($"Displayed page: {pageName}");
     }
 
-    // 清除并展示新页面
-    uiDocument.rootVisualElement.Clear();
-    uiDocument.rootVisualElement.Add(page.Root);
-    page.Root.style.display = DisplayStyle.Flex;
-    Debug.Log($"Displayed page: {pageName}");
-}
     private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, object data = null)
     {
         Page page = null;
@@ -115,7 +111,7 @@ public class PagesManager : MonoBehaviour
                 ((WelcomePage)page).Initialize(this);
                 AddButtonActions(page.Root, new Dictionary<string, System.Action>
                 {
-                    { "ARModeFooter", () => ShowPage("CategoryPage") }
+                    { "ARModeFooter", () => ShowCategoryPage("DefaultCategory") }  // default example
                 });
                 break;
             case "ItemDetailPage":
@@ -130,13 +126,10 @@ public class PagesManager : MonoBehaviour
                 });
                 break;
             case "CategoryPage":
+                page = new CategoryPage(visualTreeAsset);
                 if (data is CategorySO categoryData)
                 {
-                    page = CategoryPage.CreateInstance(visualTreeAsset);
                     ((CategoryPage)page).Initialize(this, categoryData);
-                    // Save category data to use when back to the page
-                    currentCategory = categoryData;
-                    Debug.Log($"查看是否获取到了当前家具类别: {currentCategory}");
                 }
                 else
                 {
@@ -214,26 +207,25 @@ public class PagesManager : MonoBehaviour
             return;
         }
 
-        CategoryPage categoryPage;
-
         if (!pagePool.TryGetValue(categoryName, out var existingPage))
         {
-            categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
+            var categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
             categoryPage.Initialize(this, categoryData);
             pagePool[categoryName] = categoryPage;
             Debug.Log("Created and initialized a new CategoryPage instance.");
+            existingPage = categoryPage;
         }
         else
         {
-            categoryPage = (CategoryPage)existingPage;
-            categoryPage.Initialize(this, categoryData);
+            var categoryPage = (CategoryPage)existingPage;
+            categoryPage.Initialize(this, categoryData);  // Re-initialize with the new data
             Debug.Log("Reused existing CategoryPage instance.");
         }
 
         currentCategory = categoryData;
 
         uiDocument.rootVisualElement.Clear();
-        uiDocument.rootVisualElement.Add(categoryPage.Root);
+        uiDocument.rootVisualElement.Add(existingPage.Root);
     }
 
     public void ShowItemDetailPage(FurnitureSO itemData)
