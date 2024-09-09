@@ -70,11 +70,16 @@ public class ObjectManager : MonoBehaviour {
         button.onClick.AddListener(() => SelectObject(prefab));
         buttons.Add(button);
 
-        // Set position for the button
+          // Set position for the button
         RectTransform rectTransform = button.GetComponent<RectTransform>();
-        float buttonSpacing = 100f; // Adjust this value based on the desired spacing
-        float xPos = rectTransform.sizeDelta.x * count + buttonSpacing * count;
-        rectTransform.anchoredPosition = new Vector2(xPos, 0);
+
+        // Set the initial position for the first button
+        Vector2 initialPosition = new Vector2(-462, -174);
+        float buttonSpacing = 10f; // Adjust this value based on the desired spacing
+
+        // Calculate the position based on the initial position, button width and spacing
+        float xPos = initialPosition.x + (rectTransform.sizeDelta.x * count + buttonSpacing * count);
+        rectTransform.anchoredPosition = new Vector2(xPos, initialPosition.y);
 
         Debug.Log($"Successfully added object {prefab.name} to ObjectManager");
     }
