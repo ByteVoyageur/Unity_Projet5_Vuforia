@@ -18,54 +18,51 @@ public class ItemDetailPage : Page
     }
 
     public void Initialize(FurnitureSO itemData, PagesManager manager)
-    {
-        currentItemData = itemData;
-        pagesManager = manager;
+{
+    currentItemData = itemData;
+    pagesManager = manager;
 
-        // Update UI elements with itemData values
-        var imgItem = Root.Q<VisualElement>("ImgItem");
-        imgItem.style.backgroundImage = new StyleBackground(itemData.icon);
+    // Update UI elements with itemData values
+    var imgItem = Root.Q<VisualElement>("ImgItem");
+    imgItem.style.backgroundImage = new StyleBackground(itemData.icon);
 
-        var nameItem = Root.Q<Label>("NameItem");
-        nameItem.text = itemData.itemName;
+    var nameItem = Root.Q<Label>("NameItem");
+    nameItem.text = itemData.itemName;
 
-        var descriptionItem = Root.Q<Label>("Description");
-        descriptionItem.text = itemData.description;
+    var descriptionItem = Root.Q<Label>("Description");
+    descriptionItem.text = itemData.description;
 
-        var priceEuros = Root.Q<Label>("PriceEuros");
-        int wholePrice = Mathf.FloorToInt(itemData.price);
-        priceEuros.text = wholePrice.ToString();
+    var priceEuros = Root.Q<Label>("PriceEuros");
+    int wholePrice = Mathf.FloorToInt(itemData.price);
+    priceEuros.text = wholePrice.ToString();
 
-        var priceCentimes = Root.Q<Label>("PriceCentimes");
-        int centimes = Mathf.FloorToInt((itemData.price - Mathf.Floor(itemData.price)) * 100);
-        priceCentimes.text = "," + centimes.ToString("D2") + "€";
+    var priceCentimes = Root.Q<Label>("PriceCentimes");
+    int centimes = Mathf.FloorToInt((itemData.price - Mathf.Floor(itemData.price)) * 100);
+    priceCentimes.text = "," + centimes.ToString("D2") + "€";
 
-        var viewInARButton = Root.Q<Button>("ViewInARButton");
-        viewInARButton.clicked += OnViewInARButtonClick;
+    var viewInARButton = Root.Q<Button>("ViewInARButton");
+    viewInARButton.clicked += OnViewInARButtonClick;
 
-        // Handle HeartForWishList button click
-        var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
-        var redHeart = Root.Q<VisualElement>("RedHeart");
+    var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
+    var redHeart = Root.Q<VisualElement>("RedHeart");
 
-        heartForWishList.RegisterCallback<ClickEvent>(evt => {
-            HandleWishListClick(itemData, heartForWishList, redHeart);
-        });
+    heartForWishList.RegisterCallback<ClickEvent>(evt => {
+        HandleWishListClick(itemData, heartForWishList, redHeart);
+    });
 
-        UpdateHeartVisualState(heartForWishList, redHeart, WishListManager.Instance.IsInWishList(itemData));
+    UpdateHeartVisualState(heartForWishList, redHeart, WishListManager.Instance.IsInWishList(itemData));
 
-        // Listen for wishlist changes (ensure previous subscriptions are cleared)
-        WishListManager.Instance.OnItemAddedToWishList -= OnItemAddedToWishList;
-        WishListManager.Instance.OnItemRemovedFromWishList -= OnItemRemovedFromWishList;
+    WishListManager.Instance.OnItemAddedToWishList -= OnItemAddedToWishList;
+    WishListManager.Instance.OnItemRemovedFromWishList -= OnItemRemovedFromWishList;
 
-        WishListManager.Instance.OnItemAddedToWishList += OnItemAddedToWishList;
-        WishListManager.Instance.OnItemRemovedFromWishList += OnItemRemovedFromWishList;
+    WishListManager.Instance.OnItemAddedToWishList += OnItemAddedToWishList;
+    WishListManager.Instance.OnItemRemovedFromWishList += OnItemRemovedFromWishList;
 
-        // Handle IconBack button click
-        var iconBack = Root.Q<VisualElement>("IconBack");
-        iconBack.RegisterCallback<ClickEvent>(evt => {
-            OnIconBackClick();
-        });
-    }
+    var iconBack = Root.Q<VisualElement>("IconBack");
+    iconBack.RegisterCallback<ClickEvent>(evt => {
+        OnIconBackClick();
+    });
+}
 
     private void OnItemAddedToWishList(FurnitureSO item)
     {

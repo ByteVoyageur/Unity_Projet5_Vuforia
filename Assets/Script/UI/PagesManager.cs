@@ -44,13 +44,34 @@ public class PagesManager : MonoBehaviour
     }
 
     public void ShowPage(string pageName, object data = null)
+{
+    // 隐藏当前所有页面
+    foreach (var existingPage in pagePool.Values)
     {
-        foreach (var existingPage in pagePool.Values)
-        {
-            existingPage.Root.style.display = DisplayStyle.None;
-        }
+        existingPage.Root.style.display = DisplayStyle.None;
+    }
 
-        if (!pagePool.TryGetValue(pageName, out var page))
+    Page page = null;
+
+    // 对于 ItemDetailPage 特殊处理
+    if (pageName == "ItemDetailPage" && data is FurnitureSO furnitureData)
+    {
+        // 总是重新创建 ItemDetailPage 的实例
+        if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
+        {
+            page = new ItemDetailPage(visualTreeAsset);
+            ((ItemDetailPage)page).Initialize(furnitureData, this);
+        }
+        else
+        {
+            Debug.LogError($"No VisualTreeAsset found for {pageName}");
+            return;
+        }
+    }
+    // 对其他页面进行正常处理
+    else
+    {
+        if (!pagePool.TryGetValue(pageName, out page))
         {
             if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
             {
@@ -63,13 +84,14 @@ public class PagesManager : MonoBehaviour
                 return;
             }
         }
-
-        uiDocument.rootVisualElement.Clear();
-        uiDocument.rootVisualElement.Add(page.Root);
-        page.Root.style.display = DisplayStyle.Flex;
-        Debug.Log($"Displayed page: {pageName}");
     }
 
+    // 清除并展示新页面
+    uiDocument.rootVisualElement.Clear();
+    uiDocument.rootVisualElement.Add(page.Root);
+    page.Root.style.display = DisplayStyle.Flex;
+    Debug.Log($"Displayed page: {pageName}");
+}
     private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, object data = null)
     {
         Page page = null;
@@ -114,6 +136,7 @@ public class PagesManager : MonoBehaviour
                     ((CategoryPage)page).Initialize(this, categoryData);
                     // Save category data to use when back to the page
                     currentCategory = categoryData;
+                    Debug.Log($"查看是否获取到了当前家具类别: {currentCategory}");
                 }
                 else
                 {
