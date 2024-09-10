@@ -17,7 +17,7 @@ public static class FooterController
         {
             homeFooter.RegisterCallback<ClickEvent>(evt =>
             { 
-                pagesManager.ShowPage("HomePage"); 
+                pagesManager.ShowPage("WelcomePage"); 
             });
         }
         else
@@ -66,10 +66,14 @@ public static class FooterController
             wishListCounter = wishListFooter.Q<Label>("WishListCounter");
             if (wishListCounter != null)
             {
+                // Unsubscribe to prevent duplicate subscriptions
                 WishListManager.Instance.OnItemAddedToWishList -= UpdateWishListCounter;
                 WishListManager.Instance.OnItemRemovedFromWishList -= UpdateWishListCounter;
+                
+                // Subscribe to update events
                 WishListManager.Instance.OnItemAddedToWishList += UpdateWishListCounter;
                 WishListManager.Instance.OnItemRemovedFromWishList += UpdateWishListCounter;
+
                 // Call the no-argument version to initialize
                 UpdateWishListCounter();
             }

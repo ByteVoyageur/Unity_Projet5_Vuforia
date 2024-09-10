@@ -4,7 +4,7 @@
     height: 100%;
     align-items: center;
     flex-grow: 0;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .top-bar {

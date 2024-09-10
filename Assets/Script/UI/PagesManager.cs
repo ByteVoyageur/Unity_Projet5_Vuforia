@@ -195,37 +195,26 @@ public class PagesManager : MonoBehaviour
         Debug.Log($"ShowCategoryPage called for {categoryName}");
 
         var categoryData = Resources.Load<CategorySO>($"Data/Category/{categoryName}");
-        if (categoryData == null)
-        {
-            Debug.LogError($"Category data for {categoryName} not found.");
-            return;
-        }
+    if (categoryData == null)
+    {
+        Debug.LogError($"Category data for {categoryName} not found.");
+        return;
+    }
 
         if (!pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
-        {
-            Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
-            return;
-        }
+    {
+        Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
+        return;
+    }
 
-        if (!pagePool.TryGetValue(categoryName, out var existingPage))
-        {
-            var categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
-            categoryPage.Initialize(this, categoryData);
-            pagePool[categoryName] = categoryPage;
-            Debug.Log("Created and initialized a new CategoryPage instance.");
-            existingPage = categoryPage;
-        }
-        else
-        {
-            var categoryPage = (CategoryPage)existingPage;
-            categoryPage.Reinitialize(this, categoryData);  // Re-initialize with the new data
-            Debug.Log("Reused existing CategoryPage instance.");
-        }
+        var categoryPage = CategoryPage.CreateInstance(visualTreeAsset);
+        categoryPage.Initialize(this, categoryData);
 
         currentCategory = categoryData;
 
         uiDocument.rootVisualElement.Clear();
-        uiDocument.rootVisualElement.Add(existingPage.Root);
+        uiDocument.rootVisualElement.Add(categoryPage.Root);
+        Debug.Log("Created and displayed a new CategoryPage instance.");
     }
 
     public void ShowItemDetailPage(FurnitureSO itemData)
