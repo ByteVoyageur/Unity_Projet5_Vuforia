@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using System.Runtime.CompilerServices;
 
 public class WishListPage : Page
 {
@@ -67,20 +68,20 @@ public class WishListPage : Page
                 price.text = $"${item.price}";
             }
 
+            var deleteButton = itemElement.Q<Button>("DeleteButton");
+            if (deleteButton != null)
+            {
+                deleteButton.clicked += () => RemoveWishListItem(item, itemElement, wishListContainer);
+            }
+
             wishListContainer.Add(itemElement);
         }
     }
-}
 
-public static class WishListManagerExtensions
-{
-    public static List<FurnitureSO> GetWishListItems(this WishListManager wishListManager)
+    private void RemoveWishListItem(FurnitureSO item, VisualElement itemElement, VisualElement wishListContainer)
     {
-        return wishListManager.GetWishList();
-    }
+        WishListManager.Instance.RemoveFromWishList(item);
 
-    public static List<FurnitureSO> GetWishList(this WishListManager wishListManager)
-    {
-        return wishListManager.GetWishListItems();
+        wishListContainer.Remove(itemElement);
     }
 }

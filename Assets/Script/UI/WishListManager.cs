@@ -23,6 +23,7 @@ public class WishListManager : MonoBehaviour
     public event Action<FurnitureSO> OnItemAddedToWishList;
     public event Action<FurnitureSO> OnItemRemovedFromWishList;
 
+    // add to wish list
     public void AddToWishList(FurnitureSO item)
     {
         if (!wishList.Contains(item))
@@ -30,25 +31,35 @@ public class WishListManager : MonoBehaviour
             wishList.Add(item);
             Debug.Log($"{item.itemName} added to Wish List.");
             PrintWishList();
-            OnItemAddedToWishList?.Invoke(item);  // Trigger the event
+            OnItemAddedToWishList?.Invoke(item);
         }
     }
 
+    // remove from wish list
     public void RemoveFromWishList(FurnitureSO item)
     {
-        // Placeholder method to maintain compatibility
+        if (wishList.Contains(item))
+        {
+            wishList.Remove(item);
+            Debug.Log($"{item.itemName} removed from Wish List.");
+            PrintWishList();
+            OnItemRemovedFromWishList?.Invoke(item);
+        }
     }
 
+    // check if in wish list
     public bool IsInWishList(FurnitureSO item)
     {
         return wishList.Contains(item);
     }
 
+    // get list of wish list
     public List<FurnitureSO> GetWishListItems()
     {
         return wishList;
     }
 
+    // print current wish list
     public void PrintWishList()
     {
         if (wishList.Count == 0)
