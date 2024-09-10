@@ -1,5 +1,4 @@
 .background {
-    min-height: 100%;
 }
 
 .logo-title {
@@ -98,6 +97,6 @@
     border-left-width: 0;
 }
 
-#PagesManager-container TemplateContainer {
-    min-height: 100%;
+#PagesManager-container > TemplateContainer {
+    flex-grow:1;
 }

@@ -15,4 +15,4 @@ MonoBehaviour:
   category:
   - {fileID: 11400000, guid: 20fb783c87af1e14898d16091d52d4d3, type: 2}
   - {fileID: 11400000, guid: d4ea327386e21bd48bde9339109acc58, type: 2}
-  categoryImage: {fileID: 2800000, guid: 447610d3e2a6dae43b22ea9b88060b91, type: 3}
+  categoryImage: {fileID: 2800000, guid: 88bc3dbdc00d85949b00b9ad4b7057e0, type: 3}
