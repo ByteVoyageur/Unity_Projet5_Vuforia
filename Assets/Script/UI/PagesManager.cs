@@ -85,6 +85,7 @@ public class PagesManager : MonoBehaviour
         uiDocument.rootVisualElement.Clear();
         uiDocument.rootVisualElement.Add(page.Root);
         page.Root.style.display = DisplayStyle.Flex;
+        FooterController.InitializeFooter(page.Root, this);
         Debug.Log($"Displayed page: {pageName}");
     }
 
