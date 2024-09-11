@@ -18,7 +18,7 @@ public class ShoppingCartPage : Page
     public void Initialize(PagesManager pagesManager)
     {
         GenerateShoppingCartItems(pagesManager);
-        FooterController.InitializeFooter(Root, pagesManager);
+        FooterController.InitializeFooter(Root, pagesManager); // 确保FooterTemplate的初始化在AddTotalPriceAndPayButton之后
     }
 
     private void GenerateShoppingCartItems(PagesManager pagesManager)
@@ -45,13 +45,12 @@ public class ShoppingCartPage : Page
         foreach (var item in cartItems)
         {
             var itemElement = cartTemplate.CloneTree();
-        
-        // Remove "Add to cart" button if exists
-        var addButton = itemElement.Q<VisualElement>("AddButton");
-        if (addButton != null)
-        {
-            addButton.RemoveFromHierarchy();
-        }
+
+            var addButton = itemElement.Q<VisualElement>("AddButton");
+            if (addButton != null)
+            {
+                addButton.RemoveFromHierarchy();
+            }
 
             var imgCart = itemElement.Q<VisualElement>("ImgCart");
             if (imgCart != null && item.icon != null)
@@ -87,11 +86,59 @@ public class ShoppingCartPage : Page
             shoppingCartContainer.Add(itemElement);
         }
 
-        var totalPriceLabel = Root.Q<Label>("TotalPrice");
-        if (totalPriceLabel != null)
+        AddTotalPriceAndPayButton(totalPrice);
+    }
+
+    private void AddTotalPriceAndPayButton(float totalPrice)
+    {
+        var parentContainer = Root.Q<VisualElement>("Background");
+
+        if (parentContainer == null)
         {
-            totalPriceLabel.text = $"Total: ${totalPrice}";
+            Debug.LogError("Background element not found in ShoppingCartPage.");
+            return;
         }
+
+        var shoppingCartListContainer = Root.Q<VisualElement>("ShoppingCartListContainer");
+        var footerTemplate = Root.Q<TemplateContainer>("FooterTemplate");
+
+        if (shoppingCartListContainer == null || footerTemplate == null)
+        {
+            Debug.LogError("ShoppingCartListContainer or FooterTemplate not found in ShoppingCartPage.");
+            return;
+        }
+
+        var existingTotalPricePayContainer = parentContainer.Q<VisualElement>("TotalPricePayContainer");
+        if (existingTotalPricePayContainer != null)
+        {
+            parentContainer.Remove(existingTotalPricePayContainer);
+        }
+
+        var totalPricePayContainer = new VisualElement
+        {
+            name = "TotalPricePayContainer"
+        };
+        totalPricePayContainer.AddToClassList("total-price-pay-container");
+
+        var totalPriceLabel = new Label($"Total: ${totalPrice}")
+        {
+            name = "TotalPrice"
+        };
+        totalPriceLabel.AddToClassList("total-price-label");
+        totalPriceLabel.style.fontSize = 35;
+        totalPriceLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+
+        var payButton = new Button(() => { Debug.Log("Pay button clicked"); })
+        {
+            text = "Pay"
+        };
+        payButton.AddToClassList("pay-button");
+        payButton.style.color = new StyleColor(new Color(1f, 1f, 1f, 1f));
+        payButton.style.fontSize = 30;
+        totalPricePayContainer.Add(totalPriceLabel);
+        totalPricePayContainer.Add(payButton);
+
+        parentContainer.Insert(parentContainer.IndexOf(footerTemplate), totalPricePayContainer);
     }
 
     private void RemoveCartItem(FurnitureSO item, VisualElement itemElement, VisualElement cartContainer)
@@ -103,10 +150,12 @@ public class ShoppingCartPage : Page
 
     private void UpdateTotalPrice()
     {
+        var cartItems = ShoppingCartManager.Instance.GetCartItems();
+        float totalPrice = cartItems.Sum(i => i.price);
+
         var totalPriceLabel = Root.Q<Label>("TotalPrice");
         if (totalPriceLabel != null)
         {
-            var totalPrice = ShoppingCartManager.Instance.GetCartItems().Sum(i => i.price);
             totalPriceLabel.text = $"Total: ${totalPrice}";
         }
     }
