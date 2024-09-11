@@ -24,6 +24,7 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("WishListCartTemplate");
         LoadPageAsset("CategoryCartTemplate");
         LoadPageAsset("ItemCartTemplate");
+        LoadPageAsset("ShoppingCartPage");
 
         // Show initial page
         ShowPage("HomePage");
@@ -140,6 +141,10 @@ public class PagesManager : MonoBehaviour
             case "WishListPage":
                 page = new WishListPage(visualTreeAsset);
                 ((WishListPage)page).Initialize(this);
+                break;
+            case "ShoppingCartPage":
+                page = ShoppingCartPage.CreateInstance(visualTreeAsset);
+                ((ShoppingCartPage)page).Initialize(this);
                 break;
             default:
                 Debug.LogError($"Unknown page name: {pageName}");

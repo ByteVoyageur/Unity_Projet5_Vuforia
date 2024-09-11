@@ -18,6 +18,22 @@ public class WishListPage : Page
     {
         GenerateWishListItems(pagesManager);
         FooterController.InitializeFooter(Root, pagesManager);
+
+        // 查找 ShoppingCartTopBar
+        var shoppingCartTopBar = Root.Q<VisualElement>("ShoppingCartTopBar");
+        if (shoppingCartTopBar != null)
+        {
+            Debug.Log("ShoppingCartTopBar found in Initialize method.");
+            shoppingCartTopBar.RegisterCallback<ClickEvent>(evt =>
+            {
+                Debug.Log("ShoppingCartTopBar clicked.");
+                pagesManager.ShowPage("ShoppingCartPage");
+            });
+        }
+        else
+        {
+            Debug.LogError("ShoppingCartTopBar not found in Initialize method.");
+        }
     }
 
     private void GenerateWishListItems(PagesManager pagesManager)
@@ -74,14 +90,25 @@ public class WishListPage : Page
                 deleteButton.clicked += () => RemoveWishListItem(item, itemElement, wishListContainer);
             }
 
+            var addButton = itemElement.Q<VisualElement>("AddButton");
+            if (addButton != null)
+            {
+                addButton.RegisterCallback<ClickEvent>(evt => AddToCart(item));
+            }
+
             wishListContainer.Add(itemElement);
         }
+    }
+
+    private void AddToCart(FurnitureSO item)
+    {
+        ShoppingCartManager.Instance.AddToCart(item);
+        Debug.Log($"{item.itemName} added to Shopping Cart.");
     }
 
     private void RemoveWishListItem(FurnitureSO item, VisualElement itemElement, VisualElement wishListContainer)
     {
         WishListManager.Instance.RemoveFromWishList(item);
-
         wishListContainer.Remove(itemElement);
     }
 }

@@ -1,0 +1,27 @@
+.background {
+    justify-content: space-between;
+}
+
+.shopping-cart-list-container {
+    background-color: rgba(0, 0, 0, 0);
+    top: 12%;
+}
+
+.shopping-cart-list {
+}
+
+.total-to-pay {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    justify-content: space-around;
+}
+
+.num-total {
+}
+
+.pay-button {
+    background-color: rgb(21, 229, 54);
+}

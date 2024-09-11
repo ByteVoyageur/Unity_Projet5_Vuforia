@@ -7,9 +7,12 @@
     justify-content: space-between;
 }
 
+.wish-list-view {
+    top: 12%;
+}
+
 .wish-list-container {
     width: 100%;
-    top: 17%;
     position: relative;
     flex-direction: column;
     align-items: stretch;
