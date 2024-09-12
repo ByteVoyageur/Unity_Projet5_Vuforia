@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="TopBarTemplate" src="project://database/Assets/Resources/StoreUIDocuments/TopBarTemplate.uxml?fileID=9197481963319205126&amp;guid=a696b4114afe1f34180d60cb4ebcb98f&amp;type=3#TopBarTemplate" />
+    <ui:Template name="WishListCartTemplate" src="project://database/Assets/Resources/StoreUIDocuments/WishListCartTemplate.uxml?fileID=9197481963319205126&amp;guid=b4eba7f19755a07498569643963deeb3&amp;type=3#WishListCartTemplate" />
+    <ui:Template name="FooterTemplate" src="project://database/Assets/Resources/StoreUIDocuments/FooterTemplate.uxml?fileID=9197481963319205126&amp;guid=e26094568ba97144c8d5a8f6072e0410&amp;type=3#FooterTemplate" />
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/WishListPage.uss?fileID=7433441132597879392&amp;guid=c9835053593a3474992f058b73397219&amp;type=3#WishListPage" />
+    <ui:VisualElement name="Background" class="background">
+        <ui:Instance template="TopBarTemplate" name="TopBarTemplate" style="overflow: visible;" />
+        <ui:VisualElement name="WishListView" class="wish-list-view" style="flex-grow: 1;">
+            <ui:VisualElement name="WishListContainer" class="wish-list-container">
+                <ui:Instance template="WishListCartTemplate" name="WishListCartTemplate" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Instance template="FooterTemplate" name="FooterTemplate" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,287 @@
+.back-ground {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(247, 241, 227);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.item-detail-container {
+    align-items: center;
+    justify-content: space-around;
+}
+
+.img-item {
+    width: 90%;
+    max-height: 500px;
+    background-image: url("project://database/Assets/Models/Cupboard_screenshot.png?fileID=2800000&guid=ffcdd7047d99865468027fa2fab94409&type=3#Cupboard_screenshot");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    margin-bottom: 20px;
+    height: 100%;
+    margin-top: 50px;
+}
+
+.icon-back {
+    position: absolute;
+    top: 8%;
+    background-image: url("project://database/Assets/UI/Icons/icon-back.png?fileID=2800000&guid=9ee49c7e94773294682ab1db0e1d179e&type=3#icon-back");
+    width: 120px;
+    height: 120px;
+}
+
+.description-item {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.category-title {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.name-item {
+    font-size: 50px;
+    color: rgb(120, 44, 44);
+    margin-bottom: 10px;
+}
+
+.price-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+.price-euros {
+    font-size: 45px;
+    color: rgb(120, 44, 44);
+    -unity-font-style: bold;
+}
+
+.price-centimes {
+    font-size: 30px;
+    color: rgb(120, 44, 44);
+    margin-left: 5px;
+    -unity-font-style: normal;
+}
+
+.description {
+    margin-top: 30px;
+    font-size: 22px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    -unity-text-align: upper-left;
+    white-space: normal;
+    margin-bottom: 30px;
+}
+
+.view-in-AR-button {
+    width: 100%;
+    height: 100px;
+    background-color: rgb(192, 57, 43);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    -unity-font-style: bold;
+}
+
+.color-selector {
+}
+
+.color-box {
+    background-color: rgb(234, 107, 11);
+    width: 73px;
+    height: 67px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-left: 25px;
+    position: relative;
+}
+
+.color-name {
+    font-size: 30px;
+    margin-left: 0;
+    margin-right: 72px;
+}
+
+.size-container {
+    width: 100%;
+    background-color: rgba(245, 242, 234, 0);
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 50px;
+    border-color: rgb(165, 170, 164);
+    height: 110px;
+    align-items: center;
+    justify-content: space-between;
+    align-self: center;
+    flex-direction: row;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.size-dropdown {
+    width: 100%;
+    background-color: rgba(245, 242, 234, 0);
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 30px;
+    border-color: rgb(165, 170, 164);
+    height: 110px;
+    align-items: center;
+    justify-content: space-between;
+    align-self: center;
+    flex-direction: row;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    font-size: 16px;
+    color: rgb(128, 126, 126);
+}
+
+.size-type {
+    font-size: 35px;
+    color: rgb(128, 126, 126);
+    margin-left: 15px;
+}
+
+.indicator-container {
+    display: flex;
+    align-items: center;
+    height: auto;
+    width: auto;
+    font-size: 20px;
+    color: rgb(128, 126, 126);
+    flex-direction: row;
+}
+
+.indicator-stock {
+    background-image: url("project://database/Assets/UI/Icons/indicator-point-green.png?fileID=2800000&guid=1418826fc6dcb2d489e6286d2a85ab50&type=3#indicator-point-green");
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.stock-or-not {
+    font-size: 35px;
+    color: rgb(128, 126, 126);
+}
+
+.quantity-add-wish {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.quantity-item {
+    width: 15%;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 8px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left-color: rgb(165, 170, 164);
+    border-right-color: rgb(165, 170, 164);
+    border-top-color: rgb(165, 170, 164);
+    border-bottom-color: rgb(165, 170, 164);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 29px;
+    border-top-right-radius: 29px;
+    border-bottom-right-radius: 29px;
+    border-bottom-left-radius: 29px;
+}
+
+.add-to-basket {
+    width: 66%;
+    height: 100px;
+    background-color: rgb(192, 57, 43);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    -unity-font-style: bold;
+}
+
+.heart-for-wish-list {
+    background-image: url("project://database/Assets/UI/Icons/heart-icon.png?fileID=2800000&guid=50a3024a7f65f584d801292a3605b855&type=3#heart-icon");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    visibility: visible;
+    overflow: visible;
+}
+
+.red-hard {
+    background-image: url("project://database/Assets/UI/Icons/299063_heart_icon.png?fileID=2800000&guid=056bf0eb3e351f64e8dc5e250c4d0f55&type=3#299063_heart_icon");
+    position: absolute;
+    right: 0;
+    visibility: hidden;
+}
+
+#ColorDropdown VisualElement {
+}

@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="CategoryItem" class="category-item">
+        <ui:VisualElement name="CategoryItemImg" class="category-item-img" />
+        <ui:VisualElement name="CategoryItemTextContainer" class="category-item-text-container" style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Item Description" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryItemDescription" class="category-item-description" />
+            <ui:Label tabindex="-1" text="Price" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryItemPrice" class="category-item-price" style="font-size: 27px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
