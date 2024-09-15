@@ -1,4 +1,4 @@
-![Projet5_03](https://github.com/user-attachments/assets/87c91be9-8c73-4b31-8225-fa49461ed8d5)![Projet5_04](https://github.com/user-attachments/assets/352fc2b9-8323-4c02-8b62-fde3803a618f)![Projet5_06](https://github.com/user-attachments/assets/bf7fc6e3-26b1-4560-97f8-cf9697322537)
+![Projet5_03](https://github.com/user-attachments/assets/87c91be9-8c73-4b31-8225-fa49461ed8d5)![Projet5_06](https://github.com/user-attachments/assets/bf7fc6e3-26b1-4560-97f8-cf9697322537)
 
 
 DecoMaison is an augmented reality (AR)-based furniture display and shopping application. This README file aims to introduce the technical implementation and key functional modules of the project to developers.
