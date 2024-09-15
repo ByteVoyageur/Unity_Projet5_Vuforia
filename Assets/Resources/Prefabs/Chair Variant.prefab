@@ -77,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 771430866307167518, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
       propertyPath: furnitureData
       value: 
-      objectReference: {fileID: 11400000, guid: 2b63d91f74a63184fa84c89cfc5b870a, type: 2}
+      objectReference: {fileID: 11400000, guid: 75b65b46f7e3da94e98b3540a7a5262c, type: 2}
     - target: {fileID: 2496267725741456767, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 749.917
