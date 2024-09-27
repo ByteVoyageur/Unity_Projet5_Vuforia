@@ -1,24 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Networking;
 using System.Text;
 using Newtonsoft.Json;
-using System.Collections;
 
 public class SignInPage : Page
 {
-    public SignInPage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset) { }
+    private MonoBehaviour _monoBehaviour;
 
-    public static SignInPage CreateInstance(VisualTreeAsset visualTreeAsset)
+    public SignInPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset)
     {
-        return new SignInPage(visualTreeAsset);
+        _monoBehaviour = monoBehaviour;
     }
 
-    public void Initialize(PagesManager pagesManager, System.Func<IEnumerator,Coroutine>startCoroutine)
+    public static SignInPage CreateInstance(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour)
     {
-        // Find ArrowToRight element and add click event to navigate back to HomePage
+        return new SignInPage(visualTreeAsset, monoBehaviour);
+    }
+
+    public void Initialize(PagesManager pagesManager)
+    {
         var arrowToRight = Root.Q<VisualElement>("ArrowToRight");
-        
         if (arrowToRight != null)
         {
             arrowToRight.RegisterCallback<ClickEvent>(evt =>
@@ -31,15 +34,14 @@ public class SignInPage : Page
             Debug.LogError("ArrowToRight element not found on SignInPage.");
         }
 
-        // Find login button and register click event
         var loginButton = Root.Q<Button>("LoginButton");
         if (loginButton != null)
         {
             loginButton.RegisterCallback<ClickEvent>(evt =>
             {
-                string username = Root.Q<TextField>("EmailOrUserName").value;
+                string userName = Root.Q<TextField>("EmailOrUserName").value;
                 string password = Root.Q<TextField>("PassWord").value;
-                StartCoroutine(LoginUser(username, password));
+                _monoBehaviour.StartCoroutine(LoginUser(userName, password));
             });
         }
         else
@@ -47,17 +49,15 @@ public class SignInPage : Page
             Debug.LogError("Login button not found on SignInPage.");
         }
 
-        // Find create account button and register click event
         var createAccountButton = Root.Q<Button>("CreateMyAccount");
         if (createAccountButton != null)
         {
             createAccountButton.RegisterCallback<ClickEvent>(evt =>
             {
-                // For simplicity, let's assume you already have the necessary input fields
-                string username = Root.Q<TextField>("EmailOrUserName").value;
+                string userName = Root.Q<TextField>("EmailOrUserName").value;
                 string password = Root.Q<TextField>("PassWord").value;
                 string email = Root.Q<TextField>("EmailOrUserName").value;
-                StartCoroutine(RegisterUser(username, password, email));
+                _monoBehaviour.StartCoroutine(RegisterUser(userName, password, email));
             });
         }
         else
@@ -66,16 +66,16 @@ public class SignInPage : Page
         }
     }
 
-    private IEnumerator LoginUser(string username, string password)
+    private IEnumerator LoginUser(string userName, string password)
     {
         var jsonBody = JsonConvert.SerializeObject(new
         {
             action = "login",
-            username = username,
+            userName = userName,
             password = password
         });
 
-        using (UnityWebRequest www = UnityWebRequest.PostWwwForm("https://xiaosong.fr/api/user_api.php/login", jsonBody))
+        using (UnityWebRequest www = new UnityWebRequest("https://xiaosong.fr/decomaison/api/user_api.php/login", "POST"))
         {
             www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonBody));
             www.uploadHandler.contentType = "application/json";
@@ -86,7 +86,6 @@ public class SignInPage : Page
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Login successful: " + www.downloadHandler.text);
-                // Optionally navigate to a different page
             }
             else
             {
@@ -95,4 +94,32 @@ public class SignInPage : Page
         }
     }
 
+    private IEnumerator RegisterUser(string userName, string password, string email)
+    {
+        var jsonBody = JsonConvert.SerializeObject(new
+        {
+            action = "register",
+            userName = userName,
+            password = password,
+            email = email
+        });
+
+        using (UnityWebRequest www = new UnityWebRequest("https://xiaosong.fr/decomaison/api/user_api.php/register", "POST"))
+        {
+            www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonBody));
+            www.uploadHandler.contentType = "application/json";
+            www.downloadHandler = new DownloadHandlerBuffer();
+
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Register successful: " + www.downloadHandler.text);
+            }
+            else
+            {
+                Debug.Log("Register failed: " + www.error);
+            }
+        }
+    }
 }

@@ -105,9 +105,10 @@ public class PagesManager : MonoBehaviour
                 });
                 break;
             case "SignInPage":
-                page = new SignInPage(visualTreeAsset);
-                ((SignInPage)page).Initialize(this);
-                break;
+            var signInPageInstance = SignInPage.CreateInstance(visualTreeAsset, this);
+            signInPageInstance.Initialize(this);
+            page = signInPageInstance; 
+            break;
             case "WelcomePage":
                 page = new WelcomePage(visualTreeAsset);
                 ((WelcomePage)page).Initialize(this);
