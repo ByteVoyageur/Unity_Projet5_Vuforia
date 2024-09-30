@@ -110,7 +110,7 @@ public class PagesManager : MonoBehaviour
             page = signInPageInstance; 
             break;
             case "WelcomePage":
-                page = new WelcomePage(visualTreeAsset);
+                page = WelcomePage.CreateInstance(visualTreeAsset, this);
                 ((WelcomePage)page).Initialize(this);
                 AddButtonActions(page.Root, new Dictionary<string, System.Action>
                 {

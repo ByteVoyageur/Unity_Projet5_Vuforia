@@ -1,89 +1,92 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
 using UnityEngine.UIElements;
 
 public class WelcomePage : Page
 {
-    public WelcomePage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
+    private MonoBehaviour _monoBehaviour;
+
+    public WelcomePage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset)
     {
+        _monoBehaviour = monoBehaviour;
     }
 
-    public static WelcomePage CreateInstance(VisualTreeAsset visualTreeAsset)
+    public void Initialize(PagesManager pagesManager)
     {
-        return new WelcomePage(visualTreeAsset);
+        // Use the MonoBehaviour instance to start the coroutine
+        _monoBehaviour.StartCoroutine(GetCategories());
     }
 
-    public void Initialize(PagesManager pagesManager) 
+    [System.Serializable]
+    public class Category
     {
-        GenerateCategories(pagesManager);
-
-        FooterController.InitializeFooter(Root, pagesManager);
+        public int category_id;
+        public string name; 
+        public string url;  
     }
 
-    private void GenerateCategories(PagesManager pagesManager)
-{
-    // Get the container where the category buttons will be placed
-    var categoryList = Root.Q<ScrollView>("CategorysScrollList");
-
-    // Load the category card template
-    if (!pagesManager.pageAssets.TryGetValue("CategoryCartTemplate", out var categoryCartTemplate))
+    [System.Serializable]
+    public class CategoryList
     {
-        Debug.LogError("CategoryCartTemplate not found in pageAssets.");
-        return;
+        public List<Category> categories;
     }
 
-    // Load all CategorySO assets from the Resources/Data/Category directory
-    var categoryAssets = Resources.LoadAll<CategorySO>("Data/Category");
+    // Use HTTPS URL
+    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php?categories";
 
-    if (categoryAssets == null || categoryAssets.Length == 0)
+    IEnumerator GetCategories()
     {
-        Debug.LogError("No CategorySO assets found in Data/Category directory.");
-        return;
-    }
-
-    foreach (var categorySO in categoryAssets)
-    {
-        var categoryName = categorySO.name; // Assuming the name of scriptable object is the name of the category
-        var categoryImage = categorySO.categoryImage; // Get the image directly from the CategorySO
-
-        // Ensure categoryName and categoryImage are valid
-        if (string.IsNullOrEmpty(categoryName))
+        using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
         {
-            Debug.LogError("CategorySO name is missing.");
-            continue;
+            // Assign a certificate handler to handle SSL certificate validation
+            www.certificateHandler = new AcceptAllCertificatesSignedWithASpecificKeyPublicKey();
+
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("HTTP error: " + www.error); // Log detailed error
+                Debug.LogError("Response code: " + www.responseCode); // Log response code
+                Debug.LogError("Response text: " + www.downloadHandler.text); // Log response text
+            }
+            else
+            {
+                string jsonResponse = www.downloadHandler.text;
+                Debug.Log("Received response: " + jsonResponse); // Log the successful response
+
+                // 将jsonResponse反序列化为List<Category>
+                List<Category> categories = JsonConvert.DeserializeObject<List<Category>>(jsonResponse);
+
+                if (categories != null)
+                {
+                    foreach (var category in categories)
+                    {
+                        Debug.Log($"Category ID: {category.category_id}, Name: {category.name}, URL: {category.url}");
+                        // Update UI here
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Failed to deserialize categories.");
+                }
+            }
         }
-
-        if (categoryImage == null)
-        {
-            Debug.LogWarning($"Category {categoryName} does not have a valid image.");
-        }
-
-        // Create a new VisualElement from the template
-        var categoryCardInstance = categoryCartTemplate.CloneTree();
-
-        // Configure the image VisualElement
-        var categoryImg = categoryCardInstance.Q<VisualElement>("CategoryCartImage");
-        if (categoryImg != null && categoryImage != null)
-        {
-            categoryImg.style.backgroundImage = new StyleBackground(categoryImage);
-        }
-
-        // Configure the title Label
-        var categoryTitle = categoryCardInstance.Q<Label>("CategoryTitle");
-        if (categoryTitle != null)
-        {
-            categoryTitle.text = categoryName;
-        }
-
-        // Register click event for the category card
-        categoryCardInstance.RegisterCallback<ClickEvent>(evt =>
-        {
-            Debug.Log($"Category {categoryName} clicked."); // Debug log for category click event
-            pagesManager.ShowCategoryPage(categoryName);
-        });
-
-        // Add the card to the container
-        categoryList.Add(categoryCardInstance);
     }
-}
+
+    public static WelcomePage CreateInstance(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour)
+    {
+        return new WelcomePage(visualTreeAsset, monoBehaviour);
+    }
+
+    // This class accepts any SSL certificate - replace this with proper validation for production
+    private class AcceptAllCertificatesSignedWithASpecificKeyPublicKey : CertificateHandler
+    {
+        protected override bool ValidateCertificate(byte[] certificateData)
+        {
+            return true; // For now, accept all certificates
+        }
+    }
 }
