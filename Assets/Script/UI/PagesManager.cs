@@ -186,29 +186,39 @@ public class PagesManager : MonoBehaviour
 
     public void ShowCategoryPage(string categoryName)
     {
-        Debug.Log($"ShowCategoryPage called for {categoryName}");
-        if (!pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
-        {
-            Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
-            return;
-        }
-        var categoryPage = CategoryPage.CreateInstance(visualTreeAsset, this);
-        int categoryId = GetCategoryIdByName(categoryName);  
-        categoryPage.Initialize(this, categoryId);
-        uiDocument.rootVisualElement.Clear();
-        uiDocument.rootVisualElement.Add(categoryPage.Root);
-        Debug.Log("Created and displayed a new CategoryPage instance.");
+    Debug.Log($"ShowCategoryPage called for {categoryName}");
+    if (!pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
+    {
+        Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
+        return;
+    }
+
+    var categoryPage = CategoryPage.CreateInstance(visualTreeAsset, this);
+    int categoryId = GetCategoryIdByName(categoryName);
+    if (categoryId == 0)  
+    {
+        Debug.LogError($"Category ID is 0. The category '{categoryName}' may not be defined in GetCategoryIdByName.");
+        return;
+    }
+
+    categoryPage.Initialize(this, categoryId);
+    uiDocument.rootVisualElement.Clear();
+    uiDocument.rootVisualElement.Add(categoryPage.Root);
+    Debug.Log("Created and displayed a new CategoryPage instance.");
     }
 
     private int GetCategoryIdByName(string categoryName)
     {
-        switch (categoryName.ToLower())
-        {
-            case "defaultcategory": return 1;
-            case "kitchen": return 2;
-            case "livingroom": return 3;
-            default: return 0;  
-        }
+    switch (categoryName.ToLower())
+    {
+        case "bureau": return 1;
+        case "jardin": return 2;
+        case "kitchen": return 3;
+        case "room": return 4;
+        default:
+            Debug.LogError($"Unknown category name: {categoryName}");
+            return 0;
+    }
     }
 
     public void ShowItemDetailPage(FurnitureSO itemData)

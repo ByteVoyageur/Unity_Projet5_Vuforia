@@ -9,7 +9,7 @@ public class CategoryPage : Page
 {
     private MonoBehaviour _monoBehaviour;
     private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php?products&category_id=";
-
+    
     public CategoryPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset)
     {
         _monoBehaviour = monoBehaviour;
@@ -41,10 +41,8 @@ public class CategoryPage : Page
     {
         string completeApiUrl = $"{apiUrl}{categoryId}";
         Debug.Log($"Request URL: {completeApiUrl}");
-
         using (UnityWebRequest www = UnityWebRequest.Get(completeApiUrl))
         {
-            // Accept all certificates for HTTPS request
             www.certificateHandler = new AcceptAllCertificatesSignedWithASpecificKeyPublicKey();
             yield return www.SendWebRequest();
 
@@ -81,6 +79,12 @@ public class CategoryPage : Page
     private void GenerateItems(PagesManager pagesManager, List<Item> items)
     {
         var itemsContainer = Root.Q<ScrollView>("CategoryItemsScrollContainer");
+        if (itemsContainer == null)
+        {
+            Debug.LogError("itemsContainer is null");
+            return;
+        }
+
         if (!pagesManager.pageAssets.TryGetValue("ItemCartTemplate", out var itemTemplate))
         {
             Debug.LogError("ItemTemplate not found in pageAssets.");
@@ -88,33 +92,69 @@ public class CategoryPage : Page
         }
 
         itemsContainer.Clear();
+
         foreach (var item in items)
         {
             var itemElement = itemTemplate.CloneTree();
-            var itemImg = itemElement.Q<VisualElement>("Image");
+            if (itemElement == null)
+            {
+                Debug.LogError("Failed to clone itemElement from template.");
+                continue;
+            }
 
-            // Load each item's image
+            var itemImg = itemElement.Q<VisualElement>("Image");
+            if (itemImg == null)
+            {
+                Debug.LogError("Image element not found.");
+                continue;
+            }
+
             _monoBehaviour.StartCoroutine(LoadImageFromURL(item.image_url, (texture) =>
             {
                 if (itemImg != null && texture != null)
                 {
                     itemImg.style.backgroundImage = new StyleBackground(texture);
                 }
+                else
+                {
+                    Debug.LogError($"Failed to load or apply texture for item: {item.name}");
+                }
             }));
 
             var itemTitle = itemElement.Q<Label>("TitleCart");
-            itemTitle.text = item.name;
-            var itemDescription = itemElement.Q<Label>("DescriptionCart");
-            itemDescription.text = item.description;
-            var itemPrice = itemElement.Q<Label>("Price");
-            itemPrice.text = $"${item.price}";
+            if (itemTitle != null)
+            {
+                itemTitle.text = item.name;
+            }
+            else
+            {
+                Debug.LogError("TitleCart not found.");
+            }
 
-            // Register click event for each item card
+            var itemDescription = itemElement.Q<Label>("DescriptionCart");
+            if (itemDescription != null)
+            {
+                itemDescription.text = item.description;
+            }
+            else
+            {
+                Debug.LogError("DescriptionCart not found.");
+            }
+
+            var itemPrice = itemElement.Q<Label>("Price");
+            if (itemPrice != null)
+            {
+                itemPrice.text = $"${item.price}";
+            }
+            else
+            {
+                Debug.LogError("Price element not found.");
+            }
+
             itemElement.RegisterCallback<ClickEvent>(evt =>
             {
                 Debug.Log($"Item {item.name} clicked.");
-                // Directly pass the item object to show details
-                //pagesManager.ShowItemDetailPage(item);
+                // pagesManager.ShowItemDetailPage(item);
             });
 
             itemsContainer.Add(itemElement);
@@ -128,6 +168,10 @@ public class CategoryPage : Page
             onSuccess?.Invoke(null);
             yield break;
         }
+
+        // 改正反斜杠问题
+        imageUrl = imageUrl.Replace("\\", "/");
+        Debug.Log($"Loading image from URL: {imageUrl}");
 
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
         {
