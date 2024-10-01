@@ -42,14 +42,6 @@ public class WelcomePage : Page
         {
             yield return www.SendWebRequest();
 
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("HTTP error: " + www.error);
-                Debug.LogError("Response code: " + www.responseCode);
-                Debug.LogError("Response text: " + www.downloadHandler.text);
-                yield break;
-            }
-
             string jsonResponse = www.downloadHandler.text;
             Debug.Log("Received response: " + jsonResponse);
 
@@ -91,10 +83,7 @@ public class WelcomePage : Page
 
             _monoBehaviour.StartCoroutine(LoadImageFromURL(imageUrl, (texture) =>
             {
-                if (categoryImg != null && texture != null)
-                {
                     categoryImg.style.backgroundImage = new StyleBackground(texture);
-                }
             }));
 
             categoryCardInstance.RegisterCallback<ClickEvent>(evt =>
