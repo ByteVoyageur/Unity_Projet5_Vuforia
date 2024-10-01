@@ -76,119 +76,122 @@ public class CategoryPage : Page
         }
     }
 
-    private void GenerateItems(PagesManager pagesManager, List<Item> items)
+   private void GenerateItems(PagesManager pagesManager, List<Item> items)
+{
+    var itemsContainer = Root.Q<ScrollView>("CategoryItemsScrollContainer");
+    if (itemsContainer == null)
     {
-        var itemsContainer = Root.Q<ScrollView>("CategoryItemsScrollContainer");
-        if (itemsContainer == null)
+        Debug.LogError("itemsContainer is null");
+        return;
+    }
+
+    if (!pagesManager.pageAssets.TryGetValue("ItemCartTemplate", out var itemTemplate))
+    {
+        Debug.LogError("ItemTemplate not found in pageAssets.");
+        return;
+    }
+
+    itemsContainer.Clear();
+
+    foreach (var item in items)
+    {
+        var itemElement = itemTemplate.CloneTree();
+        if (itemElement == null)
         {
-            Debug.LogError("itemsContainer is null");
-            return;
+            Debug.LogError("Failed to clone itemElement from template.");
+            continue;
         }
 
-        if (!pagesManager.pageAssets.TryGetValue("ItemCartTemplate", out var itemTemplate))
+        var itemImg = itemElement.Q<VisualElement>("Image");
+        if (itemImg != null)
         {
-            Debug.LogError("ItemTemplate not found in pageAssets.");
-            return;
-        }
-
-        itemsContainer.Clear();
-
-        foreach (var item in items)
-        {
-            var itemElement = itemTemplate.CloneTree();
-            if (itemElement == null)
-            {
-                Debug.LogError("Failed to clone itemElement from template.");
-                continue;
-            }
-
-            var itemImg = itemElement.Q<VisualElement>("Image");
-            if (itemImg == null)
-            {
-                Debug.LogError("Image element not found.");
-                continue;
-            }
-
+            Debug.Log($"Loading image for item: {item.name}, URL: {item.image_url}");
             _monoBehaviour.StartCoroutine(LoadImageFromURL(item.image_url, (texture) =>
             {
-                if (itemImg != null && texture != null)
+                if (texture != null)
                 {
                     itemImg.style.backgroundImage = new StyleBackground(texture);
+                    Debug.Log($"Successfully applied texture for item: {item.name}");
                 }
                 else
                 {
                     Debug.LogError($"Failed to load or apply texture for item: {item.name}");
                 }
             }));
-
-            var itemTitle = itemElement.Q<Label>("TitleCart");
-            if (itemTitle != null)
-            {
-                itemTitle.text = item.name;
-            }
-            else
-            {
-                Debug.LogError("TitleCart not found.");
-            }
-
-            var itemDescription = itemElement.Q<Label>("DescriptionCart");
-            if (itemDescription != null)
-            {
-                itemDescription.text = item.description;
-            }
-            else
-            {
-                Debug.LogError("DescriptionCart not found.");
-            }
-
-            var itemPrice = itemElement.Q<Label>("Price");
-            if (itemPrice != null)
-            {
-                itemPrice.text = $"${item.price}";
-            }
-            else
-            {
-                Debug.LogError("Price element not found.");
-            }
-
-            itemElement.RegisterCallback<ClickEvent>(evt =>
-            {
-                Debug.Log($"Item {item.name} clicked.");
-                // pagesManager.ShowItemDetailPage(item);
-            });
-
-            itemsContainer.Add(itemElement);
         }
-    }
+        else
+        {
+            Debug.LogError("Image element not found.");
+        }
 
-    private IEnumerator LoadImageFromURL(string imageUrl, System.Action<Texture2D> onSuccess)
+        var itemTitle = itemElement.Q<Label>("TitleCart");
+        if (itemTitle != null)
+        {
+            itemTitle.text = item.name;
+        }
+        else
+        {
+            Debug.LogError("TitleCart not found.");
+        }
+
+        var itemDescription = itemElement.Q<Label>("DescriptionCart");
+        if (itemDescription != null)
+        {
+            itemDescription.text = item.description;
+        }
+        else
+        {
+            Debug.LogError("DescriptionCart not found.");
+        }
+
+        var itemPrice = itemElement.Q<Label>("Price");
+        if (itemPrice != null)
+        {
+            itemPrice.text = $"${item.price}";
+        }
+        else
+        {
+            Debug.LogError("Price element not found.");
+        }
+
+        itemElement.RegisterCallback<ClickEvent>(evt =>
+        {
+            Debug.Log($"Item {item.name} clicked.");
+            // pagesManager.ShowItemDetailPage(item);
+        });
+
+        itemsContainer.Add(itemElement);
+    }
+}
+
+   private IEnumerator LoadImageFromURL(string imageUrl, System.Action<Texture2D> onSuccess)
+{
+    if (string.IsNullOrEmpty(imageUrl))
     {
-        if (string.IsNullOrEmpty(imageUrl))
+        Debug.LogError("Image URL is null or empty.");
+        onSuccess?.Invoke(null);
+        yield break;
+    }
+
+    Debug.Log($"Loading image from URL: {imageUrl}");
+
+    using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
+    {
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            onSuccess?.Invoke(null);
-            yield break;
+            Texture2D texture = DownloadHandlerTexture.GetContent(request);
+            Debug.Log($"Successfully loaded image from URL: {imageUrl}");
+            onSuccess?.Invoke(texture);
         }
-
-        // 改正反斜杠问题
-        imageUrl = imageUrl.Replace("\\", "/");
-        Debug.Log($"Loading image from URL: {imageUrl}");
-
-        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
+        else
         {
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                onSuccess?.Invoke(texture);
-            }
-            else
-            {
-                Debug.LogError("Failed to load texture from " + imageUrl);
-                onSuccess?.Invoke(null);
-            }
+            Debug.LogError($"Failed to load texture from {imageUrl}, Error: {request.error}");
+            onSuccess?.Invoke(null);
         }
     }
+}
 
     private class AcceptAllCertificatesSignedWithASpecificKeyPublicKey : CertificateHandler
     {
