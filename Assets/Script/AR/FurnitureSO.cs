@@ -8,4 +8,5 @@ public class FurnitureSO : ScriptableObject
     public float price;
     public Texture2D icon;  
     public GameObject prefab;
+    public string imageUrl;
 }
