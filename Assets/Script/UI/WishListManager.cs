@@ -1,4 +1,3 @@
-// WishListManager.cs
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ using Newtonsoft.Json;
 public class WishListManager : MonoBehaviour
 {
     private static WishListManager _instance;
-    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php?action=";
-    
+    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php";
+
     public static WishListManager Instance
     {
         get
@@ -42,7 +41,7 @@ public class WishListManager : MonoBehaviour
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Item
     {
         public int product_id;
@@ -51,7 +50,7 @@ public class WishListManager : MonoBehaviour
         public string image_url;
         public string description;
         public float price;
-        public string prefabName;  
+        public string prefabName;
         public GameObject prefab;
         public Texture2D icon;
     }
@@ -65,13 +64,14 @@ public class WishListManager : MonoBehaviour
     {
         var requestPayload = new
         {
+            action = "add_to_wishlist",
             user_id = UserManager.Instance.UserId,
             product_id = item.product_id
         };
+
         string jsonData = JsonConvert.SerializeObject(requestPayload);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
-
-        using (UnityWebRequest www = new UnityWebRequest($"{apiUrl}add_to_wishlist", "POST"))
+        using (UnityWebRequest www = new UnityWebRequest(apiUrl, "POST"))
         {
             www.uploadHandler = new UploadHandlerRaw(bodyRaw);
             www.downloadHandler = new DownloadHandlerBuffer();
@@ -81,7 +81,7 @@ public class WishListManager : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                item.prefab = LoadPrefab(item.prefabName);  // 加载Prefab
+                item.prefab = LoadPrefab(item.prefabName);
                 wishListItems.Add(item);
                 OnItemAddedToWishList?.Invoke(item);
             }
@@ -101,13 +101,14 @@ public class WishListManager : MonoBehaviour
     {
         var requestPayload = new
         {
+            action = "remove_from_wishlist",
             user_id = UserManager.Instance.UserId,
             product_id = item.product_id
         };
+
         string jsonData = JsonConvert.SerializeObject(requestPayload);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
-
-        using (UnityWebRequest www = new UnityWebRequest($"{apiUrl}remove_from_wishlist", "POST"))
+        using (UnityWebRequest www = new UnityWebRequest(apiUrl, "DELETE"))
         {
             www.uploadHandler = new UploadHandlerRaw(bodyRaw);
             www.downloadHandler = new DownloadHandlerBuffer();
@@ -134,7 +135,7 @@ public class WishListManager : MonoBehaviour
 
     private IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{apiUrl}get_wishlist&user_id={UserManager.Instance.UserId}"))
+        using (UnityWebRequest www = UnityWebRequest.Get($"{apiUrl}?action=get_wishlist&user_id={UserManager.Instance.UserId}"))
         {
             yield return www.SendWebRequest();
 
@@ -144,7 +145,7 @@ public class WishListManager : MonoBehaviour
                 List<Item> items = JsonConvert.DeserializeObject<List<Item>>(jsonResponse);
                 foreach (var item in items)
                 {
-                    item.prefab = LoadPrefab(item.prefabName);
+                    item.prefab = LoadPrefab(item.prefabName);   
                     yield return StartCoroutine(DownloadImageCoroutine(item.image_url, texture =>
                     {
                         if (texture != null)
