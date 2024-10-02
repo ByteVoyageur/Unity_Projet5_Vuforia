@@ -68,7 +68,6 @@ public class WishListManager : MonoBehaviour
             user_id = UserManager.Instance.UserId,
             product_id = item.product_id
         };
-
         string jsonData = JsonConvert.SerializeObject(requestPayload);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         using (UnityWebRequest www = new UnityWebRequest(apiUrl, "POST"))
@@ -76,11 +75,10 @@ public class WishListManager : MonoBehaviour
             www.uploadHandler = new UploadHandlerRaw(bodyRaw);
             www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
-
             yield return www.SendWebRequest();
-
             if (www.result == UnityWebRequest.Result.Success)
             {
+                Debug.Log($"Response: {www.downloadHandler.text}");
                 item.prefab = LoadPrefab(item.prefabName);
                 wishListItems.Add(item);
                 OnItemAddedToWishList?.Invoke(item);
@@ -91,7 +89,6 @@ public class WishListManager : MonoBehaviour
             }
         }
     }
-
     public void RemoveFromWishList(Item item)
     {
         StartCoroutine(RemoveFromWishListCoroutine(item));

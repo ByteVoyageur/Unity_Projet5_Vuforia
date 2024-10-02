@@ -128,13 +128,11 @@ public class ItemDetailPage : Page
         {
             heartForWishList.style.visibility = Visibility.Hidden;
             redHeart.style.visibility = Visibility.Visible;
-            Debug.Log("Added to wish list.");
         }
         else
         {
             heartForWishList.style.visibility = Visibility.Visible;
             redHeart.style.visibility = Visibility.Hidden;
-            Debug.Log("Removed from wish list.");
         }
     }
 }
