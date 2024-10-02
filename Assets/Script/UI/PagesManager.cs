@@ -43,18 +43,33 @@ public class PagesManager : MonoBehaviour
     }
 
     public void ShowPage(string pageName, object data = null)
+{
+    foreach (var existingPage in pagePool.Values)
     {
-        foreach (var existingPage in pagePool.Values)
+        existingPage.Root.style.display = DisplayStyle.None;
+    }
+    Page page = null;
+    if (pageName == "ItemDetailPage" && data is WishListManager.Item itemData)
+    {
+        if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
         {
-            existingPage.Root.style.display = DisplayStyle.None;
+            page = new ItemDetailPage(visualTreeAsset, this);
+            ((ItemDetailPage)page).Initialize(itemData, this);
         }
-        Page page = null;
-        if (pageName == "ItemDetailPage" && data is FurnitureSO furnitureData)
+        else
+        {
+            Debug.LogError($"No VisualTreeAsset found for {pageName}");
+            return;
+        }
+    }
+    else
+    {
+        if (!pagePool.TryGetValue(pageName, out page))
         {
             if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
             {
-                page = new ItemDetailPage(visualTreeAsset);
-                ((ItemDetailPage)page).Initialize(furnitureData, this);
+                page = CreatePageInstance(pageName, visualTreeAsset, data);
+                pagePool[pageName] = page;
             }
             else
             {
@@ -62,28 +77,13 @@ public class PagesManager : MonoBehaviour
                 return;
             }
         }
-        else
-        {
-            if (!pagePool.TryGetValue(pageName, out page))
-            {
-                if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
-                {
-                    page = CreatePageInstance(pageName, visualTreeAsset, data);
-                    pagePool[pageName] = page;
-                }
-                else
-                {
-                    Debug.LogError($"No VisualTreeAsset found for {pageName}");
-                    return;
-                }
-            }
-        }
-        uiDocument.rootVisualElement.Clear();
-        uiDocument.rootVisualElement.Add(page.Root);
-        page.Root.style.display = DisplayStyle.Flex;
-        FooterController.InitializeFooter(page.Root, this);
-        Debug.Log($"Displayed page: {pageName}");
     }
+    uiDocument.rootVisualElement.Clear();
+    uiDocument.rootVisualElement.Add(page.Root);
+    page.Root.style.display = DisplayStyle.Flex;
+    FooterController.InitializeFooter(page.Root, this);
+    Debug.Log($"Displayed page: {pageName}");
+}
 
     private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, object data = null)
     {
@@ -112,16 +112,22 @@ public class PagesManager : MonoBehaviour
                 });
                 break;
             case "ItemDetailPage":
-                page = new ItemDetailPage(visualTreeAsset);
-                if (data is FurnitureSO furnitureData)
-                {
-                    ((ItemDetailPage)page).Initialize(furnitureData, this);
-                }
-                AddButtonActions(page.Root, new Dictionary<string, System.Action>
-                {
-                    { "ViewInARButton", ShowInAR }
-                });
-                break;
+            page = ItemDetailPage.CreateInstance(visualTreeAsset, this);
+            if (data is WishListManager.Item itemData)
+            {
+                ((ItemDetailPage)page).Initialize(itemData, this);
+            }
+            else if (data is FurnitureSO furnitureData)
+            {
+                // If you still want to support FurnitureSO, add this block
+                var item = ConvertToWishListManagerItem(furnitureData);
+                ((ItemDetailPage)page).Initialize(item, this);
+            }
+            AddButtonActions(page.Root, new Dictionary<string, System.Action>
+            {
+                { "ViewInARButton", ShowInAR }
+            });
+            break;
             case "CategoryPage":
                 if (data is string categoryName)
                 {
@@ -135,7 +141,7 @@ public class PagesManager : MonoBehaviour
                 }
                 break;
             case "WishListPage":
-                page = new WishListPage(visualTreeAsset);
+                page = WishListPage.CreateInstance(visualTreeAsset, this);
                 ((WishListPage)page).Initialize(this);
                 break;
             case "ShoppingCartPage":
@@ -235,4 +241,15 @@ public class PagesManager : MonoBehaviour
     {
         Debug.Log("Footer AR button clicked.");
     }
+
+    private WishListManager.Item ConvertToWishListManagerItem(FurnitureSO furnitureData)
+{
+    return new WishListManager.Item
+    {
+        name = furnitureData.itemName,
+        description = furnitureData.description,
+        price = furnitureData.price,
+        image_url = furnitureData.imageUrl
+    };
+}
 }

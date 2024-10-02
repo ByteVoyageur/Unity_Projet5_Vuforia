@@ -13,55 +13,55 @@ public static class FooterController
     public static void InitializeFooter(VisualElement root, PagesManager pagesManager)
     {
         var homeFooter = root.Q<VisualElement>("HomeFooter");
-            homeFooter.RegisterCallback<ClickEvent>(evt =>
-            { 
-                pagesManager.ShowPage("WelcomePage"); 
-            });
+        homeFooter.RegisterCallback<ClickEvent>(evt =>
+        {
+            pagesManager.ShowPage("WelcomePage");
+        });
 
         var settingFooter = root.Q<VisualElement>("SettingFooter");
-            settingFooter.RegisterCallback<ClickEvent>(evt =>
-            { 
-                // Implement setting page navigation
-                Debug.Log("Setting footer clicked."); 
-            });
+        settingFooter.RegisterCallback<ClickEvent>(evt =>
+        {
+            // Implement setting page navigation
+            Debug.Log("Setting footer clicked.");
+        });
 
         var arModeFooter = root.Q<VisualElement>("ARModeFooter");
-            arModeFooter.RegisterCallback<ClickEvent>(evt =>
-            { 
-                // Implement AR mode page navigation
-                SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
-                Debug.Log("AR Mode footer clicked."); 
-            });
+        arModeFooter.RegisterCallback<ClickEvent>(evt =>
+        {
+            // Implement AR mode page navigation
+            SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
+            Debug.Log("AR Mode footer clicked.");
+        });
 
         var wishListFooter = root.Q<VisualElement>("WishListFooter");
-            wishListFooter.RegisterCallback<ClickEvent>(evt =>
-            {
-                pagesManager.ShowPage("WishListPage");
-            });
+        wishListFooter.RegisterCallback<ClickEvent>(evt =>
+        {
+            pagesManager.ShowPage("WishListPage");
+        });
 
-            // Initialize WishListCounter and subscribe to updates
-            wishListCounter = wishListFooter.Q<Label>("WishListCounter");
-            if (wishListCounter != null)
-            {
-                // Unsubscribe to prevent duplicate subscriptions
-                WishListManager.Instance.OnItemAddedToWishList -= UpdateWishListCounter;
-                WishListManager.Instance.OnItemRemovedFromWishList -= UpdateWishListCounter;
-                
-                // Subscribe to update events
-                WishListManager.Instance.OnItemAddedToWishList += UpdateWishListCounter;
-                WishListManager.Instance.OnItemRemovedFromWishList += UpdateWishListCounter;
+        // Initialize WishListCounter and subscribe to updates
+        wishListCounter = wishListFooter.Q<Label>("WishListCounter");
+        if (wishListCounter != null)
+        {
+            // Unsubscribe to prevent duplicate subscriptions
+            WishListManager.Instance.OnItemAddedToWishList -= UpdateWishListCounter;
+            WishListManager.Instance.OnItemRemovedFromWishList -= UpdateWishListCounter;
 
-                // Call the no-argument version to initialize
-                UpdateWishListCounter();
-            }
-            else
-            {
-                Debug.LogError("WishListCounter element not found.");
-            }
+            // Subscribe to update events
+            WishListManager.Instance.OnItemAddedToWishList += UpdateWishListCounter;
+            WishListManager.Instance.OnItemRemovedFromWishList += UpdateWishListCounter;
+
+            // Call the no-argument version to initialize
+            UpdateWishListCounter();
+        }
+        else
+        {
+            Debug.LogError("WishListCounter element not found.");
+        }
     }
 
     // Method to update WishList counter with parameter
-    private static void UpdateWishListCounter(FurnitureSO itemData)
+    private static void UpdateWishListCounter(WishListManager.Item item)
     {
         UpdateWishListCounter();
     }

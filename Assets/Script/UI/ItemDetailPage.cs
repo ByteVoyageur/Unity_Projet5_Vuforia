@@ -1,70 +1,85 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class ItemDetailPage : Page
 {
+    private MonoBehaviour _monoBehaviour;
     private string arSceneName = "SampleScene";
     private PagesManager pagesManager;
-    private FurnitureSO currentItemData;
+    private WishListManager.Item currentItemData;
 
-    public ItemDetailPage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
+    public ItemDetailPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset)
     {
+        _monoBehaviour = monoBehaviour;
     }
 
-    public static ItemDetailPage CreateInstance(VisualTreeAsset visualTreeAsset)
+    public static ItemDetailPage CreateInstance(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour)
     {
-        return new ItemDetailPage(visualTreeAsset);
+        return new ItemDetailPage(visualTreeAsset, monoBehaviour);
     }
 
-    public void Initialize(FurnitureSO itemData, PagesManager manager)
-{
-    currentItemData = itemData;
-    pagesManager = manager;
+    public void Initialize(WishListManager.Item itemData, PagesManager manager)
+    {
+        currentItemData = itemData;
+        pagesManager = manager;
 
-    // Update UI elements with itemData values
-    var imgItem = Root.Q<VisualElement>("ImgItem");
-    imgItem.style.backgroundImage = new StyleBackground(itemData.icon);
+        SetItemImage(Root.Q<VisualElement>("ImgItem"), itemData.image_url);
 
-    var nameItem = Root.Q<Label>("NameItem");
-    nameItem.text = itemData.itemName;
+        var nameItem = Root.Q<Label>("NameItem");
+        nameItem.text = itemData.name;
+        var descriptionItem = Root.Q<Label>("Description");
+        descriptionItem.text = itemData.description;
+        var priceEuros = Root.Q<Label>("PriceEuros");
+        int wholePrice = Mathf.FloorToInt(itemData.price);
+        priceEuros.text = wholePrice.ToString();
+        var priceCentimes = Root.Q<Label>("PriceCentimes");
+        int centimes = Mathf.FloorToInt((itemData.price - Mathf.Floor(itemData.price)) * 100);
+        priceCentimes.text = "," + centimes.ToString("D2") + "€";
 
-    var descriptionItem = Root.Q<Label>("Description");
-    descriptionItem.text = itemData.description;
+        var viewInARButton = Root.Q<Button>("ViewInARButton");
+        viewInARButton.clicked += OnViewInARButtonClick;
 
-    var priceEuros = Root.Q<Label>("PriceEuros");
-    int wholePrice = Mathf.FloorToInt(itemData.price);
-    priceEuros.text = wholePrice.ToString();
+        var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
+        var redHeart = Root.Q<VisualElement>("RedHeart");
+        heartForWishList.RegisterCallback<ClickEvent>(evt => {
+            HandleWishListClick(itemData, heartForWishList, redHeart);
+        });
 
-    var priceCentimes = Root.Q<Label>("PriceCentimes");
-    int centimes = Mathf.FloorToInt((itemData.price - Mathf.Floor(itemData.price)) * 100);
-    priceCentimes.text = "," + centimes.ToString("D2") + "€";
+        UpdateHeartVisualState(heartForWishList, redHeart, WishListManager.Instance.IsInWishList(itemData));
 
-    var viewInARButton = Root.Q<Button>("ViewInARButton");
-    viewInARButton.clicked += OnViewInARButtonClick;
+        WishListManager.Instance.OnItemAddedToWishList -= OnItemAddedToWishList;
+        WishListManager.Instance.OnItemRemovedFromWishList -= OnItemRemovedFromWishList;
+        WishListManager.Instance.OnItemAddedToWishList += OnItemAddedToWishList;
+        WishListManager.Instance.OnItemRemovedFromWishList += OnItemRemovedFromWishList;
 
-    var heartForWishList = Root.Q<VisualElement>("HeartForWishList");
-    var redHeart = Root.Q<VisualElement>("RedHeart");
+        var iconBack = Root.Q<VisualElement>("IconBack");
+        iconBack.RegisterCallback<ClickEvent>(evt => {
+            OnIconBackClick();
+        });
+    }
 
-    heartForWishList.RegisterCallback<ClickEvent>(evt => {
-        HandleWishListClick(itemData, heartForWishList, redHeart);
-    });
+    private void SetItemImage(VisualElement imgItem, string imageUrl)
+    {
+        var cachedTexture = WishListManager.Instance.GetCachedImage(imageUrl);
+        if (cachedTexture != null)
+        {
+            imgItem.style.backgroundImage = new StyleBackground(cachedTexture);
+        }
+        else
+        {
+            _monoBehaviour.StartCoroutine(WishListManager.Instance.DownloadImageCoroutine(imageUrl, texture =>
+            {
+                if (texture != null)
+                {
+                    imgItem.style.backgroundImage = new StyleBackground(texture);
+                }
+            }));
+        }
+    }
 
-    UpdateHeartVisualState(heartForWishList, redHeart, WishListManager.Instance.IsInWishList(itemData));
-
-    WishListManager.Instance.OnItemAddedToWishList -= OnItemAddedToWishList;
-    WishListManager.Instance.OnItemRemovedFromWishList -= OnItemRemovedFromWishList;
-
-    WishListManager.Instance.OnItemAddedToWishList += OnItemAddedToWishList;
-    WishListManager.Instance.OnItemRemovedFromWishList += OnItemRemovedFromWishList;
-
-    var iconBack = Root.Q<VisualElement>("IconBack");
-    iconBack.RegisterCallback<ClickEvent>(evt => {
-        OnIconBackClick();
-    });
-}
-
-    private void OnItemAddedToWishList(FurnitureSO item)
+    private void OnItemAddedToWishList(WishListManager.Item item)
     {
         if (item == currentItemData)
         {
@@ -74,7 +89,7 @@ public class ItemDetailPage : Page
         }
     }
 
-    private void OnItemRemovedFromWishList(FurnitureSO item)
+    private void OnItemRemovedFromWishList(WishListManager.Item item)
     {
         if (item == currentItemData)
         {
@@ -95,7 +110,7 @@ public class ItemDetailPage : Page
         pagesManager.ShowPage("CategoryPage", categoryData);
     }
 
-    private void HandleWishListClick(FurnitureSO itemData, VisualElement heartForWishList, VisualElement redHeart)
+    private void HandleWishListClick(WishListManager.Item itemData, VisualElement heartForWishList, VisualElement redHeart)
     {
         if (WishListManager.Instance.IsInWishList(itemData))
         {
