@@ -150,7 +150,7 @@ public class PagesManager : MonoBehaviour
                 ((ShoppingCartPage)page).Initialize(this);
                 break;
             case "SettingsPage":
-                page = new SettingsPage(visualTreeAsset);
+                page = new SettingsPage(visualTreeAsset,this);
                 ((SettingsPage)page).Initialize();
                 break;
             default:
