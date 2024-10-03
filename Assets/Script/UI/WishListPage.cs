@@ -11,7 +11,6 @@ public class WishListPage : Page
     public WishListPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset) 
     {
         _monoBehaviour = monoBehaviour;
-        Debug.Log(_monoBehaviour != null ? "MonoBehaviour successfully passed" : "MonoBehaviour is null");
     }
 
     public static WishListPage CreateInstance(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour)

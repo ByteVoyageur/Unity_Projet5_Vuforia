@@ -96,33 +96,25 @@ public class WishListManager : MonoBehaviour
 
     private IEnumerator RemoveFromWishListCoroutine(Item item)
     {
-        var requestPayload = new
+    string url = $"{apiUrl}?action=remove_from_wishlist&user_id={UserManager.Instance.UserId}&product_id={item.product_id}";
+
+    using (UnityWebRequest www = UnityWebRequest.Delete(url))
+    {
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.Success)
         {
-            action = "remove_from_wishlist",
-            user_id = UserManager.Instance.UserId,
-            product_id = item.product_id
-        };
-
-        string jsonData = JsonConvert.SerializeObject(requestPayload);
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
-        using (UnityWebRequest www = new UnityWebRequest(apiUrl, "DELETE"))
-        {
-            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            www.downloadHandler = new DownloadHandlerBuffer();
-            www.SetRequestHeader("Content-Type", "application/json");
-
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                wishListItems.Remove(item);
-                OnItemRemovedFromWishList?.Invoke(item);
-            }
-            else
-            {
-                Debug.LogError($"Error removing from wishlist: {www.error}");
-            }
+            wishListItems.Remove(item);
+            OnItemRemovedFromWishList?.Invoke(item);
         }
+        else
+        {
+            Debug.LogError($"Error removing from wishlist: {www.error}");
+        }
+    }
     }
 
     public void FetchWishListItems(Action<List<Item>> callback)
@@ -139,6 +131,7 @@ public class WishListManager : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string jsonResponse = www.downloadHandler.text;
+                Debug.Log($"JSON Response: {jsonResponse}");
                 List<Item> items = JsonConvert.DeserializeObject<List<Item>>(jsonResponse);
                 foreach (var item in items)
                 {

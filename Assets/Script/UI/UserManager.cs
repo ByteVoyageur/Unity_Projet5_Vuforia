@@ -42,8 +42,11 @@ public class UserManager : MonoBehaviour
     {
         IsLoggedIn = false;
         IsAdmin = false;
-        UserId = -1;  // Default invalid UserId
-        WishList = new List<string>();
+        UserId = 1;  // Default user ID for testing
+
+        // Preserve wishlist for testing
+        WishList = new List<string>{"item1", "item2"}; // Example item list
+        // WishList = new List<string>();  // Original code
         ShoppingCart = new List<string>();
     }
 
@@ -59,8 +62,10 @@ public class UserManager : MonoBehaviour
     {
         IsLoggedIn = false;
         IsAdmin = false;
-        UserId = -1;
-        WishList.Clear();
+        UserId = 1;  // Keep user ID for testing
+        // UserId = -1;  // Original code
+        // Preserve wishlist for testing
+        // WishList.Clear();  // Original code
         ShoppingCart.Clear();
     }
 
