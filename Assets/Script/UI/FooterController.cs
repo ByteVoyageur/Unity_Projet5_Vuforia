@@ -21,7 +21,7 @@ public static class FooterController
         var settingFooter = root.Q<VisualElement>("SettingFooter");
         settingFooter.RegisterCallback<ClickEvent>(evt =>
         {
-            // Implement setting page navigation
+            pagesManager.ShowPage("SettingsPage");
             Debug.Log("Setting footer clicked.");
         });
 

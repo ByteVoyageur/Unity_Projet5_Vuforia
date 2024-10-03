@@ -4,22 +4,26 @@
     <Style src="project://database/Assets/Resources/StoreUIDocuments/SettingsStyle.uss?fileID=7433441132597879392&amp;guid=99465f4cae24bc042a4b58a9cccfce52&amp;type=3#SettingsStyle" />
     <ui:VisualElement name="Background" class="background" style="flex-grow: 1;">
         <ui:Instance template="TopBarTemplate" name="TopBarTemplate" />
-        <ui:VisualElement name="ProfilUser" class="profil-user" style="flex-grow: 1;">
+        <ui:VisualElement name="ProfilUser" class="profil-user">
             <ui:VisualElement name="UserInfo" class="user-info" style="flex-grow: 1;">
                 <ui:VisualElement name="AvatarUser" class="avatar-user" style="flex-grow: 1;" />
                 <ui:Label tabindex="-1" text="Username" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserName" style="position: absolute; left: 52%; top: 9%; color: rgb(245, 240, 240); -unity-font-style: bold; font-size: 50px; -unity-text-align: upper-center;" />
                 <ui:Label tabindex="-1" text="Email" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserEmail" class="user-email" style="color: rgb(245, 242, 242); font-size: 49px; left: 52%; top: 21%;" />
                 <ui:Button name="LogOutButton" text="Log Out" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 60%; top: 63%; font-size: 33px; background-color: rgb(188, 185, 180);" />
             </ui:VisualElement>
-            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="AdminEditor" class="admin-editor" style="background-color: rgba(0, 0, 0, 0.74);">
-                <ui:VisualElement name="AdminProductToEdit" class="admin-product-to-edit" style="flex-grow: 1; background-color: rgb(149, 35, 35); width: 100%; height: 170px; align-items: center; flex-direction: row; justify-content: flex-start; align-self: center;">
-                    <ui:Label tabindex="-1" text="ID" parse-escape-sequences="true" display-tooltip-when-elided="true" name="IdProduct" style="color: rgb(247, 242, 242); font-size: 50px;" />
-                    <ui:Label tabindex="-1" text="Product Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NameProduct" style="color: rgb(250, 250, 250); font-size: 49px; margin-left: 29px;" />
-                    <ui:Label tabindex="-1" text="Price" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); font-size: 58px; margin-left: 29px;" />
-                    <ui:Button text="Edit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EditProduct" style="width: 201px; height: 110px; right: 4%; position: absolute; -unity-font-style: bold; font-size: 32px;" />
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="AdminEditor" class="admin-editor">
+                <ui:VisualElement name="AdminProductToEdit" class="admin-product-to-edit">
+                    <ui:Label tabindex="-1" text="ID" parse-escape-sequences="true" display-tooltip-when-elided="true" name="IdProduct" class="id-product" />
+                    <ui:Label tabindex="-1" text="Product Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NameProduct" class="name-product" />
+                    <ui:Label tabindex="-1" text="Price" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PriceProduct" class="price-product" />
+                    <ui:Button text="Edit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EditProduct" class="button-to-edit" style="-unity-font-style: bold; font-size: 32px;" />
                 </ui:VisualElement>
             </ui:ScrollView>
         </ui:VisualElement>
         <ui:Instance template="FooterTemplate" name="FooterTemplate" />
+        <ui:VisualElement name="InputNewPriceContainer" class="input-new-price-container" style="background-color: rgba(180, 170, 170, 0);">
+            <ui:DoubleField label="Enter new price:" value="42,2" />
+            <ui:Button text="Submit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SubmitButton" class="submit-button" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

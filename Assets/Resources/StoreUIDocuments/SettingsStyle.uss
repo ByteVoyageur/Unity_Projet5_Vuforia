@@ -12,6 +12,7 @@
     max-height: 80%;
     color: rgb(27, 27, 27);
     align-self: auto;
+    flex-grow: 1;
 }
 
 .user-info {
@@ -39,8 +40,68 @@
 .admin-editor {
     width: 100%;
     height: 70%;
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .admin-product-to-edit {
+    background-color: rgba(112, 11, 11, 0.96);
+    width: 100%;
+    height: 170px;
+    align-items: center;
+    align-self: center;
+    flex-direction: row;
+    margin-top: 6px;
+}
+
+.id-product {
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+}
+
+.name-product {
+    font-size: 31px;
+    color: rgb(255, 255, 255);
+    margin-right: 11px;
+    margin-left: 66px;
+}
+
+.price-product {
+    font-size: 39px;
+    color: rgb(242, 240, 240);
+    margin-left: 74px;
+    -unity-font-style: bold;
+}
+
+.button-to-edit {
+    font-size: 40px;
+    height: 83px;
+    width: 176px;
+    -unity-font-style: bold;
+}
+
+.input-new-price-container {
+    background-color: rgb(175, 164, 164);
+    position: absolute;
+    width: 548px;
+    height: 110px;
+    left: 32%;
+    top: 28%;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-between;
+    color: rgb(27, 27, 27);
+}
+
+.submit-button {
+    background-color: rgb(46, 218, 39);
+    width: 484px;
+    align-items: auto;
+    position: absolute;
+    left: 6%;
+    bottom: 1%;
+}
+
+#InputNewPriceContainer .unity-base-field__label {
+    color: rgb(242, 235, 235);
+    font-size: 23px;
 }

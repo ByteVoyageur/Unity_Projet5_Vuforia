@@ -20,6 +20,10 @@ public class SignInPage : Page {
 
     public void Initialize(PagesManager pagesManager) {
         var arrowToRight = Root.Q<VisualElement>("ArrowToRight");
+        var passwordField = Root.Q<TextField>("PassWord");
+        if (passwordField != null) {
+            passwordField.isPasswordField = true;
+            }
 
         if (arrowToRight != null) {
             arrowToRight.RegisterCallback<ClickEvent>(evt => {

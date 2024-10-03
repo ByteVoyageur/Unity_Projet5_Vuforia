@@ -21,6 +21,7 @@ public class WishListPage : Page
     public void Initialize(PagesManager pagesManager)
     {
         Debug.Log("Initialize called");
+        _monoBehaviour.StartCoroutine(UserManager.Instance.SyncUserState());
         WishListManager.Instance.FetchWishListItems(wishListItems =>
         {
             if (wishListItems != null)

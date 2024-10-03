@@ -115,7 +115,6 @@ public class CategoryPage : Page
                 itemPrice.text = $"${item.price}";
             }
             
-            // 包装内容后传递到Click事件中
             itemElement.RegisterCallback<ClickEvent>(evt =>
             {
                 _monoBehaviour.StartCoroutine(LoadImageAndShowDetailPage(pagesManager, item));

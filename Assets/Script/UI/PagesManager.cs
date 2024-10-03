@@ -45,6 +45,7 @@ public class PagesManager : MonoBehaviour
 
     public void ShowPage(string pageName, object data = null)
 {
+    
     foreach (var existingPage in pagePool.Values)
     {
         existingPage.Root.style.display = DisplayStyle.None;

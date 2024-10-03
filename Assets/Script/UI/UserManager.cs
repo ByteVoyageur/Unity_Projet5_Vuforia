@@ -1,5 +1,9 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
+using System;
 
 public class UserManager : MonoBehaviour {
     private static UserManager _instance;
@@ -57,6 +61,27 @@ public class UserManager : MonoBehaviour {
         WishList.Clear();
         ShoppingCart.Clear();
     }
+
+public IEnumerator SyncUserState() {
+    string apiUrl = $"https://xiaosong.fr/decomaison/api/user_api.php?user_id={UserId}&action=get_user_status";
+
+    using (UnityWebRequest www = UnityWebRequest.Get(apiUrl)) {
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success) {
+            var userData = JsonConvert.DeserializeObject<Dictionary<string, object>>(www.downloadHandler.text);
+            
+            int userId = Convert.ToInt32(userData["user_id"]);
+            bool isAdmin = userData["is_admin"].ToString() == "1"; 
+            string userName = userData["userName"].ToString();
+            string email = userData["email"].ToString();
+
+            LogIn(userId, isAdmin, userName, email);
+        } else {
+            Debug.LogError("Failed to sync user state: " + www.error);
+        }
+    }
+}
 
     public void AddToWishList(string item) {
         if (!WishList.Contains(item)) {
