@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
+// 如果 WishListManager 在其他命名空间中，请添加相应的 using 指令
+// using YourNamespace;
+
 public class SettingsPage : Page
 {
     private MonoBehaviour _monoBehaviour;
@@ -68,7 +71,8 @@ public class SettingsPage : Page
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.Success)
             {
-                List<Product> products = JsonConvert.DeserializeObject<List<Product>>(www.downloadHandler.text);
+                // 修改这里，使用 WishListManager.Item
+                List<WishListManager.Item> products = JsonConvert.DeserializeObject<List<WishListManager.Item>>(www.downloadHandler.text);
                 DisplayProducts(adminProductList, products);
             }
             else
@@ -78,7 +82,7 @@ public class SettingsPage : Page
         }
     }
 
-    private void DisplayProducts(VisualElement adminProductList, List<Product> products)
+    private void DisplayProducts(VisualElement adminProductList, List<WishListManager.Item> products)
     {
         adminProductList.Clear();
         foreach (var product in products)
@@ -109,7 +113,7 @@ public class SettingsPage : Page
         }
     }
 
-    private void EditProduct(Product product)
+    private void EditProduct(WishListManager.Item product)
     {
         var inputContainer = Root.Q<VisualElement>("InputNewPriceContainer");
         var priceField = inputContainer.Q<DoubleField>();
@@ -125,54 +129,44 @@ public class SettingsPage : Page
         inputContainer.style.display = DisplayStyle.None; 
     }
 
-private IEnumerator UpdateProductPrice(int productId, float newPrice)
-{
-    string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php";
-
-    var data = new
+    private IEnumerator UpdateProductPrice(int productId, float newPrice)
     {
-        action = "modify_product",  
-        userName = UserManager.Instance.Username,  
-        product_id = productId,
-        price = newPrice
-    };
+        string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php";
 
-    var jsonData = JsonConvert.SerializeObject(data);
-    var www = new UnityWebRequest(apiUrl, "POST");
-    www.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
-    www.uploadHandler.contentType = "application/json";
-    www.downloadHandler = new DownloadHandlerBuffer();
-
-    yield return www.SendWebRequest();
-
-    if (www.result == UnityWebRequest.Result.Success)
-    {
-        var responseText = www.downloadHandler.text;
-        Debug.Log("Server response: " + responseText);
-
-        var responseJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
-        if (responseJson.ContainsKey("message"))
+        var data = new
         {
-            Debug.Log(responseJson["message"]);
+            action = "modify_product",  
+            userName = UserManager.Instance.Username,  
+            product_id = productId,
+            price = newPrice
+        };
+
+        var jsonData = JsonConvert.SerializeObject(data);
+        var www = new UnityWebRequest(apiUrl, "POST");
+        www.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
+        www.uploadHandler.contentType = "application/json";
+        www.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var responseText = www.downloadHandler.text;
+            Debug.Log("Server response: " + responseText);
+
+            var responseJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
+            if (responseJson.ContainsKey("message"))
+            {
+                Debug.Log(responseJson["message"]);
+            }
+            else if (responseJson.ContainsKey("error"))
+            {
+                Debug.LogError("Error from server: " + responseJson["error"]);
+            }
         }
-        else if (responseJson.ContainsKey("error"))
+        else
         {
-            Debug.LogError("Error from server: " + responseJson["error"]);
+            Debug.LogError("Failed to update product price: " + www.error);
         }
     }
-    else
-    {
-        Debug.LogError("Failed to update product price: " + www.error);
-    }
-}
-
-
-
-}
-
-public class Product
-{
-    public int product_id { get; set; }
-    public string name { get; set; }
-    public float price { get; set; }
 }

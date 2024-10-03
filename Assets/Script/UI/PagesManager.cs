@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 
 public class PagesManager : MonoBehaviour
 {
+    public static PagesManager Instance { get; private set; }  // 添加单例实例
+
     public UIDocument uiDocument;
     public VisualTreeAsset itemTemplate;
     public Dictionary<string, VisualTreeAsset> pageAssets = new Dictionary<string, VisualTreeAsset>();
@@ -12,8 +14,20 @@ public class PagesManager : MonoBehaviour
 
     private void Awake()
     {
+        // 初始化单例实例
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);  // 可选：如果希望在场景切换时保留 PagesManager
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         uiDocument = GetComponent<UIDocument>();
-        // Load VisualTreeAssets
+        // 加载 VisualTreeAssets
         LoadPageAsset("HomePage");
         LoadPageAsset("SignInPage");
         LoadPageAsset("WelcomePage");
@@ -25,7 +39,7 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("ItemCartTemplate");
         LoadPageAsset("ShoppingCartPage");
         LoadPageAsset("SettingsPage");
-        // Show initial page
+        // 显示初始页面
         ShowPage("HomePage");
     }
 
@@ -44,34 +58,21 @@ public class PagesManager : MonoBehaviour
     }
 
     public void ShowPage(string pageName, object data = null)
-{
-    
-    foreach (var existingPage in pagePool.Values)
     {
-        existingPage.Root.style.display = DisplayStyle.None;
-    }
-    Page page = null;
-    if (pageName == "ItemDetailPage" && data is WishListManager.Item itemData)
-    {
-        if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
+        // 隐藏所有现有页面
+        foreach (var existingPage in pagePool.Values)
         {
-            page = new ItemDetailPage(visualTreeAsset, this);
-            ((ItemDetailPage)page).Initialize(itemData, this);
+            existingPage.Root.style.display = DisplayStyle.None;
         }
-        else
-        {
-            Debug.LogError($"No VisualTreeAsset found for {pageName}");
-            return;
-        }
-    }
-    else
-    {
-        if (!pagePool.TryGetValue(pageName, out page))
+
+        Page page = null;
+
+        if (pageName == "ItemDetailPage" && data is WishListManager.Item itemData)
         {
             if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
             {
-                page = CreatePageInstance(pageName, visualTreeAsset, data);
-                pagePool[pageName] = page;
+                page = new ItemDetailPage(visualTreeAsset, this);
+                ((ItemDetailPage)page).Initialize(itemData, this);
             }
             else
             {
@@ -79,13 +80,29 @@ public class PagesManager : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            if (!pagePool.TryGetValue(pageName, out page))
+            {
+                if (pageAssets.TryGetValue(pageName, out var visualTreeAsset))
+                {
+                    page = CreatePageInstance(pageName, visualTreeAsset, data);
+                    pagePool[pageName] = page;
+                }
+                else
+                {
+                    Debug.LogError($"No VisualTreeAsset found for {pageName}");
+                    return;
+                }
+            }
+        }
+
+        uiDocument.rootVisualElement.Clear();
+        uiDocument.rootVisualElement.Add(page.Root);
+        page.Root.style.display = DisplayStyle.Flex;
+        FooterController.InitializeFooter(page.Root, this);
+        Debug.Log($"Displayed page: {pageName}");
     }
-    uiDocument.rootVisualElement.Clear();
-    uiDocument.rootVisualElement.Add(page.Root);
-    page.Root.style.display = DisplayStyle.Flex;
-    FooterController.InitializeFooter(page.Root, this);
-    Debug.Log($"Displayed page: {pageName}");
-}
 
     private Page CreatePageInstance(string pageName, VisualTreeAsset visualTreeAsset, object data = null)
     {
@@ -114,22 +131,21 @@ public class PagesManager : MonoBehaviour
                 });
                 break;
             case "ItemDetailPage":
-            page = ItemDetailPage.CreateInstance(visualTreeAsset, this);
-            if (data is WishListManager.Item itemData)
-            {
-                ((ItemDetailPage)page).Initialize(itemData, this);
-            }
-            else if (data is FurnitureSO furnitureData)
-            {
-                // If you still want to support FurnitureSO, add this block
-                var item = ConvertToWishListManagerItem(furnitureData);
-                ((ItemDetailPage)page).Initialize(item, this);
-            }
-            AddButtonActions(page.Root, new Dictionary<string, System.Action>
-            {
-                { "ViewInARButton", ShowInAR }
-            });
-            break;
+                page = ItemDetailPage.CreateInstance(visualTreeAsset, this);
+                if (data is WishListManager.Item itemData)
+                {
+                    ((ItemDetailPage)page).Initialize(itemData, this);
+                }
+                else if (data is FurnitureSO furnitureData)
+                {
+                    var item = ConvertToWishListManagerItem(furnitureData);
+                    ((ItemDetailPage)page).Initialize(item, this);
+                }
+                AddButtonActions(page.Root, new Dictionary<string, System.Action>
+                {
+                    { "ViewInARButton", ShowInAR }
+                });
+                break;
             case "CategoryPage":
                 if (data is string categoryName)
                 {
@@ -151,7 +167,7 @@ public class PagesManager : MonoBehaviour
                 ((ShoppingCartPage)page).Initialize(this);
                 break;
             case "SettingsPage":
-                page = new SettingsPage(visualTreeAsset,this);
+                page = new SettingsPage(visualTreeAsset, this);
                 ((SettingsPage)page).Initialize();
                 break;
             default:
@@ -198,39 +214,39 @@ public class PagesManager : MonoBehaviour
 
     public void ShowCategoryPage(string categoryName)
     {
-    Debug.Log($"ShowCategoryPage called for {categoryName}");
-    if (!pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
-    {
-        Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
-        return;
-    }
+        Debug.Log($"ShowCategoryPage called for {categoryName}");
+        if (!pageAssets.TryGetValue("CategoryPage", out var visualTreeAsset))
+        {
+            Debug.LogError("VisualTreeAsset for CategoryPage could not be found.");
+            return;
+        }
 
-    var categoryPage = CategoryPage.CreateInstance(visualTreeAsset, this);
-    int categoryId = GetCategoryIdByName(categoryName);
-    if (categoryId == 0)  
-    {
-        Debug.LogError($"Category ID is 0. The category '{categoryName}' may not be defined in GetCategoryIdByName.");
-        return;
-    }
+        var categoryPage = CategoryPage.CreateInstance(visualTreeAsset, this);
+        int categoryId = GetCategoryIdByName(categoryName);
+        if (categoryId == 0)  
+        {
+            Debug.LogError($"Category ID is 0. The category '{categoryName}' may not be defined in GetCategoryIdByName.");
+            return;
+        }
 
-    categoryPage.Initialize(this, categoryId);
-    uiDocument.rootVisualElement.Clear();
-    uiDocument.rootVisualElement.Add(categoryPage.Root);
-    Debug.Log("Created and displayed a new CategoryPage instance.");
+        categoryPage.Initialize(this, categoryId);
+        uiDocument.rootVisualElement.Clear();
+        uiDocument.rootVisualElement.Add(categoryPage.Root);
+        Debug.Log("Created and displayed a new CategoryPage instance.");
     }
 
     private int GetCategoryIdByName(string categoryName)
     {
-    switch (categoryName.ToLower())
-    {
-        case "bureau": return 1;
-        case "jardin": return 2;
-        case "kitchen": return 3;
-        case "room": return 4;
-        default:
-            Debug.LogError($"Unknown category name: {categoryName}");
-            return 0;
-    }
+        switch (categoryName.ToLower())
+        {
+            case "bureau": return 1;
+            case "jardin": return 2;
+            case "kitchen": return 3;
+            case "room": return 4;
+            default:
+                Debug.LogError($"Unknown category name: {categoryName}");
+                return 0;
+        }
     }
 
     public void ShowItemDetailPage(FurnitureSO itemData)
@@ -249,13 +265,20 @@ public class PagesManager : MonoBehaviour
     }
 
     private WishListManager.Item ConvertToWishListManagerItem(FurnitureSO furnitureData)
-{
-    return new WishListManager.Item
     {
-        name = furnitureData.itemName,
-        description = furnitureData.description,
-        price = furnitureData.price,
-        image_url = furnitureData.imageUrl
-    };
-}
+        return new WishListManager.Item
+        {
+            name = furnitureData.itemName,
+            description = furnitureData.description,
+            price = furnitureData.price,
+            image_url = furnitureData.imageUrl
+        };
+    }
+
+    // 添加清理页面缓存的方法
+    public void ClearPageCache()
+    {
+        pagePool.Clear();
+        Debug.Log("Page cache cleared.");
+    }
 }

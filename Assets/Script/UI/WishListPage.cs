@@ -19,37 +19,44 @@ public class WishListPage : Page
     }
 
     public void Initialize(PagesManager pagesManager)
+{
+    Debug.Log("Initialize called");
+    _monoBehaviour.StartCoroutine(InitializeCoroutine(pagesManager));
+}
+
+private IEnumerator InitializeCoroutine(PagesManager pagesManager)
+{
+    yield return _monoBehaviour.StartCoroutine(UserManager.Instance.SyncUserState());
+
+    yield return _monoBehaviour.StartCoroutine(WishListManager.Instance.FetchWishListItemsCoroutine(wishListItems =>
     {
-        Debug.Log("Initialize called");
-        _monoBehaviour.StartCoroutine(UserManager.Instance.SyncUserState());
-        WishListManager.Instance.FetchWishListItems(wishListItems =>
+        if (wishListItems != null)
         {
-            if (wishListItems != null)
-            {
-                Debug.Log("WishList items fetched successfully");
-                GenerateWishListItems(wishListItems, pagesManager);
-            }
-            else
-            {
-                Debug.LogError("Failed to fetch wish list items.");
-            }
-        });
-
-        FooterController.InitializeFooter(Root, pagesManager);
-
-        var shoppingCartTopBar = Root.Q<VisualElement>("ShoppingCartTopBar");
-        if (shoppingCartTopBar != null)
-        {
-            shoppingCartTopBar.RegisterCallback<ClickEvent>(evt =>
-            {
-                pagesManager.ShowPage("ShoppingCartPage");
-            });
+            Debug.Log("WishList items fetched successfully");
+            GenerateWishListItems(wishListItems, pagesManager);
         }
         else
         {
-            Debug.LogError("ShoppingCartTopBar not found in Initialize method.");
+            Debug.LogError("Failed to fetch wish list items.");
         }
+    }));
+
+    FooterController.InitializeFooter(Root, pagesManager);
+
+    var shoppingCartTopBar = Root.Q<VisualElement>("ShoppingCartTopBar");
+    if (shoppingCartTopBar != null)
+    {
+        shoppingCartTopBar.RegisterCallback<ClickEvent>(evt =>
+        {
+            pagesManager.ShowPage("ShoppingCartPage");
+        });
     }
+    else
+    {
+        Debug.LogError("ShoppingCartTopBar not found in Initialize method.");
+    }
+}
+
 
     private void GenerateWishListItems(List<WishListManager.Item> wishListItems, PagesManager pagesManager)
     {

@@ -57,32 +57,37 @@ public class SignInPage : Page {
         }
     }
 
-    private IEnumerator LoginUser(string userName, string password) {
-        var jsonBody = JsonConvert.SerializeObject(new {
-            action = "login",
-            userName = userName,
-            password = password
-        });
+private IEnumerator LoginUser(string userName, string password) {
+    var jsonBody = JsonConvert.SerializeObject(new {
+        action = "login",
+        userName = userName,
+        password = password
+    });
 
-        using (UnityWebRequest www = new UnityWebRequest("https://xiaosong.fr/decomaison/api/user_api.php/login", "POST")) {
-            www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonBody));
-            www.uploadHandler.contentType = "application/json";
-            www.downloadHandler = new DownloadHandlerBuffer();
-            yield return www.SendWebRequest();
+    using (UnityWebRequest www = new UnityWebRequest("https://xiaosong.fr/decomaison/api/user_api.php/login", "POST")) {
+        www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonBody));
+        www.uploadHandler.contentType = "application/json";
+        www.downloadHandler = new DownloadHandlerBuffer();
+        yield return www.SendWebRequest();
 
-            if (www.result == UnityWebRequest.Result.Success) {
+        if (www.result == UnityWebRequest.Result.Success) {
             var responseData = JsonConvert.DeserializeObject<Dictionary<string, object>>(www.downloadHandler.text);
             int userId = Convert.ToInt32(responseData["user_id"]);
             bool isAdmin = Convert.ToBoolean(responseData["is_admin"]);
             string email = responseData["email"].ToString();
 
             UserManager.Instance.LogIn(userId, isAdmin, userName, email);
+
+            // 获取愿望清单
+            yield return _monoBehaviour.StartCoroutine(UserManager.Instance.FetchWishList());
+
             ((PagesManager)_monoBehaviour).ShowPage("SettingsPage");
-            } else {
+        } else {
             Debug.Log("Login failed: " + www.error);
-            }
         }
     }
+}
+
 
     private IEnumerator RegisterUser(string userName, string password, string email) {
         var jsonBody = JsonConvert.SerializeObject(new {

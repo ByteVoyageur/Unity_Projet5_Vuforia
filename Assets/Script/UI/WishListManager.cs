@@ -117,43 +117,40 @@ public class WishListManager : MonoBehaviour
     }
     }
 
-    public void FetchWishListItems(Action<List<Item>> callback)
+public IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
+{
+    using (UnityWebRequest www = UnityWebRequest.Get($"{apiUrl}?action=get_wishlist&user_id={UserManager.Instance.UserId}"))
     {
-        StartCoroutine(FetchWishListItemsCoroutine(callback));
-    }
+        yield return www.SendWebRequest();
 
-    private IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
-    {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{apiUrl}?action=get_wishlist&user_id={UserManager.Instance.UserId}"))
+        if (www.result == UnityWebRequest.Result.Success)
         {
-            yield return www.SendWebRequest();
+            string jsonResponse = www.downloadHandler.text;
+            Debug.Log($"JSON Response: {jsonResponse}");
+            List<Item> items = JsonConvert.DeserializeObject<List<Item>>(jsonResponse);
 
-            if (www.result == UnityWebRequest.Result.Success)
+            foreach (var item in items)
             {
-                string jsonResponse = www.downloadHandler.text;
-                Debug.Log($"JSON Response: {jsonResponse}");
-                List<Item> items = JsonConvert.DeserializeObject<List<Item>>(jsonResponse);
-                foreach (var item in items)
+                item.prefab = LoadPrefab(item.prefabName);
+                yield return _instance.StartCoroutine(DownloadImageCoroutine(item.image_url, texture =>
                 {
-                    item.prefab = LoadPrefab(item.prefabName);   
-                    yield return StartCoroutine(DownloadImageCoroutine(item.image_url, texture =>
+                    if (texture != null)
                     {
-                        if (texture != null)
-                        {
-                            CacheImage(item.image_url, texture);
-                        }
-                    }));
-                }
-                wishListItems = items;
-                callback?.Invoke(wishListItems);
+                        CacheImage(item.image_url, texture);
+                        item.icon = texture;
+                    }
+                }));
             }
-            else
-            {
-                Debug.LogError($"Error getting wishlist items: {www.error}");
-                callback?.Invoke(null);
-            }
+            wishListItems = items;
+            callback?.Invoke(wishListItems);
+        }
+        else
+        {
+            Debug.LogError($"Error getting wishlist items: {www.error}");
+            callback?.Invoke(null);
         }
     }
+}
 
     public IEnumerator DownloadImageCoroutine(string imageUrl, Action<Texture2D> onSuccess)
     {
@@ -211,4 +208,10 @@ public class WishListManager : MonoBehaviour
         }
         return prefab;
     }
+
+    public void FetchWishListItems(Action<List<Item>> callback)
+{
+    _instance.StartCoroutine(FetchWishListItemsCoroutine(callback));
+}
+
 }
