@@ -14,11 +14,9 @@ public class UserManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                // 尝试查找现有的 UserManager 实例
                 _instance = FindObjectOfType<UserManager>();
                 if (_instance == null)
                 {
-                    // 如果不存在，则创建新的 GameObject 并添加 UserManager 组件
                     GameObject userManagerObject = new GameObject("UserManager");
                     _instance = userManagerObject.AddComponent<UserManager>();
                 }
@@ -33,7 +31,6 @@ public class UserManager : MonoBehaviour
     public string Username { get; private set; }
     public string Email { get; private set; }
 
-    // 修改：将 WishList 的类型改为 List<WishListManager.Item>
     public List<WishListManager.Item> WishList { get; private set; }
     public List<string> ShoppingCart { get; private set; }
 
@@ -55,10 +52,10 @@ public class UserManager : MonoBehaviour
     {
         IsLoggedIn = false;
         IsAdmin = false;
-        UserId = -1;  // 默认的游客用户ID
+        UserId = -1;  
         Username = "";
         Email = "";
-        WishList = new List<WishListManager.Item>();  // 初始化 WishList
+        WishList = new List<WishListManager.Item>();  
         ShoppingCart = new List<string>();
     }
 
@@ -81,14 +78,12 @@ public class UserManager : MonoBehaviour
         WishList.Clear();
         ShoppingCart.Clear();
 
-        // 通知 PagesManager 清理页面缓存
         if (PagesManager.Instance != null)
         {
             PagesManager.Instance.ClearPageCache();
         }
     }
 
-    // 新增方法：从服务器获取当前用户的愿望清单
     public IEnumerator FetchWishList()
     {
         string apiUrl = $"https://xiaosong.fr/decomaison/api/user_api.php?action=get_wishlist&user_id={UserId}";
@@ -99,10 +94,8 @@ public class UserManager : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                // 解析服务器返回的愿望清单数据
                 List<WishListManager.Item> wishListData = JsonConvert.DeserializeObject<List<WishListManager.Item>>(www.downloadHandler.text);
 
-                // 更新 WishList
                 WishList.Clear();
                 WishList.AddRange(wishListData);
 
@@ -134,7 +127,6 @@ public class UserManager : MonoBehaviour
 
                 LogIn(userId, isAdmin, userName, email);
 
-                // 登录后获取最新的愿望清单
                 yield return StartCoroutine(FetchWishList());
             }
             else
@@ -144,7 +136,6 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    // 修改：使用 WishListManager.Item 作为参数类型
     public void AddToWishList(WishListManager.Item newItem)
     {
         if (!WishList.Exists(p => p.product_id == newItem.product_id))
