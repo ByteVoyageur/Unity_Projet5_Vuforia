@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class PagesManager : MonoBehaviour
 {
-    public static PagesManager Instance { get; private set; }  // 添加单例实例
+    public static PagesManager Instance { get; private set; }  
 
     public UIDocument uiDocument;
     public VisualTreeAsset itemTemplate;
@@ -14,11 +14,10 @@ public class PagesManager : MonoBehaviour
 
     private void Awake()
     {
-        // 初始化单例实例
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);  // 可选：如果希望在场景切换时保留 PagesManager
+            //DontDestroyOnLoad(gameObject);  
         }
         else if (Instance != this)
         {
@@ -27,7 +26,6 @@ public class PagesManager : MonoBehaviour
         }
 
         uiDocument = GetComponent<UIDocument>();
-        // 加载 VisualTreeAssets
         LoadPageAsset("HomePage");
         LoadPageAsset("SignInPage");
         LoadPageAsset("WelcomePage");
@@ -39,7 +37,6 @@ public class PagesManager : MonoBehaviour
         LoadPageAsset("ItemCartTemplate");
         LoadPageAsset("ShoppingCartPage");
         LoadPageAsset("SettingsPage");
-        // 显示初始页面
         ShowPage("HomePage");
     }
 
@@ -59,7 +56,6 @@ public class PagesManager : MonoBehaviour
 
     public void ShowPage(string pageName, object data = null)
     {
-        // 隐藏所有现有页面
         foreach (var existingPage in pagePool.Values)
         {
             existingPage.Root.style.display = DisplayStyle.None;
@@ -275,7 +271,6 @@ public class PagesManager : MonoBehaviour
         };
     }
 
-    // 添加清理页面缓存的方法
     public void ClearPageCache()
     {
         pagePool.Clear();

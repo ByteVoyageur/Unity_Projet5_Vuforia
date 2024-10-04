@@ -128,7 +128,6 @@ public IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
             string jsonResponse = www.downloadHandler.text;
             Debug.Log($"JSON Response: {jsonResponse}");
             List<Item> items = JsonConvert.DeserializeObject<List<Item>>(jsonResponse);
-
             foreach (var item in items)
             {
                 item.prefab = LoadPrefab(item.prefabName);
@@ -157,7 +156,6 @@ public IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
         using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(imageUrl))
         {
             yield return www.SendWebRequest();
-
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Texture2D texture = DownloadHandlerTexture.GetContent(www);
@@ -192,15 +190,14 @@ public IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
             imageCache[imageUrl] = texture;
         }
     }
-
     public List<Item> GetWishListItems()
     {
         return wishListItems;
     }
-
+    
     private GameObject LoadPrefab(string prefabName)
     {
-        string path = $"Models/Furniture_FREE/Prefabs/{prefabName}";
+        string path = $"Prefabs/{prefabName}";
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null)
         {

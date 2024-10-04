@@ -9,7 +9,7 @@
                 <ui:VisualElement name="AvatarUser" class="avatar-user" style="flex-grow: 1;" />
                 <ui:Label tabindex="-1" text="Username" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserName" style="position: absolute; left: 52%; top: 9%; color: rgb(245, 240, 240); -unity-font-style: bold; font-size: 50px; -unity-text-align: upper-center;" />
                 <ui:Label tabindex="-1" text="Email" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserEmail" class="user-email" style="color: rgb(245, 242, 242); font-size: 49px; left: 52%; top: 21%;" />
-                <ui:Button name="LogOutButton" text="Log Out" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 60%; top: 63%; font-size: 33px; background-color: rgb(188, 185, 180);" />
+                <ui:Button name="LogOutButton" text="Log Out" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 52%; top: 47%; font-size: 33px; background-color: rgb(188, 185, 180);" />
             </ui:VisualElement>
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="AdminEditor" class="admin-editor">
                 <ui:VisualElement name="AdminProductToEdit" class="admin-product-to-edit">
@@ -21,7 +21,7 @@
             </ui:ScrollView>
         </ui:VisualElement>
         <ui:Instance template="FooterTemplate" name="FooterTemplate" />
-        <ui:VisualElement name="InputNewPriceContainer" class="input-new-price-container" style="background-color: rgba(180, 170, 170, 0);">
+        <ui:VisualElement name="InputNewPriceContainer" class="input-new-price-container">
             <ui:DoubleField label="Enter new price:" value="42,2" />
             <ui:Button text="Submit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SubmitButton" class="submit-button" />
         </ui:VisualElement>
