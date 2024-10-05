@@ -78,7 +78,6 @@ private IEnumerator LoginUser(string userName, string password) {
 
             UserManager.Instance.LogIn(userId, isAdmin, userName, email);
 
-            // 获取愿望清单
             yield return _monoBehaviour.StartCoroutine(UserManager.Instance.FetchWishList());
 
             ((PagesManager)_monoBehaviour).ShowPage("SettingsPage");
