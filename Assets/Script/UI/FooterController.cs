@@ -74,7 +74,6 @@ public static class FooterController
             int count = WishListManager.Instance.GetWishListItems().Count;
             wishListCounter.text = count.ToString();
             wishListCounter.style.display = count > 0 ? DisplayStyle.Flex : DisplayStyle.None;
-            Debug.Log($"Wish list updated. New count: {count}");
         }
     }
 }

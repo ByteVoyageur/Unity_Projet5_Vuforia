@@ -85,27 +85,54 @@ public class ObjectManager : MonoBehaviour {
     }
 
     private void SelectObject(GameObject prefab) {
-        if (prefab == null) {
-            Debug.LogError("SelectObject received a null prefab");
-            return;
-        }
-        if (objectPlacer.SelectedObject != null) {
-            Destroy(objectPlacer.SelectedObject);
-        }
-
-        GameObject newObject = Instantiate(prefab);
-        if (newObject == null) {
-            Debug.LogError("Failed to instantiate newObject from prefab");
-            return;
-        }
-
-        objectPlacer.SetSelectedObject(newObject);
-        Debug.Log($"Object {newObject.name} selected and instantiated.");
+    if (prefab == null) {
+        Debug.LogError("SelectObject received a null prefab");
+        return;
+    }
+    if (objectPlacer.SelectedObject != null) {
+        Destroy(objectPlacer.SelectedObject);
     }
 
-    private void DisableAllObjects() {
-        foreach (var obj in objectPrefabs) {
-            obj.SetActive(false);
+    GameObject newObject = Instantiate(prefab);
+    if (newObject == null) {
+        Debug.LogError("Failed to instantiate newObject from prefab");
+        return;
+    }
+
+    // Find the corresponding Item data
+    var item = GetItemByPrefab(prefab);
+    if (item == null) {
+        Debug.LogError("Item data not found for the selected prefab.");
+    } else {
+        // Set the itemData on the InfoPanelHandler
+        var infoPanelHandler = newObject.GetComponent<InfoPanelHandler>();
+        if (infoPanelHandler != null) {
+            infoPanelHandler.itemData = item;
+            Debug.Log($"注意：Assigned itemData to InfoPanelHandler: Name={item.name}, Description={item.description}, Price={item.price}");
+        } else {
+            Debug.LogWarning("InfoPanelHandler component not found on the instantiated object.");
         }
     }
+
+    objectPlacer.SetSelectedObject(newObject);
+    Debug.Log($"Object {newObject.name} selected and instantiated.");
+    }
+
+    private WishListManager.Item GetItemByPrefab(GameObject prefab) {
+    string prefabName = prefab.name.Replace("(Clone)", "").Trim();
+
+    Debug.Log($"Looking for item with prefabName: {prefabName}");
+
+    var wishListItems = WishListManager.Instance.GetWishListItems();
+    foreach (var item in wishListItems) {
+        Debug.Log($"Comparing with item.prefabName: {item.prefabName}");
+        if (item.prefabName == prefabName) {
+            Debug.Log("Match found");
+            return item;
+        }
+    }
+    Debug.LogWarning("No matching item found for prefab");
+    return null;
+    }
+
 }
