@@ -167,8 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616673e592131b9409a8c162cc6cd3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfoPanel: {fileID: 0}
-  infoText: {fileID: 0}
+  InfoPanel: {fileID: 4127577108096163087}
+  infoText: {fileID: 8053978170453954118}
   itemData:
     product_id: 0
     name: 
@@ -179,8 +179,24 @@ MonoBehaviour:
     prefabName: 
     prefab: {fileID: 0}
     icon: {fileID: 0}
+--- !u!1 &4127577108096163087 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5508308362106441863, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+  m_PrefabInstance: {fileID: 8446897782898298248}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6313464498961740023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2496267725741456767, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
   m_PrefabInstance: {fileID: 8446897782898298248}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8053978170453954118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1944449749811233742, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+  m_PrefabInstance: {fileID: 8446897782898298248}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
