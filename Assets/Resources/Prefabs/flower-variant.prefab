@@ -48,6 +48,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6498413619507671459, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.34451544
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498413619507671459, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.277727
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498413619507671459, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: m_Size.z
+      value: 0.32649752
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498413619507671459, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: m_Center.x
+      value: -0.006096028
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498413619507671459, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: m_Center.y
+      value: 0.13948557
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498413619507671459, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
+      propertyPath: m_Center.z
+      value: -0.009119026
+      objectReference: {fileID: 0}
     - target: {fileID: 9179947272060372951, guid: c380459c0e6f72a4ba3a902ea032bf6d, type: 3}
       propertyPath: m_Name
       value: flower-variant

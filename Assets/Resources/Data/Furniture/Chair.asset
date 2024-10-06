@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b33026fa33b9b418110db0bae76e12, type: 3}
+  m_Name: Chair
+  m_EditorClassIdentifier: 
+  itemName: Chair leather
+  description: Leather chair comfort
+  price: 199
+  icon: {fileID: 2800000, guid: 0902c173a12824f45bcf50e55cf53924, type: 3}
+  prefab: {fileID: 3035813615947935882, guid: 34346426a8f135247979e775e5c029f5, type: 3}

@@ -1,89 +1,131 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UIElements;
+using Newtonsoft.Json;
 
 public class WelcomePage : Page
 {
-    public WelcomePage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
+    private MonoBehaviour _monoBehaviour;
+
+    public WelcomePage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset)
     {
+        _monoBehaviour = monoBehaviour;
     }
 
-    public static WelcomePage CreateInstance(VisualTreeAsset visualTreeAsset)
+    public static WelcomePage CreateInstance(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour)
     {
-        return new WelcomePage(visualTreeAsset);
+        return new WelcomePage(visualTreeAsset, monoBehaviour);
     }
 
-    public void Initialize(PagesManager pagesManager) 
+    public void Initialize(PagesManager pagesManager)
     {
-        GenerateCategories(pagesManager);
+        _monoBehaviour.StartCoroutine(GetCategoriesFromAPI(pagesManager));
 
         FooterController.InitializeFooter(Root, pagesManager);
     }
 
-    private void GenerateCategories(PagesManager pagesManager)
-{
-    // Get the container where the category buttons will be placed
-    var categoryList = Root.Q<ScrollView>("CategorysScrollList");
-
-    // Load the category card template
-    if (!pagesManager.pageAssets.TryGetValue("CategoryCartTemplate", out var categoryCartTemplate))
+    [System.Serializable]
+    public class Category
     {
-        Debug.LogError("CategoryCartTemplate not found in pageAssets.");
-        return;
+        public int category_id;
+        public string name;  
+        public string url;   
     }
 
-    // Load all CategorySO assets from the Resources/Data/Category directory
-    var categoryAssets = Resources.LoadAll<CategorySO>("Data/Category");
+    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php?categories";
 
-    if (categoryAssets == null || categoryAssets.Length == 0)
+    private IEnumerator GetCategoriesFromAPI(PagesManager pagesManager)
     {
-        Debug.LogError("No CategorySO assets found in Data/Category directory.");
-        return;
+        using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
+        {
+            yield return www.SendWebRequest();
+
+            string jsonResponse = www.downloadHandler.text;
+            Debug.Log("Received response: " + jsonResponse);
+
+            List<Category> categories = JsonConvert.DeserializeObject<List<Category>>(jsonResponse);
+            GenerateCategories(categories, pagesManager);
+        }
     }
 
-    foreach (var categorySO in categoryAssets)
+    private void GenerateCategories(List<Category> categories, PagesManager pagesManager)
     {
-        var categoryName = categorySO.name; // Assuming the name of scriptable object is the name of the category
-        var categoryImage = categorySO.categoryImage; // Get the image directly from the CategorySO
+        var categoryList = Root.Q<ScrollView>("CategorysScrollList");
 
-        // Ensure categoryName and categoryImage are valid
-        if (string.IsNullOrEmpty(categoryName))
+        if (!pagesManager.pageAssets.TryGetValue("CategoryCartTemplate", out var categoryCartTemplate))
         {
-            Debug.LogError("CategorySO name is missing.");
-            continue;
+            Debug.LogError("CategoryCartTemplate not found in pageAssets.");
+            return;
         }
 
-        if (categoryImage == null)
+        foreach (var categoryData in categories)
         {
-            Debug.LogWarning($"Category {categoryName} does not have a valid image.");
+            var categoryName = categoryData.name;
+            string imageUrl = categoryData.url;
+
+            if (string.IsNullOrEmpty(categoryName))
+            {
+                Debug.LogError("Category name is missing.");
+                continue;
+            }
+
+            var categoryCardInstance = categoryCartTemplate.CloneTree();
+
+            var categoryImg = categoryCardInstance.Q<VisualElement>("CategoryCartImage");
+            var categoryTitle = categoryCardInstance.Q<Label>("CategoryTitle");
+
+            if (categoryTitle != null)
+            {
+                categoryTitle.text = categoryName;
+            }
+
+            _monoBehaviour.StartCoroutine(LoadImageFromURL(imageUrl, (texture) =>
+            {
+                    categoryImg.style.backgroundImage = new StyleBackground(texture);
+            }));
+
+            categoryCardInstance.RegisterCallback<ClickEvent>(evt =>
+            {
+                Debug.Log($"Category {categoryName} clicked.");
+                pagesManager.ShowCategoryPage(categoryName);
+            });
+
+            categoryList.Add(categoryCardInstance);
         }
-
-        // Create a new VisualElement from the template
-        var categoryCardInstance = categoryCartTemplate.CloneTree();
-
-        // Configure the image VisualElement
-        var categoryImg = categoryCardInstance.Q<VisualElement>("CategoryCartImage");
-        if (categoryImg != null && categoryImage != null)
-        {
-            categoryImg.style.backgroundImage = new StyleBackground(categoryImage);
-        }
-
-        // Configure the title Label
-        var categoryTitle = categoryCardInstance.Q<Label>("CategoryTitle");
-        if (categoryTitle != null)
-        {
-            categoryTitle.text = categoryName;
-        }
-
-        // Register click event for the category card
-        categoryCardInstance.RegisterCallback<ClickEvent>(evt =>
-        {
-            Debug.Log($"Category {categoryName} clicked."); // Debug log for category click event
-            pagesManager.ShowCategoryPage(categoryName);
-        });
-
-        // Add the card to the container
-        categoryList.Add(categoryCardInstance);
     }
-}
+
+    private IEnumerator LoadImageFromURL(string imageUrl, System.Action<Texture2D> onSuccess)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            onSuccess?.Invoke(null);
+            yield break;
+        }
+
+        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                onSuccess?.Invoke(texture);
+            }
+            else
+            {
+                Debug.LogError("Failed to load texture from " + imageUrl);
+                onSuccess?.Invoke(null);
+            }
+        }
+    }
+
+    private class AcceptAllCertificatesSignedWithASpecificKeyPublicKey : CertificateHandler
+    {
+        protected override bool ValidateCertificate(byte[] certificateData)
+        {
+            return true; 
+        }
+    }
 }

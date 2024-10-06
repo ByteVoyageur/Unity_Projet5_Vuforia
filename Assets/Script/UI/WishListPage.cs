@@ -1,45 +1,97 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
-using System.Runtime.CompilerServices;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class WishListPage : Page
 {
-    public WishListPage(VisualTreeAsset visualTreeAsset) : base(visualTreeAsset)
+    private MonoBehaviour _monoBehaviour;
+    private PagesManager pagesManager;
+
+
+    public WishListPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset) 
     {
+        _monoBehaviour = monoBehaviour;
     }
 
-    public static WishListPage CreateInstance(VisualTreeAsset visualTreeAsset)
+    public static WishListPage CreateInstance(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour)
     {
-        return new WishListPage(visualTreeAsset);
+        return new WishListPage(visualTreeAsset, monoBehaviour);
     }
 
     public void Initialize(PagesManager pagesManager)
-    {
-        GenerateWishListItems(pagesManager);
-        FooterController.InitializeFooter(Root, pagesManager);
+{
+    Debug.Log("Initialize called");
+    _monoBehaviour.StartCoroutine(InitializeCoroutine(pagesManager));
+}
 
-        // 查找 ShoppingCartTopBar
-        var shoppingCartTopBar = Root.Q<VisualElement>("ShoppingCartTopBar");
-        if (shoppingCartTopBar != null)
+private IEnumerator InitializeCoroutine(PagesManager pagesManager)
+{
+    yield return _monoBehaviour.StartCoroutine(UserManager.Instance.SyncUserState());
+
+    yield return _monoBehaviour.StartCoroutine(WishListManager.Instance.FetchWishListItemsCoroutine(wishListItems =>
+    {
+        if (wishListItems != null)
         {
-            Debug.Log("ShoppingCartTopBar found in Initialize method.");
-            shoppingCartTopBar.RegisterCallback<ClickEvent>(evt =>
-            {
-                Debug.Log("ShoppingCartTopBar clicked.");
-                pagesManager.ShowPage("ShoppingCartPage");
-            });
+            Debug.Log("WishList items fetched successfully");
+            GenerateWishListItems(wishListItems, pagesManager);
         }
         else
         {
-            Debug.LogError("ShoppingCartTopBar not found in Initialize method.");
+            Debug.LogError("Failed to fetch wish list items.");
         }
+    }));
+
+    FooterController.InitializeFooter(Root, pagesManager);
+
+    var shoppingCartTopBar = Root.Q<VisualElement>("ShoppingCartTopBar");
+    if (shoppingCartTopBar != null)
+    {
+        shoppingCartTopBar.RegisterCallback<ClickEvent>(evt =>
+        {
+            pagesManager.ShowPage("ShoppingCartPage");
+        });
+    }
+    else
+    {
+        Debug.LogError("ShoppingCartTopBar not found in Initialize method.");
+    }
+}
+
+    public override void OnNavigatedTo(PagesManager pagesManager)
+    {
+        this.pagesManager = pagesManager;
+        RefreshWishListItems();
     }
 
-    private void GenerateWishListItems(PagesManager pagesManager)
+    private void RefreshWishListItems()
     {
+        _monoBehaviour.StartCoroutine(RefreshCoroutine());
+    }
+
+    private IEnumerator RefreshCoroutine()
+    {
+        yield return _monoBehaviour.StartCoroutine(WishListManager.Instance.FetchWishListItemsCoroutine(wishListItems =>
+        {
+            if (wishListItems != null)
+            {
+                Debug.Log("WishList items fetched successfully");
+                GenerateWishListItems(wishListItems, pagesManager);
+            }
+            else
+            {
+                Debug.LogError("Failed to fetch wish list items.");
+            }
+        }));
+    }
+
+
+    private void GenerateWishListItems(List<WishListManager.Item> wishListItems, PagesManager pagesManager)
+    {
+        Debug.Log("GenerateWishListItems called");
+
         var wishListContainer = Root.Q<VisualElement>("WishListContainer");
-        
         if (wishListContainer == null)
         {
             Debug.LogError("WishListContainer not found in WishListPage.");
@@ -54,22 +106,42 @@ public class WishListPage : Page
             return;
         }
 
-        var wishListItems = WishListManager.Instance.GetWishListItems();
-        
+        wishListContainer.Clear(); 
+
         foreach (var item in wishListItems)
         {
             var itemElement = wishListCartTemplate.CloneTree();
-
             var imgCart = itemElement.Q<VisualElement>("ImgCart");
-            if (imgCart != null && item.icon != null)
+            if (imgCart != null)
             {
-                imgCart.style.backgroundImage = new StyleBackground(item.icon);
+                var cachedTexture = WishListManager.Instance.GetCachedImage(item.image_url);
+                if (cachedTexture != null)
+                {
+                    imgCart.style.backgroundImage = new StyleBackground(cachedTexture);
+                }
+                else
+                {
+                    Debug.Log("Starting coroutine to load image");
+                    _monoBehaviour.StartCoroutine(LoadImage(item.image_url, texture =>
+                    {
+                        if (texture != null)
+                        {
+                            Debug.Log("Image loaded successfully");
+                            WishListManager.Instance.CacheImage(item.image_url, texture);
+                            imgCart.style.backgroundImage = new StyleBackground(texture);
+                        }
+                        else
+                        {
+                            Debug.LogError("Failed to load the image");
+                        }
+                    }));
+                }
             }
 
             var cartTitle = itemElement.Q<Label>("CartTitle");
             if (cartTitle != null)
             {
-                cartTitle.text = item.itemName;
+                cartTitle.text = item.name;
             }
 
             var description = itemElement.Q<Label>("Description");
@@ -93,20 +165,43 @@ public class WishListPage : Page
             var addButton = itemElement.Q<VisualElement>("AddButton");
             if (addButton != null)
             {
-                addButton.RegisterCallback<ClickEvent>(evt => AddToCart(item));
+                addButton.RegisterCallback<ClickEvent>(evt => Debug.Log($"Clicked add button for {item.name}"));
             }
 
             wishListContainer.Add(itemElement);
         }
     }
 
-    private void AddToCart(FurnitureSO item)
+    private IEnumerator LoadImage(string imageUrl, System.Action<Texture2D> onSuccess)
     {
-        ShoppingCartManager.Instance.AddToCart(item);
-        Debug.Log($"{item.itemName} added to Shopping Cart.");
+        Debug.Log("LoadImage coroutine started");
+
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            Debug.LogError("Image URL is null or empty.");
+            onSuccess?.Invoke(null);
+            yield break;
+        }
+
+        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                onSuccess?.Invoke(texture);
+                Debug.Log("Image successfully loaded and passed to onSuccess callback");
+            }
+            else
+            {
+                Debug.LogError($"Error loading image: {request.error}");
+                onSuccess?.Invoke(null);
+            }
+        }
     }
 
-    private void RemoveWishListItem(FurnitureSO item, VisualElement itemElement, VisualElement wishListContainer)
+    private void RemoveWishListItem(WishListManager.Item item, VisualElement itemElement, VisualElement wishListContainer)
     {
         WishListManager.Instance.RemoveFromWishList(item);
         wishListContainer.Remove(itemElement);

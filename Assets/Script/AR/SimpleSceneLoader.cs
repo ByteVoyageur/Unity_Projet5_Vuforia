@@ -1,47 +1,52 @@
 using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
+using System.Collections;
 
 public class SimpleSceneLoader : MonoBehaviour
 {
     private void Start()
     {
-        WishListManager.Instance.PrintWishList();
-        LoadWishListItems();
+        StartCoroutine(LoadWishListItemsCoroutine());
     }
 
-    private void LoadWishListItems()
+    private IEnumerator LoadWishListItemsCoroutine()
     {
+        bool isDataLoaded = false;
+        WishListManager.Instance.FetchWishListItems(items =>
+        {
+            isDataLoaded = true;
+        });
+
+        while (!isDataLoaded)
+        {
+            yield return null;
+        }
+
         var wishListItems = WishListManager.Instance.GetWishListItems();
 
         if (wishListItems == null || wishListItems.Count == 0)
         {
             Debug.LogError("No items in wishlist to load into SimpleScene.");
-            return;
+            yield break;
         }
 
         var objectManager = FindObjectOfType<ObjectManager>();
-
         if (objectManager == null)
         {
             Debug.LogError("ObjectManager not found in SimpleScene.");
-            return;
+            yield break;
         }
 
         int count = 0;
         foreach (var item in wishListItems)
         {
-            Debug.Log($"Attempting to load prefab for item {item.itemName}");
-
             if (item.prefab != null)
             {
-                Debug.Log($"Prefab found for item {item.itemName}, adding to ObjectManager");
                 objectManager.AddObject(item.prefab, item.icon, count);
-                count++;  
+                count++;
             }
             else
             {
-                Debug.LogError($"Prefab not assigned for item {item.itemName}");
+                Debug.LogError($"Prefab not assigned for item {item.name}");
             }
         }
     }

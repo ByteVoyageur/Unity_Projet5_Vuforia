@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="TopBarTemplate" src="project://database/Assets/Resources/StoreUIDocuments/TopBarTemplate.uxml?fileID=9197481963319205126&amp;guid=a696b4114afe1f34180d60cb4ebcb98f&amp;type=3#TopBarTemplate" />
+    <ui:Template name="FooterTemplate" src="project://database/Assets/Resources/StoreUIDocuments/FooterTemplate.uxml?fileID=9197481963319205126&amp;guid=e26094568ba97144c8d5a8f6072e0410&amp;type=3#FooterTemplate" />
+    <Style src="project://database/Assets/Resources/StoreUIDocuments/SettingsStyle.uss?fileID=7433441132597879392&amp;guid=99465f4cae24bc042a4b58a9cccfce52&amp;type=3#SettingsStyle" />
+    <ui:VisualElement name="Background" class="background" style="flex-grow: 1;">
+        <ui:Instance template="TopBarTemplate" name="TopBarTemplate" />
+        <ui:VisualElement name="ProfilUser" class="profil-user">
+            <ui:VisualElement name="UserInfo" class="user-info" style="flex-grow: 1;">
+                <ui:VisualElement name="AvatarUser" class="avatar-user" style="flex-grow: 1;" />
+                <ui:Label tabindex="-1" text="Username" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserName" style="position: absolute; left: 52%; top: 9%; color: rgb(245, 240, 240); -unity-font-style: bold; font-size: 50px; -unity-text-align: upper-center;" />
+                <ui:Label tabindex="-1" text="Email" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserEmail" class="user-email" style="color: rgb(245, 242, 242); font-size: 49px; left: 52%; top: 21%;" />
+                <ui:Button name="LogOutButton" text="Log Out" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 52%; top: 47%; font-size: 33px; background-color: rgb(188, 185, 180);" />
+            </ui:VisualElement>
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="AdminEditor" class="admin-editor">
+                <ui:VisualElement name="AdminProductToEdit" class="admin-product-to-edit">
+                    <ui:Label tabindex="-1" text="ID" parse-escape-sequences="true" display-tooltip-when-elided="true" name="IdProduct" class="id-product" />
+                    <ui:Label tabindex="-1" text="Product Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NameProduct" class="name-product" />
+                    <ui:Label tabindex="-1" text="Price" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PriceProduct" class="price-product" />
+                    <ui:Button text="Edit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EditProduct" class="button-to-edit" style="-unity-font-style: bold; font-size: 32px;" />
+                </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:Instance template="FooterTemplate" name="FooterTemplate" />
+        <ui:VisualElement name="InputNewPriceContainer" class="input-new-price-container">
+            <ui:DoubleField label="Enter new price:" value="42,2" />
+            <ui:Button text="Submit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SubmitButton" class="submit-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -362,7 +362,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InfoPanel: {fileID: 5508308362106441863}
   infoText: {fileID: 1944449749811233742}
-  furnitureData: {fileID: 11400000, guid: 20fb783c87af1e14898d16091d52d4d3, type: 2}
+  itemData:
+    product_id: 0
+    name: 
+    category_id: 0
+    image_url: 
+    description: 
+    price: 0
+    prefabName: 
+    prefab: {fileID: 0}
+    icon: {fileID: 0}
 --- !u!1 &5655651931350236141
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,7 +877,6 @@ GameObject:
   - component: {fileID: 6498413619507671459}
   - component: {fileID: 6474755229040177175}
   - component: {fileID: -2155578450021863765}
-  - component: {fileID: 5407225182933717851}
   m_Layer: 0
   m_Name: furniture
   m_TagString: Untagged
@@ -907,7 +915,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InfoPanel: {fileID: 5508308362106441863}
   infoText: {fileID: 1944449749811233742}
-  furnitureData: {fileID: 11400000, guid: 20fb783c87af1e14898d16091d52d4d3, type: 2}
+  itemData:
+    product_id: 0
+    name: 
+    category_id: 0
+    image_url: 
+    description: 
+    price: 0
+    prefabName: 
+    prefab: {fileID: 0}
+    icon: {fileID: 0}
 --- !u!114 &3152362589125207920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -966,19 +983,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e127c558f32885f48b2452c6cd079398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5407225182933717851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9179947272060372951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b95d01c9411bd44c974ef49f1d33b4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoPanelHandler: {fileID: 0}
 --- !u!1001 &1648029418257612574
 PrefabInstance:
   m_ObjectHideFlags: 0

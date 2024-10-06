@@ -56,9 +56,8 @@ public class ObjectManager : MonoBehaviour {
         Debug.Log($"AddObject called with prefab: {prefab.name}");
         objectPrefabs.Add(prefab);
 
-        // Instantiate the button from the prefab (template)
         var buttonObject = Instantiate(buttonTemplate, buttonContainer);
-        buttonObject.SetActive(true); // Make sure the new button is active
+        buttonObject.SetActive(true);
 
         var button = buttonObject.GetComponent<Button>();
         var image = buttonObject.GetComponent<Image>();
@@ -70,14 +69,9 @@ public class ObjectManager : MonoBehaviour {
         button.onClick.AddListener(() => SelectObject(prefab));
         buttons.Add(button);
 
-          // Set position for the button
         RectTransform rectTransform = button.GetComponent<RectTransform>();
-
-        // Set the initial position for the first button
         Vector2 initialPosition = new Vector2(-462, -174);
-        float buttonSpacing = 10f; // Adjust this value based on the desired spacing
-
-        // Calculate the position based on the initial position, button width and spacing
+        float buttonSpacing = 10f;
         float xPos = initialPosition.x + (rectTransform.sizeDelta.x * count + buttonSpacing * count);
         rectTransform.anchoredPosition = new Vector2(xPos, initialPosition.y);
 
@@ -99,13 +93,38 @@ public class ObjectManager : MonoBehaviour {
             return;
         }
 
+        var infoPanelHandler = newObject.GetComponentInChildren<InfoPanelHandler>();
+        var clickableObject = newObject.GetComponentInChildren<ClickableObject>();
+
+        if (clickableObject != null && infoPanelHandler != null) {
+            clickableObject.infoPanelHandler = infoPanelHandler;
+        }
+
+        var item = GetItemByPrefab(prefab);
+        if (item != null) {
+            if (infoPanelHandler != null) {
+                infoPanelHandler.itemData = item;
+                Debug.Log($"Assigned itemData to InfoPanelHandler: Name={item.name}, Description={item.description}, Price={item.price}");
+            }
+        }
+
         objectPlacer.SetSelectedObject(newObject);
         Debug.Log($"Object {newObject.name} selected and instantiated.");
     }
 
-    private void DisableAllObjects() {
-        foreach (var obj in objectPrefabs) {
-            obj.SetActive(false);
+    private WishListManager.Item GetItemByPrefab(GameObject prefab) {
+        string prefabName = prefab.name.Replace("(Clone)", "").Trim();
+        Debug.Log($"Looking for item with prefabName: {prefabName}");
+
+        var wishListItems = WishListManager.Instance.GetWishListItems();
+        foreach (var item in wishListItems) {
+            Debug.Log($"Comparing with item.prefabName: {item.prefabName}");
+            if (item.prefabName == prefabName) {
+                Debug.Log("Match found");
+                return item;
+            }
         }
+        Debug.LogWarning("No matching item found for prefab");
+        return null;
     }
 }
