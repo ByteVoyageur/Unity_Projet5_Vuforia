@@ -56,7 +56,7 @@ public class ItemDetailPage : Page
 
         var iconBack = Root.Q<VisualElement>("IconBack");
         iconBack.RegisterCallback<ClickEvent>(evt => {
-            OnIconBackClick();
+            //OnIconBackClick();
         });
     }
 
@@ -104,11 +104,11 @@ public class ItemDetailPage : Page
         SceneManager.LoadScene(arSceneName, LoadSceneMode.Single);
     }
 
-    private void OnIconBackClick()
-    {
-        var categoryData = pagesManager.GetCurrentCategory();
-        pagesManager.ShowPage("CategoryPage", categoryData);
-    }
+    // private void OnIconBackClick()
+    // {
+    //     var categoryData = pagesManager.GetCurrentCategory();
+    //     pagesManager.ShowPage("CategoryPage", categoryData);
+    // }
 
     private void HandleWishListClick(WishListManager.Item itemData, VisualElement heartForWishList, VisualElement redHeart)
     {

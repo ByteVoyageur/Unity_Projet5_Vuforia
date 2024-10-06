@@ -4,7 +4,7 @@
     <ui:VisualElement name="BackGround" class="back-ground" style="align-items: stretch; justify-content: space-between; align-self: auto;">
         <ui:VisualElement name="IetemDetailContainer" class="item-detail-container" style="flex-grow: 1;">
             <ui:VisualElement name="ImgItem" class="img-item">
-                <ui:VisualElement name="IconBack" class="icon-back" style="flex-grow: 1;" />
+                <ui:VisualElement name="IconBack" class="icon-back" style="flex-grow: 1; display: none;" />
             </ui:VisualElement>
             <ui:VisualElement name="DescriptionItem" class="description-item">
                 <ui:Label tabindex="-1" text="Nam suscipit arcu" name="CategoryTitle" class="category-title" />

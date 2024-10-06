@@ -8,4 +8,7 @@ public class Page
     {
         Root = visualTreeAsset.CloneTree();
     }
+
+    public virtual void OnNavigatedTo(PagesManager pagesManager)
+    {}
 }

@@ -7,6 +7,8 @@ using System.Collections;
 public class WishListPage : Page
 {
     private MonoBehaviour _monoBehaviour;
+    private PagesManager pagesManager;
+
 
     public WishListPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset) 
     {
@@ -57,6 +59,33 @@ private IEnumerator InitializeCoroutine(PagesManager pagesManager)
     }
 }
 
+    public override void OnNavigatedTo(PagesManager pagesManager)
+    {
+        this.pagesManager = pagesManager;
+        RefreshWishListItems();
+    }
+
+    private void RefreshWishListItems()
+    {
+        _monoBehaviour.StartCoroutine(RefreshCoroutine());
+    }
+
+    private IEnumerator RefreshCoroutine()
+    {
+        yield return _monoBehaviour.StartCoroutine(WishListManager.Instance.FetchWishListItemsCoroutine(wishListItems =>
+        {
+            if (wishListItems != null)
+            {
+                Debug.Log("WishList items fetched successfully");
+                GenerateWishListItems(wishListItems, pagesManager);
+            }
+            else
+            {
+                Debug.LogError("Failed to fetch wish list items.");
+            }
+        }));
+    }
+
 
     private void GenerateWishListItems(List<WishListManager.Item> wishListItems, PagesManager pagesManager)
     {
@@ -76,6 +105,8 @@ private IEnumerator InitializeCoroutine(PagesManager pagesManager)
             Debug.LogError("WishListCartTemplate not found in pageAssets.");
             return;
         }
+
+        wishListContainer.Clear(); 
 
         foreach (var item in wishListItems)
         {

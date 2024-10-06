@@ -199,10 +199,6 @@ public IEnumerator FetchWishListItemsCoroutine(Action<List<Item>> callback)
     {
         string path = $"Prefabs/{prefabName}";
         GameObject prefab = Resources.Load<GameObject>(path);
-        if (prefab == null)
-        {
-            Debug.LogError($"Prefab not found at path: {path}");
-        }
         return prefab;
     }
 
