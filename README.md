@@ -1,9 +1,12 @@
 ![Projet5_03](https://github.com/user-attachments/assets/87c91be9-8c73-4b31-8225-fa49461ed8d5)![Projet5_06](https://github.com/user-attachments/assets/bf7fc6e3-26b1-4560-97f8-cf9697322537)
 
-
 DecoMaison is an augmented reality (AR)-based furniture display and shopping application. This README file aims to introduce the technical implementation and key functional modules of the project to developers.
 
-## Feature Overview
+### Project Upgrade
+
+Previously, product data was retrieved using Scriptable Object. After the upgrade, data is provided by a PHP/SQL backend and accessed via API, including product ID, name, description, and price. User login and registration features are also managed through the backend server, which is set up by the author using Ubuntu, Apache, SSL, and other technologies. The API documentation is available [here](https://xiaosong.fr/decomaison/api/swagger-ui-master/index.html).
+
+### Feature Overview
 
 The main features of DecoMaison include:
 
@@ -13,7 +16,7 @@ The main features of DecoMaison include:
 - Wishlist management
 - AR (Augmented Reality) functionality for displaying and placing furniture
 
-## Technical Implementation Overview
+### Technical Implementation Overview
 
 ### Page Management
 
@@ -49,7 +52,7 @@ AR functionality is a core feature of DecoMaison, allowing users to place virtua
 
 ### Key Components
 
-1. **ObjectManager**: Manages object selection and switching in AR mode. Generates buttons for users to select items from the wishlist and implements item preview and placement.
-2. **ObjectPlacer**: Handles placing and moving virtual furniture. Uses raycasting to detect planes and determine furniture placement positions, enabling dragging and rotating of furniture.
-3. **DoubleTapHandler**: Handles double-tap events to cancel furniture placement. By listening for double-tap events, users can easily cancel unsatisfactory placements.
-4. **ClickableObject**: Handles long-press events to display a detailed information panel for the furniture. Users can long-press furniture to view detailed information and engage in further interactions.
+- **ObjectManager**: Manages object selection and switching in AR mode. Generates buttons for users to select items from the wishlist and implements item preview and placement.
+- **ObjectPlacer**: Handles placing and moving virtual furniture. Uses raycasting to detect planes and determine furniture placement positions, enabling dragging and rotating of furniture.
+- **DoubleTapHandler**: Handles double-tap events to cancel furniture placement. By listening for double-tap events, users can easily cancel unsatisfactory placements.
+- **ClickableObject**: Handles long-press events to display a detailed information panel for the furniture. Users can long-press furniture to view detailed information and engage in further interactions.
