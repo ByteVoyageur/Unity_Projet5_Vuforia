@@ -16,4 +16,5 @@ MonoBehaviour:
   description: Made in France
   price: 299
   icon: {fileID: 2800000, guid: e836f6154de590d4e846a5f4911067c4, type: 3}
-  prefab: {fileID: 2088343256679243690, guid: 29d2ff71ee4088643b56e70ff038b92f, type: 3}
+  prefab: {fileID: 4252923480077711143, guid: 03eea9998da92aa40b491ce107187bfb, type: 3}
+  imageUrl: 

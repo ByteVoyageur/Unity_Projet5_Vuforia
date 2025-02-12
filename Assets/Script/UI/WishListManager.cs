@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 public class WishListManager : MonoBehaviour
 {
     private static WishListManager _instance;
-    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php";
+    private string apiUrl = "https://jiashan.fr/decomaison/api/user_api.php";
 
     public static WishListManager Instance
     {

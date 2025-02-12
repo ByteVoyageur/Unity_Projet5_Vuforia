@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 public class CategoryPage : Page
 {
     private MonoBehaviour _monoBehaviour;
-    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php?products&category_id=";
+    private string apiUrl = "https://jiashan.fr/decomaison/api/user_api.php?products&category_id=";
     
     public CategoryPage(VisualTreeAsset visualTreeAsset, MonoBehaviour monoBehaviour) : base(visualTreeAsset)
     {

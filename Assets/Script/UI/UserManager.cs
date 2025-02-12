@@ -86,7 +86,7 @@ public class UserManager : MonoBehaviour
 
     public IEnumerator FetchWishList()
     {
-        string apiUrl = $"https://xiaosong.fr/decomaison/api/user_api.php?action=get_wishlist&user_id={UserId}";
+        string apiUrl = $"https://jiashan.fr/decomaison/api/user_api.php?action=get_wishlist&user_id={UserId}";
 
         using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
         {
@@ -110,7 +110,7 @@ public class UserManager : MonoBehaviour
 
     public IEnumerator SyncUserState()
     {
-        string apiUrl = $"https://xiaosong.fr/decomaison/api/user_api.php?user_id={UserId}&action=get_user_status";
+        string apiUrl = $"https://jiashan.fr/decomaison/api/user_api.php?user_id={UserId}&action=get_user_status";
 
         using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
         {

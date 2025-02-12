@@ -34,7 +34,7 @@ public class WelcomePage : Page
         public string url;   
     }
 
-    private string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php?categories";
+    private string apiUrl = "https://jiashan.fr/decomaison/api/user_api.php?categories";
 
     private IEnumerator GetCategoriesFromAPI(PagesManager pagesManager)
     {

@@ -36,7 +36,7 @@ public class ObjectRotator : MonoBehaviour
             Vector3 direction = currentFramePosition - lastFramePosition;
             lastFramePosition = currentFramePosition;
 
-            float angle = direction.x * 0.1f; // Adjust rotation sensitivity here
+            float angle = direction.x * 0.1f; 
             transform.Rotate(Vector3.up, -angle, Space.World);
         }
     }

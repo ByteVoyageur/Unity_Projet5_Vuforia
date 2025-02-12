@@ -16,4 +16,5 @@ MonoBehaviour:
   description: A sleek modern lamp providing soft lighting.
   price: 79.9
   icon: {fileID: 2800000, guid: 79a386ef11480cf4b8b500f026bbd622, type: 3}
-  prefab: {fileID: 9193815154077420724, guid: 2fbaab8342a33e8479ac7dedf2b52333, type: 3}
+  prefab: {fileID: 8696476870328746754, guid: fa9323d963864ac40a2ec0f14844d3ec, type: 3}
+  imageUrl: 

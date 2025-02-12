@@ -64,7 +64,7 @@ private IEnumerator LoginUser(string userName, string password) {
         password = password
     });
 
-    using (UnityWebRequest www = new UnityWebRequest("https://xiaosong.fr/decomaison/api/user_api.php/login", "POST")) {
+    using (UnityWebRequest www = new UnityWebRequest("https://jiashan.fr/decomaison/api/user_api.php/login", "POST")) {
         www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonBody));
         www.uploadHandler.contentType = "application/json";
         www.downloadHandler = new DownloadHandlerBuffer();
@@ -96,7 +96,7 @@ private IEnumerator LoginUser(string userName, string password) {
             email = email
         });
 
-        using (UnityWebRequest www = new UnityWebRequest("https://xiaosong.fr/decomaison/api/user_api.php/register", "POST")) {
+        using (UnityWebRequest www = new UnityWebRequest("https://jiashan.fr/decomaison/api/user_api.php/register", "POST")) {
             www.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonBody));
             www.uploadHandler.contentType = "application/json";
             www.downloadHandler = new DownloadHandlerBuffer();

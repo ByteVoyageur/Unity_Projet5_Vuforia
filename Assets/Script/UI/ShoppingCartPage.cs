@@ -18,7 +18,7 @@ public class ShoppingCartPage : Page
     public void Initialize(PagesManager pagesManager)
     {
         GenerateShoppingCartItems(pagesManager);
-        FooterController.InitializeFooter(Root, pagesManager); // 确保FooterTemplate的初始化在AddTotalPriceAndPayButton之后
+        FooterController.InitializeFooter(Root, pagesManager); 
     }
 
     private void GenerateShoppingCartItems(PagesManager pagesManager)

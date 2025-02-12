@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour {
     public ObjectPlacer objectPlacer;
-    public GameObject buttonTemplate;  // Use GameObject for Prefab
+    public GameObject buttonTemplate;  
     public Transform buttonContainer;
     private List<GameObject> objectPrefabs = new List<GameObject>();
     private List<Button> buttons = new List<Button>();

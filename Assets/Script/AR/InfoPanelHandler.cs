@@ -9,7 +9,6 @@ public class InfoPanelHandler : MonoBehaviour
 
     void Start()
     {
-        // Ensure the panel is initially hidden
         HideInfoPanel();
     }
 

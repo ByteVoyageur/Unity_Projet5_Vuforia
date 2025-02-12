@@ -5,9 +5,6 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-// 如果 WishListManager 在其他命名空间中，请添加相应的 using 指令
-// using YourNamespace;
-
 public class SettingsPage : Page
 {
     private MonoBehaviour _monoBehaviour;
@@ -65,13 +62,12 @@ public class SettingsPage : Page
 
     private IEnumerator FetchProducts(VisualElement adminProductList)
     {
-        string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php/products";
+        string apiUrl = "https://jiashan.fr/decomaison/api/user_api.php/products";
         using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
         {
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.Success)
             {
-                // 修改这里，使用 WishListManager.Item
                 List<WishListManager.Item> products = JsonConvert.DeserializeObject<List<WishListManager.Item>>(www.downloadHandler.text);
                 DisplayProducts(adminProductList, products);
             }
@@ -131,7 +127,7 @@ public class SettingsPage : Page
 
     private IEnumerator UpdateProductPrice(int productId, float newPrice)
     {
-        string apiUrl = "https://xiaosong.fr/decomaison/api/user_api.php";
+        string apiUrl = "https://jiashan.fr/decomaison/api/user_api.php/products";
 
         var data = new
         {

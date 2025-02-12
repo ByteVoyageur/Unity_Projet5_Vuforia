@@ -1,0 +1,251 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|c:\\users\\xs\\projets_unity\\unity_projet6_api\\assets\\script\\ar\\simplesceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\simplesceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ui\\settingspage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\settingspage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|c:\\users\\xs\\projets_unity\\unity_projet6_api\\assets\\script\\ui\\wishlistmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\wishlistmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ui\\usermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\usermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ui\\welcomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\welcomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ar\\planehithandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\planehithandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ar\\objectrotator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\objectrotator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ar\\objectremove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\objectremove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ar\\objectmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\objectmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ar\\objectdoubletapformove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\objectdoubletapformove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ar\\infopanelhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ar\\infopanelhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ui\\signinpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\signinpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ui\\shoppingcartpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\shoppingcartpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\assets\\script\\ui\\categorypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81BFB09D-6DE9-5D96-62D0-CE2CE203F6AC}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\categorypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SimpleSceneLoader.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\SimpleSceneLoader.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\SimpleSceneLoader.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\SimpleSceneLoader.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\SimpleSceneLoader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:23:27.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ObjectManager.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\ObjectManager.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectManager.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\ObjectManager.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAgwAYAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:33:17.252Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PlaneHitHandler.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\PlaneHitHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\PlaneHitHandler.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\PlaneHitHandler.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\PlaneHitHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T05:22:10.693Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WishListManager.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\WishListManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\WishListManager.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\WishListManager.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\WishListManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:32:21.935Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SettingsPage.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\SettingsPage.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\SettingsPage.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\SettingsPage.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\SettingsPage.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAkwIEAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:29:39.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ObjectRemove.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectRemove.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\ObjectRemove.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectRemove.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\ObjectRemove.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:33:33.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserManager.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\UserManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\UserManager.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\UserManager.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\UserManager.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAYwKcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:31:39.691Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "WelcomePage.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\WelcomePage.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\WelcomePage.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\WelcomePage.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\WelcomePage.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAkwIIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:32:05.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ObjectRotator.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectRotator.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\ObjectRotator.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectRotator.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\ObjectRotator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:33:44.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ObjectDoubleTapForMove.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectDoubleTapForMove.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\ObjectDoubleTapForMove.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\ObjectDoubleTapForMove.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\ObjectDoubleTapForMove.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:33:08.429Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InfoPanelHandler.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\InfoPanelHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AR\\InfoPanelHandler.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\AR\\InfoPanelHandler.cs",
+              "RelativeToolTip": "Assets\\Script\\AR\\InfoPanelHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:33:00.825Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SignInPage.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\SignInPage.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\SignInPage.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\SignInPage.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\SignInPage.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAgwF4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:31:10.528Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ShoppingCartPage.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\ShoppingCartPage.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\ShoppingCartPage.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\ShoppingCartPage.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\ShoppingCartPage.cs",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAowBQAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T08:30:54.897Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CategoryPage.cs",
+              "DocumentMoniker": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\CategoryPage.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\CategoryPage.cs",
+              "ToolTip": "C:\\Users\\xs\\Projets_Unity\\Unity_projet6_API\\Assets\\Script\\UI\\CategoryPage.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\CategoryPage.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAwwA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T05:28:21.669Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

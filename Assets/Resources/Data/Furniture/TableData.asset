@@ -16,4 +16,5 @@ MonoBehaviour:
   description: Table of home
   price: 255.99
   icon: {fileID: 2800000, guid: ffcdd7047d99865468027fa2fab94409, type: 3}
-  prefab: {fileID: 6125247981041122524, guid: d097166658d789d4aa404da70e470cc5, type: 3}
+  prefab: {fileID: 8276286744046660584, guid: 3fb1a1bff9afcc0499e90ac5c6028b90, type: 3}
+  imageUrl: 

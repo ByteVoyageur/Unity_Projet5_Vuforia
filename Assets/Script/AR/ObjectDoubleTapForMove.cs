@@ -25,7 +25,6 @@ public class DoubleTapHandler : MonoBehaviour
     {
         if (objectPlacer != null)
         {
-            // Check if the double-tap happened on this specific object
             Ray ray = Camera.main.ScreenPointToRay(finger.ScreenPosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {

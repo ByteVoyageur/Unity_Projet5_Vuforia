@@ -29,12 +29,10 @@ public class ObjectRemove : MonoBehaviour
     private void DeleteObject()
     {
 
-        // Deactivate the object
         gameObject.SetActive(false);
 
         Destroy(gameObject);
 
-        // Inform ObjectPlacer to remove this object from the placed objects list
         if (objectPlacer != null)
         {
             objectPlacer.RemovePlacedObject(gameObject);
