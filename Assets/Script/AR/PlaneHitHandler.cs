@@ -14,7 +14,7 @@ public class PlaneHitHandler : MonoBehaviour
             {
                 Position = result.Position
             };
-            objectPlacer.PlaceObject(simpleResult); 
+            objectPlacer.PlaceObject(simpleResult);
             Debug.Log("Plane hit detected, executing place object.");
         }
     }
